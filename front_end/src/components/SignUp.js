@@ -16,6 +16,7 @@ function SignUp() {
 
 		try {
 			await doCreateUserWithEmailAndPassword(email.value, passwordOne.value, displayName);
+			//Call users/data function to add to mongodb database
 		} catch (error) {
 			alert(error);
 		}
