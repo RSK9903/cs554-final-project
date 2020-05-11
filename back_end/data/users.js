@@ -1,5 +1,6 @@
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
+const {ObjectId} = require("mongodb");
 
 const exportedMethods = {
     async getAllUsers() {
@@ -18,12 +19,10 @@ const exportedMethods = {
       return user;
     },
 
-    async createUser(username, email, firstName, lastName, password, birthday){
+    async createUser(email, firstName, lastName, birthday){
+        const userCollection = await users();
         //series of checks of the entered variables making sure they exist
-        if(!username || typeof username != "string"){
-            throw "You must enter a username";
-        }
-        if(!username || typeof username != "string"){
+        if(!email || typeof email != "string"){
             throw "You must enter a username";
         }
         if(!firstName || typeof firstName != "string"){
@@ -32,20 +31,14 @@ const exportedMethods = {
         if(!lastName || typeof lastName != "string"){
             throw "You must enter your Last Name";
         }
-        if(!password || typeof password != "string"){
-            throw "You must enter a password";
-        }
         if(!birthday){
           throw "You must enter a valid date"
         }
-        const hash = await bcrypt.hash(password, 16);
 
         let newUser = {
             firstName: firstName,
             lastName: lastName,
             email: email,
-            username: username,
-            hashedPassword: hash,
             birthday: birthday
         }
         const insertInfo = await userCollection.insertOne(newUser);
@@ -53,7 +46,7 @@ const exportedMethods = {
             throw "Could not enter user information";
         }
         const newId = insertInfo.insertedId;
-        const user = await this.getUserById(newId);
+        const user = await this.getUserById(newId.toString());
         return user;
     },
     
@@ -88,32 +81,19 @@ const exportedMethods = {
         updatedData.lastName = updatedUser.newLastName;
       }
 
-      if (updatedUser.newEmail) {
-        updatedData.email = updatedUser.newEmail;
-      }
-
-      if (updatedUser.newUsername) {
-        updatedData.username = updatedUser.newUsername;
-      }
-
       if (updatedUser.newBirthday) {
         updatedData.birthday = updatedUser.newBirthday;
       }
-
-      if (updatedUser.newPassword) {
-        const newPass = await bcrypt.hash(updatedUser.newPassword, 16);
-        updatedData.hashedPassword = newPass;
-      }
   
       let updateCommand = {
-        $set: updateduserData
+        $set: updatedData
       };
       const query = {
         _id: ObjectId(id)
       };
       await userCollection.updateOne(query, updateCommand);
   
-      return await this.getUserById(id);
+      return await this.getUserById(id.toString());
     }
   };
   
