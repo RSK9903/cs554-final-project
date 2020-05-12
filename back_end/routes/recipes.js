@@ -8,9 +8,10 @@ router.get("/:id", async (req, res) => {
     res.status(400).json({ error: "Must include an id" });
   }
   try {
-    const recipe = await recipeData.getRecipeById(id);
+    const recipe = await recipeData.getRecipeById(req.params.id);
     res.json(recipe);
   } catch (e) {
+    console.log(e);
     res.status(404).json({ error: "Recipe not found" });
   }
 });
