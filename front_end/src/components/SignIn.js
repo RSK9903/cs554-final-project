@@ -36,7 +36,7 @@ function SignIn() {
     return <Redirect to="/" />;
   }
   return (
-    <div>
+    <div class="login">
       <h1>Log in</h1>
       <form onSubmit={handleLogin}>
         <div className="form-group">

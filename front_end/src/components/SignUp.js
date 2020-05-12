@@ -55,7 +55,7 @@ function SignUp() {
   }
 
   return (
-    <div>
+    <div class="signup">
       <h1>Sign up</h1>
       {pwMatch && <h4 className="error">{pwMatch}</h4>}
       <form onSubmit={handleSignUp}>

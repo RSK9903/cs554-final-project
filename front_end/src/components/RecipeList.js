@@ -36,6 +36,7 @@ const RecipeList = (props) => {
 
   return (
     <div className="App-body">
+      <h2 class="recipe-list-header">Recipe Index</h2>
       <ul class="recipe-list">{li}</ul>
     </div>
   );
