@@ -49,14 +49,16 @@ const SingleRecipe = (props) => {
   return (
     <div class="recipe-page">
       <div class="recipe-div">
-        <h1>{recipeData && recipeData.title}</h1>
-        <h2>Author: {recipeData && recipeData.author}</h2>
-        <h3>Date Posted: {date}</h3>
-        <h4>Total Time: {recipeData && recipeData.completionTime} minutes</h4>
-        <p class="recipe-subheader">Ingredients</p>
+        <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
+        <h2 class="recipe-header">Author: {recipeData && recipeData.author}</h2>
+        <h2 class="recipe-header">Date Posted: {date}</h2>
+        <h2 class="recipe-header">
+          Total Time: {recipeData && recipeData.completionTime} minutes
+        </h2>
+        <p class="recipe-subheader">Ingredients:</p>
         <ul class="ingredient-list">{ingli}</ul>
         <br />
-        <p class="recipe-subheader">Steps</p>
+        <p class="recipe-subheader">Steps:</p>
         <ol class="steps-list">{stepsli}</ol>
         <p>
           Yield: {recipeData && recipeData.recipe_yield} {"serving(s)"}

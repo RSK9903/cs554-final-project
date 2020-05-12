@@ -78,10 +78,29 @@
 
 .recipe-div {
   display: inline-block;
+  text-align: left;
 }
 
 .recipe-subheader,
 .ingredient-list,
 .steps-list {
   text-align: left;
+}
+
+.ingredient-list {
+  list-style-type: square;
+}
+
+.recipe-header {
+  font-size: large;
+}
+
+.recipe-title {
+  font-size: 36pt;
+}
+
+.recipe-list {
+  padding: 5pt;
+  text-align: center;
+  list-style: inside;
 }
