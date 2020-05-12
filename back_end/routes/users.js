@@ -26,9 +26,12 @@ router.get("/", async (req, res) => {
     const userInfo = req.body;
     try {
       let count = Object.keys(userInfo).length;
-      if(count!=4){
+      if(count!=5){
         throw "invalid JSON format";
       }  
+      if(!userInfo.id) {
+        throw "You must provide an id";
+      }
       if (!userInfo.email) {
         throw "You must provide an email";
       }
@@ -42,6 +45,7 @@ router.get("/", async (req, res) => {
         throw "You must provide a birthday";
       }
       const newuser = await userData.createUser(
+        userInfo.id,
         userInfo.email,
         userInfo.firstName,
         userInfo.lastName,
@@ -49,24 +53,14 @@ router.get("/", async (req, res) => {
       );
       res.status(200).json(newuser);
     } catch (e) {
-      res.status(400).json({error: e.message});
+      res.status(400).json({error: e});
     }
   });
 
   router.patch("/:id", async (req, res) => {
     const userInfo = req.body;
     try {
-      const updateUser={};
-      if (userInfo.firstName) {
-        updateUser.newFirstName = userInfo.firstName;
-      }
-      if(userInfo.lastName){
-        updateUser.newLastName=userInfo.lastName;
-      }
-      if(userInfo.birthday){
-        updateUser.newBirthday = userInfo.birthday;
-      }
-      const updatedUser = await userData.updateUser(req.params.id, updateUser);
+      const updatedUser = await userData.updateUser(req.params.id, userInfo);
       res.status(200).json(updatedUser);
     } catch (e) {
       res.status(400).json({error: e.message});

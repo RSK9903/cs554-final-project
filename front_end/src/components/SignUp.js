@@ -3,26 +3,43 @@ import { Redirect } from 'react-router-dom';
 import { doCreateUserWithEmailAndPassword } from '../firebase/FirebaseFunctions';
 import { AuthContext } from '../firebase/Auth';
 import SocialSignIn from './SocialSignIn';
+import API from '../API';
+
 function SignUp() {
 	const { currentUser } = useContext(AuthContext);
 	const [ pwMatch, setPwMatch ] = useState('');
+	const [ userData, setUser] = useState(undefined);
 	const handleSignUp = async (e) => {
 		e.preventDefault();
-		const { displayName, email, passwordOne, passwordTwo } = e.target.elements;
+		const { first, last, birthday, email, passwordOne, passwordTwo } = e.target.elements;
+		let user = {};
+		user.firstName = first.value;
+		user.lastName = last.value;
+		user.birthday = birthday.value;
+		user.email = email.value;
+		setUser(user);
 		if (passwordOne.value !== passwordTwo.value) {
 			setPwMatch('Passwords do not match');
 			return false;
 		}
-
+		let displayName = first.value + " " + last.value;
 		try {
 			await doCreateUserWithEmailAndPassword(email.value, passwordOne.value, displayName);
-			//Call users/data function to add to mongodb database
 		} catch (error) {
 			alert(error);
 		}
 	};
+	const addUser = async (user) => {
+		try {
+			userData.id = currentUser.uid;
+			await API.post("users/", userData)
+		} catch (error) {
+			alert("Error with post"+ error);
+		}
+	}
 
 	if (currentUser) {
+		addUser();
 		return <Redirect to='/home' />;
 	}
 
@@ -33,8 +50,20 @@ function SignUp() {
 			<form onSubmit={handleSignUp}>
 				<div className='form-group'>
 					<label>
-						Name:
-						<input className='form-control' required name='displayName' type='text' placeholder='Name' />
+						First Name:
+						<input className='form-control' required name='first' type='text' placeholder='First Name' />
+					</label>
+				</div>
+				<div className='form-group'>
+					<label>
+						Last Name:
+						<input className='form-control' required name='last' type='text' placeholder='Last Name' />
+					</label>
+				</div>
+				<div className='form-group'>
+					<label>
+						Birthday:
+						<input className='form-control' required name='birthday' type='date'/>
 					</label>
 				</div>
 				<div className='form-group'>
