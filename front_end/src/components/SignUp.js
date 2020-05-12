@@ -3,20 +3,22 @@ import { Redirect } from 'react-router-dom';
 import { doCreateUserWithEmailAndPassword } from '../firebase/FirebaseFunctions';
 import { AuthContext } from '../firebase/Auth';
 import SocialSignIn from './SocialSignIn';
+import axios from 'axios';
+
 function SignUp() {
 	const { currentUser } = useContext(AuthContext);
 	const [ pwMatch, setPwMatch ] = useState('');
 	const handleSignUp = async (e) => {
 		e.preventDefault();
-		const { displayName, email, passwordOne, passwordTwo } = e.target.elements;
+		const { first, last, birthday, email, passwordOne, passwordTwo } = e.target.elements;
 		if (passwordOne.value !== passwordTwo.value) {
 			setPwMatch('Passwords do not match');
 			return false;
 		}
-
+		let displayName = first.value + " " + last.value;
 		try {
 			await doCreateUserWithEmailAndPassword(email.value, passwordOne.value, displayName);
-			//Call users/data function to add to mongodb database
+			const {user} = await axios.post("http://localhost:5000/users", {email: email.value, firstName: first.value, lastName: last.value, birthday: birthday.value})
 		} catch (error) {
 			alert(error);
 		}
@@ -33,8 +35,20 @@ function SignUp() {
 			<form onSubmit={handleSignUp}>
 				<div className='form-group'>
 					<label>
-						Name:
-						<input className='form-control' required name='displayName' type='text' placeholder='Name' />
+						First Name:
+						<input className='form-control' required name='first' type='text' placeholder='First Name' />
+					</label>
+				</div>
+				<div className='form-group'>
+					<label>
+						Last Name:
+						<input className='form-control' required name='last' type='text' placeholder='Last Name' />
+					</label>
+				</div>
+				<div className='form-group'>
+					<label>
+						Birthday:
+						<input className='form-control' required name='birthday' type='date'/>
 					</label>
 				</div>
 				<div className='form-group'>
