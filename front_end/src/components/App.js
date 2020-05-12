@@ -17,6 +17,7 @@ function App() {
       <Router>
         <div className="App">
           <header className="App-header">
+            <h1 class="page-header">Quarantine Kitchen</h1>
             <Navigation />
           </header>
         </div>

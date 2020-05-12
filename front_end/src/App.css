@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #000000;
   height: 150px;
   padding: 20px;
   color: white;
@@ -34,7 +34,7 @@
 }
 
 .navigation {
-  background: #282c34;
+  background: #000000;
 }
 
 .navigation ul {
@@ -43,20 +43,40 @@
   padding: 0;
 }
 
+.navigation li {
+  display: inline;
+  margin: 8pt;
+  font-size: 20pt;
+}
+
 .navigation a:link,
 .navigation a:visited {
   color: white;
   text-decoration: none;
 }
 
+.signout-button {
+  background-color: #000000;
+  color: #ffffff;
+  border: hidden;
+}
+.page-header {
+  text-align: left;
+}
+
 .active {
   font-weight: bold;
-  color: red !important;
+  color: rgb(114, 113, 113) !important;
 }
 
 .error {
   font-weight: bold;
   color: red !important;
+}
+
+.welcome {
+  padding: 5pt;
+  text-align: center;
 }
 
 .forgotPassword {

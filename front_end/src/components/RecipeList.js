@@ -34,24 +34,6 @@ const RecipeList = (props) => {
       return buildListItem(recipe);
     });
 
-  setTimeout(() => {
-    if (!recipeData || recipeData.length === 0) {
-      return (
-        <div>
-          <h1 className="err">404 Error: Page Not Found</h1>
-        </div>
-      );
-    }
-  }, 1000);
-
-  if (!recipeData || recipeData.length === 0) {
-    return (
-      <div>
-        <h1 className="err">404 Error: Page Not Found</h1>
-      </div>
-    );
-  }
-
   return (
     <div className="App-body">
       <ul class="recipe-list">{li}</ul>
