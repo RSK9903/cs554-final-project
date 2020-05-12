@@ -3,14 +3,15 @@ import { AuthContext } from '../firebase/Auth';
 import SignOutButton from './SignOut';
 import '../App.css';
 import ChangePassword from './ChangePassword';
+import ChangeInfo from './ChangeInfo';
 
 function Account() {
 	const { currentUser } = useContext(AuthContext);
-	console.log(currentUser);
 
 	return (
 		<div>
 			<h2>Account Page</h2>
+			<ChangeInfo />
 			<ChangePassword />
 			<SignOutButton />
 		</div>

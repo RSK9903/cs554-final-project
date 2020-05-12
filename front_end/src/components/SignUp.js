@@ -3,14 +3,21 @@ import { Redirect } from 'react-router-dom';
 import { doCreateUserWithEmailAndPassword } from '../firebase/FirebaseFunctions';
 import { AuthContext } from '../firebase/Auth';
 import SocialSignIn from './SocialSignIn';
-import axios from 'axios';
+import API from '../API';
 
 function SignUp() {
 	const { currentUser } = useContext(AuthContext);
 	const [ pwMatch, setPwMatch ] = useState('');
+	const [ userData, setUser] = useState(undefined);
 	const handleSignUp = async (e) => {
 		e.preventDefault();
 		const { first, last, birthday, email, passwordOne, passwordTwo } = e.target.elements;
+		let user = {};
+		user.firstName = first.value;
+		user.lastName = last.value;
+		user.birthday = birthday.value;
+		user.email = email.value;
+		setUser(user);
 		if (passwordOne.value !== passwordTwo.value) {
 			setPwMatch('Passwords do not match');
 			return false;
@@ -18,13 +25,21 @@ function SignUp() {
 		let displayName = first.value + " " + last.value;
 		try {
 			await doCreateUserWithEmailAndPassword(email.value, passwordOne.value, displayName);
-			const {user} = await axios.post("http://localhost:5000/users", {email: email.value, firstName: first.value, lastName: last.value, birthday: birthday.value})
 		} catch (error) {
 			alert(error);
 		}
 	};
+	const addUser = async (user) => {
+		try {
+			userData.id = currentUser.uid;
+			await API.post("users/", userData)
+		} catch (error) {
+			alert("Error with post"+ error);
+		}
+	}
 
 	if (currentUser) {
+		addUser();
 		return <Redirect to='/home' />;
 	}
 

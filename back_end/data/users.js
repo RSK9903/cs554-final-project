@@ -1,6 +1,5 @@
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
-const {ObjectId} = require("mongodb");
 
 const exportedMethods = {
     async getAllUsers() {
@@ -13,15 +12,18 @@ const exportedMethods = {
         throw "id is not a string";
       }
       const userCollection = await users();
-      const user = await userCollection.findOne({ _id: ObjectId(id) });
+      const user = await userCollection.findOne({ _id: id });
   
       if (!user) throw "user not found";
       return user;
     },
 
-    async createUser(email, firstName, lastName, birthday){
+    async createUser(id, email, firstName, lastName, birthday){
         const userCollection = await users();
         //series of checks of the entered variables making sure they exist
+        if(!id || typeof id != "string"){
+          throw "You must enter an id";
+        }
         if(!email || typeof email != "string"){
             throw "You must enter a username";
         }
@@ -36,6 +38,7 @@ const exportedMethods = {
         }
 
         let newUser = {
+            _id: id,
             firstName: firstName,
             lastName: lastName,
             email: email,
@@ -55,7 +58,7 @@ const exportedMethods = {
         throw "id is not a string";
       }
       const userCollection = await users();
-      const deletionInfo = await userCollection.removeOne({ _id: ObjectId(id) });
+      const deletionInfo = await userCollection.removeOne({ _id: id });
       if (deletionInfo.deletedCount === 0) {
         throw `Could not delete user with id of ${id}`;
       }
@@ -66,30 +69,30 @@ const exportedMethods = {
         throw "id is not a string";
       }
       const userCollection = await users();
-      const user = await userCollection.findOne({ _id: ObjectId(id) });
+      const user = await userCollection.findOne({ _id: id });
       if(user===null){
           throw "user with this id not found"
       }
   
       const updatedData = {};
   
-      if (updatedUser.newFirstName) {
-        updatedData.firstName = updatedUser.newFirstName;
+      if (updatedUser.firstName) {
+        updatedData.firstName = updatedUser.firstName;
       }
   
-      if (updatedUser.newLastName) {
-        updatedData.lastName = updatedUser.newLastName;
+      if (updatedUser.lastName) {
+        updatedData.lastName = updatedUser.lastName;
       }
 
-      if (updatedUser.newBirthday) {
-        updatedData.birthday = updatedUser.newBirthday;
+      if (updatedUser.birthday) {
+        updatedData.birthday = updatedUser.birthday;
       }
   
       let updateCommand = {
         $set: updatedData
       };
       const query = {
-        _id: ObjectId(id)
+        _id: id
       };
       await userCollection.updateOne(query, updateCommand);
   
