@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Date } from "prismic-reactjs";
+import jsPDF from 'jspdf';
 import "../App.css";
 import API from "../API";
+
+// Helper function to render recipe div to a PDF
+function printDocument() {
+  let pdf = new jsPDF();
+  // Set page size to a standard 8.5" x 11" sheet
+  pdf.canvas.height = 72 * 11;
+  pdf.canvas.width = 72 * 8.5;
+  pdf.fromHTML(document.getElementById("recipe-div"));
+  // Sleep for 2 seconds, which is necessary to utilize jsPDF with React
+  setTimeout(function(){
+      // Open the PDF in a new tab
+      pdf.output('dataurlnewwindow');
+      // Download the document
+      pdf.save("recipe.pdf")
+  },2000);
+}
 
 const SingleRecipe = (props) => {
   const [recipeData, setRecipeData] = useState(undefined);
@@ -48,7 +65,7 @@ const SingleRecipe = (props) => {
 
   return (
     <div class="recipe-page">
-      <div class="recipe-div">
+      <div id="recipe-div" class="recipe-div">
         <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
         <h2 class="recipe-header">Author: {recipeData && recipeData.author}</h2>
         <h2 class="recipe-header">Date Posted: {date}</h2>
@@ -63,6 +80,9 @@ const SingleRecipe = (props) => {
         <p>
           Yield: {recipeData && recipeData.recipe_yield} {"serving(s)"}
         </p>
+      </div>
+      <div className="printButton">
+        <button onClick={printDocument}>Print</button>
       </div>
     </div>
   );
