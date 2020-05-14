@@ -3,9 +3,8 @@ import { AuthContext } from '../firebase/Auth';
 import '../App.css';
 import API from '../API';
 
-function ChangePassword() {
+function ChangeInfo() {
 	const { currentUser } = useContext(AuthContext);
-	const [ pwMatch, setPwMatch ] = useState('');
 
 	const submitForm = async (event) => {
 		event.preventDefault();
@@ -23,14 +22,13 @@ function ChangePassword() {
         }
 		try {
             await API.patch("users/"+currentUser.uid, newInfo);
-            alert("Your information has been changed.")
+            if(!alert("Your information has been changed.")){window.location.reload()}
 		} catch (error) {
-			alert(error);
+			alert("An error occurred. Changes could not be applied.");
 		}
 	};
 		return (
 			<div>
-				{pwMatch && <h4 className='error'>{pwMatch}</h4>}
 				<h2>Change User Information</h2>
 				<form onSubmit={submitForm}>
 					<div className='form-group'>
@@ -77,4 +75,4 @@ function ChangePassword() {
 		);
 }
 
-export default ChangePassword;
+export default ChangeInfo;
