@@ -21,6 +21,7 @@ const NavigationAuth = () => {
       <Nav>
         <Nav.Link href="/">Home</Nav.Link>
         <Nav.Link href="/account">Account</Nav.Link>
+        <Nav.Link href="/recipes">Recipes</Nav.Link>
         <SignOutButton />
       </Nav>
     </Navbar>
