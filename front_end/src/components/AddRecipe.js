@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import API from "../API";
 import "../App.css";
 
@@ -73,60 +72,89 @@ function AddRecipe() {
           Author:
           <input id="author" name="author" type="text" />
         </label>
+        <br />
         <label>
           Completion Time (in minutes):
-          <input id="completion-time" name="completion-time" type="number" />
+          <input
+            className="completion-time"
+            id="completion-time"
+            name="completion-time"
+            type="number"
+          />
+          &nbsp; min
         </label>
-        <label>Ingredients:</label>
-        <input type="button" value="Add an ingredient" onClick={addIng} />
+        <br />
+        <label className="ing-header">Ingredients:</label>
+        <br />
         {ingredientData.map((val, ind) => {
           return (
+            <div className="add-ings">
+              <div>
+                <label>Measurement:</label>
+                <input
+                  type="text"
+                  name="measurement"
+                  data-id={ind}
+                  onChange={handleIngChange}
+                  placeholder=" ex. 1, 1.5, 1 1/2"
+                ></input>
+              </div>
+              <div>
+                <label>Units:</label>
+                <input
+                  type="text"
+                  name="unit"
+                  data-id={ind}
+                  onChange={handleIngChange}
+                  placeholder=" ex. cups, tbsp, tsp"
+                ></input>
+              </div>
+              <div>
+                <label>Name:</label>
+                <input
+                  type="text"
+                  name="name"
+                  data-id={ind}
+                  onChange={handleIngChange}
+                  placeholder=" ex. flour, sugar, oil"
+                ></input>
+              </div>
+            </div>
+          );
+        })}
+        <br />
+        <input type="button" value="Add a New Ingredient" onClick={addIng} />
+        <br />
+        <label className="steps-header">Steps:</label>
+        <br />
+        {stepsData.map((val, ind) => {
+          return (
             <div>
-              <label>Measurement:</label>
+              <label>{"Step " + (ind + 1)}:</label>
               <input
                 type="text"
-                name="measurement"
+                name="step"
                 data-id={ind}
-                onChange={handleIngChange}
-              ></input>
-              <label>Units:</label>
-              <input
-                type="text"
-                name="unit"
-                data-id={ind}
-                onChange={handleIngChange}
-              ></input>
-              <label>Name:</label>
-              <input
-                type="text"
-                name="name"
-                data-id={ind}
-                onChange={handleIngChange}
+                onChange={handleStepChange}
+                placeholder=" ex. Stir together the flour and butter"
               ></input>
             </div>
           );
         })}
+        <br />
+        <input type="button" value="Add a New Step" onClick={addStep} />
+        <br />
         <label>
-          Steps:
-          <input type="button" value="Add a New Step" onClick={addStep} />
-          {stepsData.map((val, ind) => {
-            return (
-              <div>
-                <label>{"Step " + (ind + 1)}:</label>
-                <input
-                  type="text"
-                  name="step"
-                  data-id={ind}
-                  onChange={handleStepChange}
-                ></input>
-              </div>
-            );
-          })}
+          Recipe Yield:&nbsp;
+          <input
+            className="recipe_yield"
+            id="recipe-yield"
+            name="recipe-yield"
+            type="number"
+          />
+          &nbsp; servings
         </label>
-        <label>
-          Recipe Yield:
-          <input id="recipe-yield" name="recipe-yield" type="number" />
-        </label>
+        <br />
         <input type="submit" value="Submit" />
       </form>
     </div>

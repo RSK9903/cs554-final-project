@@ -117,13 +117,44 @@
   color: red;
 }
 
-.recipe-page {
+.recipe-page,
+.new-recipe {
   text-align: center;
 }
 
-.recipe-div {
+.recipe-div,
+#new-recipe {
   display: inline-block;
   text-align: left;
+}
+
+.ing-header,
+.steps-header {
+  font-weight: bold;
+  font-size: 20pt;
+}
+
+.add-ings div {
+  float: left;
+  margin-right: 5pt;
+  margin-bottom: 5pt;
+}
+
+.new-recipe {
+  justify-content: left;
+}
+.new-recipe input[type="text"] {
+  width: 100%;
+}
+
+.new-recipe label {
+  margin: 5pt;
+  margin-left: 0;
+}
+
+.completion-time,
+.recipe-yield {
+  margin-left: 5pt;
 }
 
 .recipe-subheader,
