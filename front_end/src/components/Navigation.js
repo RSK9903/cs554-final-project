@@ -12,16 +12,13 @@ const Navigation = () => {
 
 const NavigationAuth = () => {
   return (
-    <Navbar
-      bg="dark"
-      variant="dark"
-      style={{ justifyContent: "space-between" }}
-    >
+    <Navbar bg="dark" variant="dark" className="navbar">
       <Navbar.Brand href="/">Quarantine Kitchen</Navbar.Brand>
       <Nav>
         <Nav.Link href="/">Home</Nav.Link>
         <Nav.Link href="/account">Account</Nav.Link>
         <Nav.Link href="/recipes">Recipes</Nav.Link>
+        <Nav.Link href="/addrecipe">Add Recipe</Nav.Link>
         <SignOutButton />
       </Nav>
     </Navbar>
@@ -30,15 +27,14 @@ const NavigationAuth = () => {
 
 const NavigationNonAuth = () => {
   return (
-    <Navbar
-      bg="dark"
-      variant="dark"
-      style={{ justifyContent: "space-between" }}
-    >
+    <Navbar bg="dark" variant="dark" className="navbar">
       <Navbar.Brand href="/">Quarantine Kitchen</Navbar.Brand>
       <Nav>
         <Nav.Item>
           <Nav.Link href="/">Home</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="/recipes">Recipes</Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link href="/signup">Sign-up</Nav.Link>

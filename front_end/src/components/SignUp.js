@@ -59,14 +59,7 @@ function SignUp() {
     <Container>
       <Row>
         <Col>
-          <div
-            style={{
-              background: "#4444",
-              padding: "15px",
-              marginBottom: "5%",
-              marginTop: "5%",
-            }}
-          >
+          <div className="sign-up">
             <h1>Sign up</h1>
             {pwMatch && <h4 className="error">{pwMatch}</h4>}
           </div>

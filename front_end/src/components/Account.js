@@ -27,14 +27,7 @@ function Account() {
     <Container>
       <Row>
         <Col>
-          <div
-            style={{
-              background: "#4444",
-              padding: "15px",
-              marginBottom: "5%",
-              marginTop: "5%",
-            }}
-          >
+          <div className="account">
             <h2>Account Page</h2>
             <h3>
               Name: {user && user.firstName} {user && user.lastName}
@@ -42,7 +35,6 @@ function Account() {
             <h3>Email: {user && user.email}</h3>
             <h3>Birthday: {user && user.birthday}</h3>
           </div>
-          <ChangeInfo />
           <ChangeInfo />
           <ChangePassword />
         </Col>

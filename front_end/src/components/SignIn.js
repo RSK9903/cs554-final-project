@@ -40,14 +40,7 @@ function SignIn() {
     <Container>
       <Row>
         <Col>
-          <div
-            style={{
-              background: "#4444",
-              padding: "15px",
-              marginBottom: "5%",
-              marginTop: "5%",
-            }}
-          >
+          <div className="sign-in">
             <h1>Login</h1>
           </div>
         </Col>

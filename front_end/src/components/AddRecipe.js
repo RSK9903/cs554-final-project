@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import API from "../API";
 import "../App.css";
 
 function AddRecipe() {
   const [postData, setPostData] = useState({});
+
   const [ingredientData, setIngredientData] = useState([
     { measurement: "", unit: "", name: "" },
   ]);
   const newIng = { measurement: "", unit: "", name: "" };
+
   const [stepsData, setStepsData] = useState([""]);
   const [submitted, setSubmitted] = useState(false);
+
   const addIng = () => {
     setIngredientData([...ingredientData, { ...newIng }]);
   };
@@ -19,6 +23,7 @@ function AddRecipe() {
     tempIng[event.target.dataset.id][event.target.name] = event.target.value;
     setIngredientData(tempIng);
   };
+
   const addStep = () => {
     setStepsData([...stepsData, ""]);
   };
@@ -27,6 +32,7 @@ function AddRecipe() {
     tempSteps[event.target.dataset.id] = event.target.value;
     setStepsData(tempSteps);
   };
+
   const formSubmit = async (event) => {
     event.preventDefault();
 
@@ -57,7 +63,7 @@ function AddRecipe() {
     else alert("Could not add recipe, please try again");
   }
   return (
-    <div>
+    <div className="new-recipe">
       <form id="new-recipe" onSubmit={formSubmit}>
         <label>
           Title:
