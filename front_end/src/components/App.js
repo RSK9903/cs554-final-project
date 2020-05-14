@@ -11,6 +11,7 @@ import { AuthProvider } from "../firebase/Auth";
 import PrivateRoute from "./PrivateRoute";
 import SingleRecipe from "./SingleRecipe";
 import RecipeList from "./RecipeList";
+import AddRecipe from "./AddRecipe";
 function App() {
   return (
     <AuthProvider>
@@ -24,6 +25,7 @@ function App() {
         <Route exact path="/" component={Landing} />
         <PrivateRoute path="/home" component={Home} />
         <PrivateRoute path="/account" component={Account} />
+        <PrivateRoute path="/addrecipe" component={AddRecipe} />
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
         <Route path="/recipes/:id" exact component={SingleRecipe}></Route>
