@@ -2,14 +2,20 @@ import React from 'react';
 import SignOutButton from './SignOut';
 import '../App.css';
 import ChangePassword from './ChangePassword';
+import { Container, Row, Col } from 'react-bootstrap';
 
 function Account() {
 	return (
-		<div>
-			<h2>Account Page</h2>
-			<ChangePassword />
-			<SignOutButton />
-		</div>
+		<Container>
+			<Row>
+				<Col>
+					<div style={{ background: '#4444', padding: '15px', marginBottom: '5%', marginTop: '5%' }}>
+						<h2>Account Page</h2>
+					</div>
+					<ChangePassword />
+				</Col>
+			</Row>
+		</Container>
 	);
 }
 
