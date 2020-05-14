@@ -9,6 +9,7 @@ function AddRecipe() {
     { measurement: "", unit: "", name: "" },
   ]);
   const newIng = { measurement: "", unit: "", name: "" };
+  const [stepsData, setStepsData] = useState([""]);
   const [submitted, setSubmitted] = useState(false);
   const addIng = () => {
     setIngredientData([...ingredientData, { ...newIng }]);
@@ -18,24 +19,30 @@ function AddRecipe() {
     tempIng[event.target.dataset.id][event.target.name] = event.target.value;
     setIngredientData(tempIng);
   };
+  const addStep = () => {
+    setStepsData([...stepsData, ""]);
+  };
+  const handleStepChange = (event) => {
+    const tempSteps = [...stepsData];
+    tempSteps[event.target.dataset.id] = event.target.value;
+    setStepsData(tempSteps);
+  };
   const formSubmit = async (event) => {
     event.preventDefault();
 
     let title = document.getElementById("title").value;
     let author = document.getElementById("author").value;
     let completionTime = document.getElementById("completion-time").value;
-    //let steps = document.getElementById("steps").value;
     let recipe_yield = document.getElementById("recipe-yield").value;
 
     let datePosted = Date.now();
-    let steps = ["steps here"];
     let newRecipe = {
       title: title,
       author: author,
       datePosted: datePosted,
       completionTime: parseInt(completionTime),
       ingredients: ingredientData,
-      steps: steps,
+      steps: stepsData,
       recipe_yield: parseInt(recipe_yield),
     };
 
@@ -93,10 +100,23 @@ function AddRecipe() {
             </div>
           );
         })}
-        {/* <label>
+        <label>
           Steps:
-          <input id="steps" name="steps" type="text" />
-        </label> */}
+          <input type="button" value="Add a New Step" onClick={addStep} />
+          {stepsData.map((val, ind) => {
+            return (
+              <div>
+                <label>{"Step " + (ind + 1)}:</label>
+                <input
+                  type="text"
+                  name="step"
+                  data-id={ind}
+                  onChange={handleStepChange}
+                ></input>
+              </div>
+            );
+          })}
+        </label>
         <label>
           Recipe Yield:
           <input id="recipe-yield" name="recipe-yield" type="number" />
