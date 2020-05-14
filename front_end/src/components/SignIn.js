@@ -6,6 +6,7 @@ import {
   doSignInWithEmailAndPassword,
   doPasswordReset,
 } from "../firebase/FirebaseFunctions";
+import { Container, Row, Col, Jumbotron, Form, Button } from "react-bootstrap";
 
 function SignIn() {
   const { currentUser } = useContext(AuthContext);
@@ -36,44 +37,60 @@ function SignIn() {
     return <Redirect to="/" />;
   }
   return (
-    <div class="login">
-      <h1>Log in</h1>
-      <form onSubmit={handleLogin}>
-        <div className="form-group">
-          <label>
-            Email:
-            <input
-              className="form-control"
-              name="email"
-              id="email"
-              type="email"
-              placeholder="Email"
-              required
-            />
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            Password:
-            <input
-              className="form-control"
-              name="password"
-              type="password"
-              placeholder="Password"
-              required
-            />
-          </label>
-        </div>
-        <button type="submit">Log in</button>
+    <Container>
+      <Row>
+        <Col>
+          <div
+            style={{
+              background: "#4444",
+              padding: "15px",
+              marginBottom: "5%",
+              marginTop: "5%",
+            }}
+          >
+            <h1>Login</h1>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form onSubmit={handleLogin}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                name="email"
+                id="email"
+                type="email"
+                placeholder="Enter email"
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                name="password"
+                required
+              />
+            </Form.Group>
+            <Button variant="dark" type="submit">
+              Log in
+            </Button>
+            <Button
+              variant="dark"
+              className="forgotPassword"
+              onClick={passwordReset}
+            >
+              Forgot Password
+            </Button>
+          </Form>
 
-        <button className="forgotPassword" onClick={passwordReset}>
-          Forgot Password
-        </button>
-      </form>
-
-      <br />
-      <SocialSignIn />
-    </div>
+          <br />
+          <SocialSignIn />
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
