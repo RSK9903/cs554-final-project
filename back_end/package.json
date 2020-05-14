@@ -1,0 +1,17 @@
+{
+  "name": "back_end",
+  "version": "1.0.0",
+  "description": "CS 554-WS, Spring 2020, Professor Hill <br>\r Team Members: Natalie Bernhard, Dylan DiGeronimo, Rachel Kim, Diaeddin Motan, Jyotsna Ramaswamy",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "CS554-Quarantine-Kitchen",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.7"
+  }
+}

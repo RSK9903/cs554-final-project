@@ -4,7 +4,7 @@ const reviewRoutes = require("./reviews");
 
 const constructorMethod = (app) => {
   app.use("/recipes", recipeRoutes);
-  app.use("/user", userRoutes);
+  app.use("/users", userRoutes);
   app.use("/reviews", reviewRoutes);
 
   app.use("*", (req, res) => {
