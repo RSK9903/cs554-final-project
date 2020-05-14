@@ -5,6 +5,7 @@ import '../App.css';
 import ChangePassword from './ChangePassword';
 import ChangeInfo from './ChangeInfo';
 import API from '../API';
+import { Container, Row, Col } from 'react-bootstrap';
 
 function Account() {
 	const { currentUser } = useContext(AuthContext);
@@ -26,15 +27,21 @@ function Account() {
 	);
 
 	return (
-		<div>
-			<h2>Account Page</h2>
-			<h3>Name: {user&&user.firstName} {user&&user.lastName}</h3>
-			<h3>Email: {user&&user.email}</h3>
-			<h3>Birthday: {user && user.birthday}</h3>
-			<ChangeInfo />
-			<ChangePassword />
-			<SignOutButton />
-		</div>
+		<Container>
+			<Row>
+				<Col>
+					<div style={{ background: '#4444', padding: '15px', marginBottom: '5%', marginTop: '5%' }}>
+						<h2>Account Page</h2>
+            <h3>Name: {user&&user.firstName} {user&&user.lastName}</h3>
+            <h3>Email: {user&&user.email}</h3>
+            <h3>Birthday: {user && user.birthday}</h3>
+					</div>
+          <ChangeInfo />
+					<ChangeInfo />
+					<ChangePassword />
+				</Col>
+			</Row>
+		</Container>
 	);
 }
 
