@@ -1,73 +1,150 @@
 .App {
-	text-align: center;
+  text-align: center;
+  margin: 0;
 }
 
 .App-logo {
-	height: 40vmin;
-	pointer-events: none;
+  height: 40vmin;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.App-logo {
-		animation: App-logo-spin infinite 20s linear;
-	}
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
 .App-header {
-	background-color: #282c34;
-	height: 150px;
-	padding: 20px;
-	color: white;
+  background-color: #000000;
+  height: 150px;
+  padding: 20px;
+  color: white;
+  margin: 0;
 }
 
 .App-link {
-	color: #61dafb;
+  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .navigation {
-	background: #282c34;
+  background: #000000;
 }
 
 .navigation ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navigation li {
+  display: inline;
+  margin: 8pt;
+  font-size: 20pt;
 }
 
 .navigation a:link,
 .navigation a:visited {
-	color: white;
-	text-decoration: none;
+  color: white;
+  text-decoration: none;
+}
+
+.signout-button {
+  background-color: #000000;
+  color: #ffffff;
+  border: hidden;
+}
+.page-header {
+  text-align: left;
 }
 
 .active {
-	font-weight: bold;
-	color: red !important;
+  font-weight: bold;
+  color: rgb(114, 113, 113) !important;
 }
 
 .error {
-	font-weight: bold;
-	color: red !important;
+  font-weight: bold;
+  color: red !important;
+}
+
+.welcome {
+  padding: 5pt;
+  text-align: center;
+}
+
+.login,
+.signup,
+.change-info {
+  margin: 8pt;
 }
 
 .forgotPassword {
-	background: none !important;
-	border: none !important;
-	text-decoration: underline;
-	margin-left: 5px;
-	color: #069;
+  background: none !important;
+  border: none !important;
+  text-decoration: underline;
+  margin-left: 5px;
+  color: #069;
 }
 
 .forgotPassword:hover {
-	text-decoration: none;
-	color: red;
+  text-decoration: none;
+  color: red;
+}
+
+.recipe-page {
+  text-align: center;
+}
+
+.recipe-div {
+  display: inline-block;
+  text-align: left;
+}
+
+.recipe-subheader,
+.ingredient-list,
+.steps-list {
+  text-align: left;
+}
+
+.ingredient-list {
+  list-style-type: square;
+}
+
+.recipe-header {
+  font-size: large;
+}
+
+.recipe-title {
+  font-size: 36pt;
+}
+
+.recipe-list-header {
+  text-align: center;
+  font-size: 30pt;
+  padding: 5pt;
+}
+
+.recipe-list {
+  padding: 7pt;
+  text-align: center;
+  list-style: inside;
+  list-style-type: none;
+  font-size: 20pt;
+}
+
+.recipe-list li {
+  padding: 7pt;
+}
+
+.recipe-list a {
+  color: rgb(10, 68, 194);
 }
