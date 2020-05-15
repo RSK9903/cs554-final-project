@@ -4,6 +4,7 @@ import SignOutButton from "./SignOut";
 import "../App.css";
 import ChangePassword from "./ChangePassword";
 import ChangeInfo from "./ChangeInfo";
+import User from "./User";
 import API from "../API";
 import { Container, Row, Col, Tabs, Tab, Nav } from "react-bootstrap";
 
@@ -29,13 +30,14 @@ function Account() {
 				<Col>
 					<Tabs defaultActiveKey="myInfo" id="uncontrolled-tab-example" style={{ marginTop: '5%' }}>
 						<Tab eventKey="myInfo" title="My Info">
-							<div className="account">
+							<User />
+							{/* <div className="account">
 								<h3>
 									Name: {user && user.firstName} {user && user.lastName}
 								</h3>
 								<h3>Email: {user && user.email}</h3>
 								<h3>Birthday: {user && user.birthday}</h3>
-							</div>
+							</div> */}
 						</Tab>
 						<Tab eventKey="changeInfo" title="Change Info">
 							<ChangeInfo />
