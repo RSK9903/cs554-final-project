@@ -11,6 +11,8 @@ function AddRecipe() {
   ]);
   const newIng = { measurement: "", unit: "", name: "" };
 
+  const [image, setImage] = useState(new FormData());
+
   const [stepsData, setStepsData] = useState([""]);
   const [submitted, setSubmitted] = useState(false);
 
@@ -32,6 +34,13 @@ function AddRecipe() {
     setStepsData(tempSteps);
   };
 
+  const handleImageUpload = (event) => {
+    event.preventDefault();
+    let data = new FormData();
+    data.append('file', event.target.files[0]);
+    setImage(data);
+  };
+  
   const formSubmit = async (event) => {
     event.preventDefault();
 
@@ -54,6 +63,9 @@ function AddRecipe() {
     const { data } = await API.post("/recipes", newRecipe);
     setPostData(data);
     setSubmitted(true);
+    
+    let recipeId = data._id;
+    const { imageResult } = await API.post("/images/" + recipeId, image, { headers: {'Content-Type':'multipart/form-data, boundary=${form._boundary}'}});
   };
 
   if (submitted) {
@@ -153,6 +165,17 @@ function AddRecipe() {
             type="number"
           />
           &nbsp; servings
+        </label>
+        <br />
+        <label>
+          Recipe Image:&nbsp;
+          <input 
+            type="file" 
+            formEncType="multipart/form-data"
+            id="recipe-image"
+            name="recipe-image"
+            onChange={handleImageUpload}
+          />
         </label>
         <br />
         <input type="submit" value="Submit" />
