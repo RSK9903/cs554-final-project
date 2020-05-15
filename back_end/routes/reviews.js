@@ -17,7 +17,29 @@ router.get("/:id", async (req, res) => {
         const review = await reviewData.getReviewById(req.params.id);
         res.json(review);
     } catch (e) {
-        res.status(200).json({ error: "Task not found" });
+        res.status(200).json({ error: "Review not found" });
+        console.log(e);
+    }
+});
+
+router.get("/reviews/:id/recipes", async (req, res) => {
+    try {
+        const reviewList = await reviewData.getReviewsRecipe(req.params.id);
+        res.json(reviewList);
+    }
+    catch (e) {
+        res.status(200).json({ error: "Could not get reviews" });
+        console.log(e);
+    }
+});
+
+router.get("/reviews/:id/users", async (req, res) => {
+    try {
+        const reviewList = await reviewData.getReviewsUser(req.params.id);
+        res.json(reviewList);
+    }
+    catch (e) {
+        res.status(200).json({ error: "Could not get reviews" });
         console.log(e);
     }
 });

@@ -115,5 +115,38 @@ module.exports = {
         }
 
         return await this.getReviewById(id);
+    },
+
+    async getReviewsRecipe(recipeId) {
+        const allReviews = await this.getAllReviews();
+        let retReviews = [];
+
+        const len = Object.keys(allReviews).length;
+
+        for (var i = 0; i < len; i++) {
+            let rid = allReviews[i].recipe_id;
+            if (rid === recipeId) {
+                retReviews.push(allReviews[i]);
+            }
+        }
+
+        return retReviews;
+    },
+
+    async getReviewsUser(userId) {
+        const allReviews = await this.getAllReviews();
+        let retReviews = [];
+
+        const len = Object.keys(allReviews).length;
+
+        for (var i = 0; i < len; i++) {
+            let uid = allReviews[i].author_id;
+            if (uid === userId) {
+                retReviews.push(allReviews[i]);
+            }
+        }
+
+        return retReviews;
     }
+
 }
