@@ -118,7 +118,8 @@
 }
 
 .recipe-page,
-.new-recipe {
+.new-recipe,
+.recipe-index {
   text-align: center;
 }
 

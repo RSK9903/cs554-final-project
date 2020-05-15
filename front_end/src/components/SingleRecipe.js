@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Date } from "prismic-reactjs";
-import jsPDF from 'jspdf';
+import jsPDF from "jspdf";
 import "../App.css";
 import API from "../API";
 
@@ -12,12 +12,12 @@ function printDocument() {
   pdf.canvas.width = 72 * 8.5;
   pdf.fromHTML(document.getElementById("recipe-div"));
   // Sleep for 2 seconds, which is necessary to utilize jsPDF with React
-  setTimeout(function(){
-      // Open the PDF in a new tab
-      pdf.output('dataurlnewwindow');
-      // Download the document
-      pdf.save("recipe.pdf")
-  },2000);
+  setTimeout(function () {
+    // Open the PDF in a new tab
+    pdf.output("dataurlnewwindow");
+    // Download the document
+    pdf.save("recipe.pdf");
+  }, 2000);
 }
 
 const SingleRecipe = (props) => {
