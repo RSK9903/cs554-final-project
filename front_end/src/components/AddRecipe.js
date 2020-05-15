@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
+import { AuthContext } from "../firebase/Auth";
 import API from "../API";
 import "../App.css";
 
 function AddRecipe() {
   const [postData, setPostData] = useState({});
-
+  const { currentUser } = useContext(AuthContext);
   const [ingredientData, setIngredientData] = useState([
     { measurement: "", unit: "", name: "" },
   ]);
@@ -36,14 +37,13 @@ function AddRecipe() {
     event.preventDefault();
 
     let title = document.getElementById("title").value;
-    let author = document.getElementById("author").value;
     let completionTime = document.getElementById("completion-time").value;
     let recipe_yield = document.getElementById("recipe-yield").value;
 
     let datePosted = Date.now();
     let newRecipe = {
       title: title,
-      author: author,
+      author: currentUser && currentUser.displayName,
       datePosted: datePosted,
       completionTime: parseInt(completionTime),
       ingredients: ingredientData,
@@ -63,14 +63,15 @@ function AddRecipe() {
   }
   return (
     <div className="new-recipe">
+      <h1>Add a New Recipe</h1>
+      <p>
+        To add a new recipe, fill in all of the fields below. Please do not
+        leave any blank fields, as you will be unable to submit your recipe.
+      </p>
       <form id="new-recipe" onSubmit={formSubmit}>
         <label>
           Title:
-          <input id="title" name="title" type="text" />
-        </label>
-        <label>
-          Author:
-          <input id="author" name="author" type="text" />
+          <input id="title" name="title" type="text" required />
         </label>
         <br />
         <label>
@@ -80,6 +81,7 @@ function AddRecipe() {
             id="completion-time"
             name="completion-time"
             type="number"
+            required
           />
           &nbsp; min
         </label>
@@ -97,6 +99,7 @@ function AddRecipe() {
                   data-id={ind}
                   onChange={handleIngChange}
                   placeholder=" ex. 1, 1.5, 1 1/2"
+                  required
                 ></input>
               </div>
               <div>
@@ -107,6 +110,7 @@ function AddRecipe() {
                   data-id={ind}
                   onChange={handleIngChange}
                   placeholder=" ex. cups, tbsp, tsp"
+                  required
                 ></input>
               </div>
               <div>
@@ -117,6 +121,7 @@ function AddRecipe() {
                   data-id={ind}
                   onChange={handleIngChange}
                   placeholder=" ex. flour, sugar, oil"
+                  required
                 ></input>
               </div>
             </div>
@@ -137,6 +142,7 @@ function AddRecipe() {
                 data-id={ind}
                 onChange={handleStepChange}
                 placeholder=" ex. Stir together the flour and butter"
+                required
               ></input>
             </div>
           );
@@ -151,6 +157,7 @@ function AddRecipe() {
             id="recipe-yield"
             name="recipe-yield"
             type="number"
+            required
           />
           &nbsp; servings
         </label>

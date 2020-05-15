@@ -122,6 +122,10 @@
   text-align: center;
 }
 
+.new-recipe h1 {
+  margin-top: 5pt;
+}
+
 .recipe-div,
 #new-recipe {
   display: inline-block;
