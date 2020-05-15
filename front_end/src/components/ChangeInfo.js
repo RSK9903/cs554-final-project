@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../firebase/Auth";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "../App.css";
 import API from "../API";
 
@@ -30,50 +31,43 @@ function ChangeInfo() {
     }
   };
   return (
-    <div>
-      <h2>Change User Information</h2>
-      <form onSubmit={submitForm}>
-        <div className="form-group">
-          <label>
-            First Name:
-            <input
-              className="form-control"
-              name="newFirst"
-              id="newFirst"
-              type="text"
-              placeholder="First Name"
-            />
-          </label>
-        </div>
-
-        <div className="form-group">
-          <label>
-            Last Name:
-            <input
-              className="form-control"
-              name="newLast"
-              id="newLast"
-              type="text"
-              placeholder="Last Name"
-            />
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            Birthday:
-            <input
-              className="form-control"
-              name="newBirthday"
-              id="newBirthday"
-              type="date"
-            />
-          </label>
-        </div>
-
-        <button type="submit">Change User Information</button>
-      </form>
-      <br />
-    </div>
+    <Container>
+      <Row>
+        <Col style={{ marginTop: '5%' }}>
+          <Form onSubmit={submitForm}>
+            <Form.Group controlId="formBasicName">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                name="newFirst"
+                id="newFirst"
+                type="text"
+                placeholder="First Name"
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicName">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control
+                name="newLast"
+                id="newLast"
+                type="text"
+                placeholder="Last Name"
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicName">
+              <Form.Label>Birthday</Form.Label>
+              <Form.Control
+                name="newBirthday"
+                id="newBirthday"
+                type="date"
+              />
+            </Form.Group>
+            <Button variant="dark" type="submit">
+              Change User Information
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

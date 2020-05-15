@@ -31,10 +31,9 @@ function ChangePassword() {
 				<Row>
 					<Col>
 						{pwMatch && <h4 className='error'>{pwMatch}</h4>}
-						<h2>Change Password</h2>
 					</Col>
 				</Row>
-				<Row>
+				<Row style={{ marginTop: '5%' }}>
 					<Col>
 						<Form onSubmit={submitForm}>
 							<Form.Group controlId="formBasicOldPass">
