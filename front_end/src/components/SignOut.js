@@ -3,11 +3,11 @@ import { doSignOut } from "../firebase/FirebaseFunctions";
 import { Button } from "react-bootstrap";
 
 const SignOutButton = () => {
-  return (
-    <Button variant="dark" type="button" onClick={doSignOut}>
-      Sign Out
-    </Button>
-  );
+	return (
+		<button variant="dark" type="button" onClick={doSignOut}>
+			Sign Out
+		</button>
+	);
 };
 
 export default SignOutButton;
