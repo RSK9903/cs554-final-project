@@ -1,11 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../firebase/Auth";
 import UserReviewList from "./UserReviewList";
-import SignOutButton from "./SignOut";
 import "../App.css";
 import ChangePassword from "./ChangePassword";
 import ChangeInfo from "./ChangeInfo";
-import User from "./SingleUser";
 import API from "../API";
 import { Container, Row, Col, Tabs, Tab, Nav } from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -21,7 +19,7 @@ function Account() {
 			try {
 				let id = currentUser.uid;
 				const { data: userInfo } = await API.get("users/" + id);
-				const { data: recipeList } = await API.get("recipes/user/"+id);
+				const { data: recipeList } = await API.get("recipes/users/"+id);
 				setUser(userInfo);
 				setRecipes(recipeList);
 			} catch (e) {
