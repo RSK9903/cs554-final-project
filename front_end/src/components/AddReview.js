@@ -15,7 +15,9 @@ function AddReview(props) {
     let comment = document.getElementById("comment").value;
     let rating = document.getElementById("rating").value;
     let userId = currentUser.uid;
+    console.log("UserID: " + userId)
     let recipeId = props.id;
+    console.log("Recipe ID: " + recipeId)
 
     let newReview = {
       comment: comment,

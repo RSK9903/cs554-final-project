@@ -13,7 +13,7 @@ import RecipeList from "./RecipeList";
 import AddRecipe from "./AddRecipe";
 import { AuthProvider } from "../firebase/Auth";
 import PrivateRoute from "./PrivateRoute";
-import User from "./User";
+import User from "./SingleUser";
 
 function App() {
   return (
