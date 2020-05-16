@@ -13,6 +13,8 @@ function AddRecipe() {
   ]);
   const newIng = { measurement: "", unit: "", name: "" };
 
+  const [image, setImage] = useState(new FormData());
+
   const [stepsData, setStepsData] = useState([""]);
   const [submitted, setSubmitted] = useState(false);
 
@@ -34,7 +36,6 @@ function AddRecipe() {
     setStepsData(tempSteps);
   };
 
-<<<<<<< Updated upstream
   const handleImageUpload = (event) => {
     event.preventDefault();
     let data = new FormData();
@@ -42,8 +43,6 @@ function AddRecipe() {
     setImage(data);
   };
 
-=======
->>>>>>> Stashed changes
   const formSubmit = async (event) => {
     event.preventDefault();
 
@@ -64,15 +63,12 @@ function AddRecipe() {
     };
 
     const { data } = await API.post("/recipes", newRecipe);
-<<<<<<< Updated upstream
     let recipeId = data._id;
     const { imageResult } = await API.post("/images/" + recipeId, image, {
       headers: {
         "Content-Type": "multipart/form-data, boundary=${form._boundary}",
       },
     });
-=======
->>>>>>> Stashed changes
     setPostData(data);
     setSubmitted(true);
   };
@@ -83,122 +79,6 @@ function AddRecipe() {
     else alert("Could not add recipe, please try again");
   }
   return (
-<<<<<<< Updated upstream
-    <div className="new-recipe">
-      <h1>Add a New Recipe</h1>
-      <p>
-        To add a new recipe, fill in all of the fields below. Please do not
-        leave any blank fields, as you will be unable to submit your recipe.
-      </p>
-      <form id="new-recipe" onSubmit={formSubmit}>
-        <label>
-          Title:
-          <input id="title" name="title" type="text" required />
-        </label>
-        <br />
-        <label>
-          Completion Time (in minutes):
-          <input
-            className="completion-time"
-            id="completion-time"
-            name="completion-time"
-            type="number"
-            required
-          />
-          &nbsp; min
-        </label>
-        <br />
-        <label className="ing-header">Ingredients:</label>
-        <br />
-        {ingredientData.map((val, ind) => {
-          return (
-            <div className="add-ings">
-              <div>
-                <label>Measurement:</label>
-                <input
-                  type="text"
-                  name="measurement"
-                  data-id={ind}
-                  onChange={handleIngChange}
-                  placeholder=" ex. 1, 1.5, 1 1/2"
-                  required
-                ></input>
-              </div>
-              <div>
-                <label>Units:</label>
-                <input
-                  type="text"
-                  name="unit"
-                  data-id={ind}
-                  onChange={handleIngChange}
-                  placeholder=" ex. cups, tbsp, tsp"
-                  required
-                ></input>
-              </div>
-              <div>
-                <label>Name:</label>
-                <input
-                  type="text"
-                  name="name"
-                  data-id={ind}
-                  onChange={handleIngChange}
-                  placeholder=" ex. flour, sugar, oil"
-                  required
-                ></input>
-              </div>
-            </div>
-          );
-        })}
-        <br />
-        <input type="button" value="Add a New Ingredient" onClick={addIng} />
-        <br />
-        <label className="steps-header">Steps:</label>
-        <br />
-        {stepsData.map((val, ind) => {
-          return (
-            <div>
-              <label>{"Step " + (ind + 1)}:</label>
-              <input
-                type="text"
-                name="step"
-                data-id={ind}
-                onChange={handleStepChange}
-                placeholder=" ex. Stir together the flour and butter"
-                required
-              ></input>
-            </div>
-          );
-        })}
-        <br />
-        <input type="button" value="Add a New Step" onClick={addStep} />
-        <br />
-        <label>
-          Recipe Yield:&nbsp;
-          <input
-            className="recipe_yield"
-            id="recipe-yield"
-            name="recipe-yield"
-            type="number"
-            required
-          />
-          &nbsp; servings
-        </label>
-        <br />
-        <label>
-          Recipe Image:&nbsp;
-          <input
-            type="file"
-            formEncType="multipart/form-data"
-            id="recipe-image"
-            name="recipe-image"
-            onChange={handleImageUpload}
-          />
-        </label>
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
-=======
     <Container>
       <Row>
         <Col>
@@ -218,7 +98,7 @@ function AddRecipe() {
             <Row>
               <Col>
                 <div>
-                  <Form.Group controlId="formBasicName">
+                  <Form.Group>
                     <Form.Label>Title</Form.Label>
                     <Form.Control
                       id="title"
@@ -227,7 +107,7 @@ function AddRecipe() {
                       required
                     />
                   </Form.Group>
-                  <Form.Group controlId="formBasicName">
+                  <Form.Group>
                     <Form.Label>Completion Time (minutes)</Form.Label>
                     <Form.Control
                       id="completion-time"
@@ -249,9 +129,9 @@ function AddRecipe() {
                 <br />
                 {ingredientData.map((val, ind) => {
                   return (
-                    <div >
+                    <div id={val + ind}>
                       <div>
-                        <Form.Group controlId="formBasicName">
+                        <Form.Group>
                           <Form.Label>Measurement </Form.Label>
                           <Form.Control
                             type="text"
@@ -264,7 +144,7 @@ function AddRecipe() {
                         </Form.Group>
                       </div>
                       <div>
-                        <Form.Group controlId="formBasicName">
+                        <Form.Group>
                           <Form.Label>Units</Form.Label>
                           <Form.Control
                             type="text"
@@ -277,7 +157,7 @@ function AddRecipe() {
                         </Form.Group>
                       </div>
                       <div>
-                        <Form.Group controlId="formBasicName">
+                        <Form.Group>
                           <Form.Label>Name</Form.Label>
                           <Form.Control
                             type="text"
@@ -306,8 +186,8 @@ function AddRecipe() {
                 <br />
                 {stepsData.map((val, ind) => {
                   return (
-                    <div>
-                      <Form.Group controlId="formBasicName">
+                    <div id={val + ind}>
+                      <Form.Group>
                         <Form.Label>{"Step " + (ind + 1)} </Form.Label>
                         <Form.Control
                           type="text"
@@ -328,13 +208,27 @@ function AddRecipe() {
             <br />
             <Row>
               <Col>
-                <Form.Group controlId="formBasicName">
+                <Form.Group>
                   <Form.Label>Recipe Yield (servings)</Form.Label>
                   <Form.Control
                     id="recipe-yield"
                     name="recipe-yield"
                     type="number"
                     required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <Form.Label>Recipe Image</Form.Label>
+                  <Form.Control
+                    type="file"
+                    formEncType="multipart/form-data"
+                    id="recipe-image"
+                    name="recipe-image"
+                    onChange={handleImageUpload}
                   />
                 </Form.Group>
               </Col>
@@ -347,110 +241,6 @@ function AddRecipe() {
         </Col>
       </Row>
     </Container >
-    // <div className="new-recipe">
-    //   <h1>Add a New Recipe</h1>
-    //   <p>
-    //     To add a new recipe, fill in all of the fields below. Please do not
-    //     leave any blank fields, as you will be unable to submit your recipe.
-    //   </p>
-    //   <form id="new-recipe" onSubmit={formSubmit}>
-    //     <label>
-    //       Title:
-    //       <input id="title" name="title" type="text" required />
-    //     </label>
-    //     <br />
-    //     <label>
-    //       Completion Time (in minutes):
-    //       <input
-    //         className="completion-time"
-    //         id="completion-time"
-    //         name="completion-time"
-    //         type="number"
-    //         required
-    //       />
-    //       &nbsp; min
-    //     </label>
-    //     <br />
-    //     <label className="ing-header">Ingredients:</label>
-    //     <br />
-    //     {ingredientData.map((val, ind) => {
-    //       return (
-    //         <div className="add-ings">
-    //           <div>
-    //             <label>Measurement:</label>
-    //             <input
-    //               type="text"
-    //               name="measurement"
-    //               data-id={ind}
-    //               onChange={handleIngChange}
-    //               placeholder=" ex. 1, 1.5, 1 1/2"
-    //               required
-    //             ></input>
-    //           </div>
-    //           <div>
-    //             <label>Units:</label>
-    //             <input
-    //               type="text"
-    //               name="unit"
-    //               data-id={ind}
-    //               onChange={handleIngChange}
-    //               placeholder=" ex. cups, tbsp, tsp"
-    //               required
-    //             ></input>
-    //           </div>
-    //           <div>
-    //             <label>Name:</label>
-    //             <input
-    //               type="text"
-    //               name="name"
-    //               data-id={ind}
-    //               onChange={handleIngChange}
-    //               placeholder=" ex. flour, sugar, oil"
-    //               required
-    //             ></input>
-    //           </div>
-    //         </div>
-    //       );
-    //     })}
-    //     <br />
-    //     <input type="button" value="Add a New Ingredient" onClick={addIng} />
-    //     <br />
-    //     <label className="steps-header">Steps:</label>
-    //     <br />
-    //     {stepsData.map((val, ind) => {
-    //       return (
-    //         <div>
-    //           <label>{"Step " + (ind + 1)}:</label>
-    //           <input
-    //             type="text"
-    //             name="step"
-    //             data-id={ind}
-    //             onChange={handleStepChange}
-    //             placeholder=" ex. Stir together the flour and butter"
-    //             required
-    //           ></input>
-    //         </div>
-    //       );
-    //     })}
-    //     <br />
-    //     <input type="button" value="Add a New Step" onClick={addStep} />
-    //     <br />
-    //     <label>
-    //       Recipe Yield:&nbsp;
-    //       <input
-    //         className="recipe_yield"
-    //         id="recipe-yield"
-    //         name="recipe-yield"
-    //         type="number"
-    //         required
-    //       />
-    //       &nbsp; servings
-    //     </label>
-    //     <br />
-    //     <input type="submit" value="Submit" />
-    //   </form>
-    // </div>
->>>>>>> Stashed changes
   );
 }
 
