@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 
 const UserReviewList = (props) => {
     const [reviewData, setReviewData] = useState(undefined);
+	  const [setTitle, setGetTitle] = useState(false);
     let li = null;
     useEffect(() => {
       async function fetchData() {
@@ -19,8 +20,6 @@ const UserReviewList = (props) => {
       fetchData();
     }, []);
 
-    let setTitle = false;
-
     const getTitle = async () => {
       let index;
       for(index in reviewData){
@@ -28,15 +27,14 @@ const UserReviewList = (props) => {
         const {data:recipe} = await API.get("recipes/"+review.recipe_id);
         review.recipe_name = recipe.title;
       }
-      setTitle=true;
+      setGetTitle(true);
     };
   
     if (reviewData && !setTitle) {
       getTitle();
-      console.log(reviewData)
     }    
 
-    li = reviewData && reviewData.map((review) => {
+    li = reviewData && setTitle && reviewData.map((review) => {
       return(
         <li><Link to={`/recipes/${review.recipe_id}`}>{review.recipe_name}</Link>
           <ul>
