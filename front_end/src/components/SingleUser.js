@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../firebase/Auth";
 import "../App.css";
 import API from "../API";
+import UserReviewList from "./UserReviewList";
 
 const User = (props) => {
   const { currentUser } = useContext(AuthContext);
@@ -28,13 +29,16 @@ const User = (props) => {
   []);
 
   return(
+    <div>
     <div className="userPage">
         <h3>{userData && userData.firstName} {userData && userData.lastName}</h3>
-		<p>Birthday: {userData && userData.birthday}</p>
+		    <p>Birthday: {userData && userData.birthday}</p>
         <h3>Recipes</h3>
         <ul>
             <li>Recipe Placeholder</li>
         </ul>
+    </div>
+    <UserReviewList />
     </div>
   );
 }

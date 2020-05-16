@@ -22,7 +22,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.get("/reviews/:id/recipes", async (req, res) => {
+router.get("/:id/recipes", async (req, res) => {
     try {
         const reviewList = await reviewData.getReviewsRecipe(req.params.id);
         res.json(reviewList);
@@ -33,7 +33,7 @@ router.get("/reviews/:id/recipes", async (req, res) => {
     }
 });
 
-router.get("/reviews/:id/users", async (req, res) => {
+router.get("/:id/users", async (req, res) => {
     try {
         const reviewList = await reviewData.getReviewsUser(req.params.id);
         res.json(reviewList);
@@ -48,7 +48,7 @@ router.post("/", async (req, res) => {
     const reviewInfo = req.body;
     try {
         const { comment, rating, author_id, recipe_id } = reviewInfo;
-        const newReview = reviewData.addReview(comment, rating, author_id, recipe_id);
+        const newReview = reviewData.addReview(comment, rating, recipe_id, author_id);
         res.json(newReview);
     } catch (e) {
         res.status(500).json({ error: e });
