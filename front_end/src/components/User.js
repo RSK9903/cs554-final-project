@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../firebase/Auth";
+import UserReviewList from "./UserReviewList";
 import "../App.css";
 import API from "../API";
 
@@ -13,11 +14,11 @@ const User = (props) => {
     async function fetchData() {
         try {
             if(!props.match){
-                const { data } = await API.get("/users/"+currentUser.uid);
-                setUser(data);
+                const { data:user } = await API.get("/users/"+currentUser.uid);
+                setUser(user);
             } else {
-                const { data } = await API.get("/users/"+props.match.params.id);
-                setUser(data);
+                const { data:user } = await API.get("/users/"+props.match.params.id);
+                setUser(user);
             }
       } catch (e) {
         console.log(e);
@@ -35,10 +36,7 @@ const User = (props) => {
         <ul>
             <li>Recipe Placeholder</li>
         </ul>
-        <h3>Reviews</h3>
-        <ul>
-            <li>Review Placeholder</li>
-        </ul>
+        <UserReviewList />
     </div>
   );
 }

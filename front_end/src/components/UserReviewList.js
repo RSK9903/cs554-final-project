@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../firebase/Auth";
 import "../App.css";
 import API from "../API";
 
@@ -22,9 +23,11 @@ const UserReviewList = (props) => {
     }, []);
 
     li = reviewData && reviewData.map((review) => {
+      return(
       <li>
         Rating: {review.rating} Comment: {review.comment}
       </li>
+      )
     });
   
     return (
@@ -36,4 +39,4 @@ const UserReviewList = (props) => {
 
   };
   
-  export default RecipeReviewList;
+  export default UserReviewList;
