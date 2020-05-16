@@ -61,11 +61,10 @@ function AddRecipe() {
     };
 
     const { data } = await API.post("/recipes", newRecipe);
-    setPostData(data);
-    setSubmitted(true);
-    
     let recipeId = data._id;
     const { imageResult } = await API.post("/images/" + recipeId, image, { headers: {'Content-Type':'multipart/form-data, boundary=${form._boundary}'}});
+    setPostData(data);
+    setSubmitted(true);
   };
 
   if (submitted) {
