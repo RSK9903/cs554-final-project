@@ -18,7 +18,6 @@ function printDocument() {
     // Download the document
     pdf.save("recipe.pdf");
   }, 2000);
-}
 
 const SingleRecipe = (props) => {
   const [recipeData, setRecipeData] = useState(undefined);
@@ -63,12 +62,15 @@ const SingleRecipe = (props) => {
       return buildStepsListItem(s, ind + 1);
     });
 
+  const imagePath = `http://localhost:5000/img/${props.match.params.id}`;
+
   return (
     <div class="recipe-page">
       <div id="recipe-div" class="recipe-div">
         <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
         <h2 class="recipe-header">Author: {recipeData && recipeData.author}</h2>
         <h2 class="recipe-header">Date Posted: {date}</h2>
+        <img class="recipe-image" alt={recipeData && recipeData.title} src={imagePath} />
         <h2 class="recipe-header">
           Total Time: {recipeData && recipeData.completionTime} minutes
         </h2>
