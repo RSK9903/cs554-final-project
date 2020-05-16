@@ -1,203 +1,76 @@
 const express = require("express");
 const router = express.Router();
-const data = require("../data");
-const recipeData = data.recipes;
-
-router.get("/:id", async (req, res) => {
-  if (!req.params.id) {
-    res.status(400).json({ error: "Must include an id" });
-  }
-  try {
-    const recipe = await recipeData.getRecipeById(req.params.id);
-    res.json(recipe);
-  } catch (e) {
-    console.log(e);
-    res.status(404).json({ error: "Recipe not found" });
-  }
-});
+const reviewData = require("../data/reviews");
 
 router.get("/", async (req, res) => {
-  try {
-    const recipeList = await recipeData.getAllRecipes();
-    res.json(recipeList);
-  } catch (e) {
-    res.status(404).json({ error: `Recipes not found` + e });
-  }
+    try {
+      const reviewList = await reviewData.getAllReviews();
+      res.json(reviewList);
+    } catch (e) {
+      res.status(500).json({ error: "Could not get reviews" });
+      console.log(e);
+    }
 });
 
-router.get("/users/:authorid", async (req, res) => {
-  if (!req.params.authorid) {
-    res.status(400).json({ error: "Must include an author id" });
-  }
-  try {
-    const userRecipes = await recipeData.getRecipesByUser(req.params.authorid);
-    res.json(userRecipes);
-  } catch (e) {
-    console.log(e);
-    res.status(404).json({ error: "No recipes found for this user" });
-  }
+router.get("/:id", async (req, res) => {
+    try {
+        const review = await reviewData.getReviewById(req.params.id);
+        res.json(review);
+    } catch (e) {
+        res.status(200).json({ error: "Review not found" });
+        console.log(e);
+    }
+});
+
+router.get("/:id/recipes", async (req, res) => {
+    try {
+        const reviewList = await reviewData.getReviewsRecipe(req.params.id);
+        res.json(reviewList);
+    }
+    catch (e) {
+        res.status(200).json({ error: "Could not get reviews" });
+        console.log(e);
+    }
+});
+
+router.get("/:id/users", async (req, res) => {
+    try {
+        const reviewList = await reviewData.getReviewsUser(req.params.id);
+        res.json(reviewList);
+    }
+    catch (e) {
+        res.status(200).json({ error: "Could not get reviews" });
+        console.log(e);
+    }
 });
 
 router.post("/", async (req, res) => {
-  const title = req.body.title;
-  const author = req.body.author;
-  const displayName = req.body.displayName;
-  const datePosted = req.body.datePosted;
-  const completionTime = req.body.completionTime;
-  const ingredients = req.body.ingredients;
-  const steps = req.body.steps;
-  const recipe_yield = req.body.recipe_yield;
-  if (
-    !title ||
-    !author ||
-    !datePosted ||
-    !completionTime ||
-    !ingredients ||
-    !steps ||
-    !recipe_yield
-  ) {
-    res.status(400).json({
-      error:
-        "You must include a title, author, display name, date posted, completion time, ingredients, steps, and recipe yield.",
-    });
-  }
-  try {
-    res.json(
-      await recipeData.addRecipe(
-        title,
-        author,
-        displayName,
-        datePosted,
-        completionTime,
-        ingredients,
-        steps,
-        recipe_yield
-      )
-    );
-  } catch (e) {
-    res.status(500).json({ error: `Recipe unable to be added: ` + e });
-  }
+    const reviewInfo = req.body;
+    try {
+        const { comment, rating, postDate, author_id, recipe_id } = reviewInfo;
+        const newReview = reviewData.addReview(comment, rating, postDate, recipe_id, author_id);
+        res.json(newReview);
+    } catch (e) {
+        res.status(500).json({ error: e });
+    }
 });
 
 router.put("/:id", async (req, res) => {
-  if (!req.params.id) {
-    res.status(400).json({ error: "Must include a recipe ID" });
-  }
-  //console.log("here");
-  const id = req.params.id;
-  if (!recipeData.getRecipeById(id)) {
-    res.status(404).json({ error: `Recipe not found` });
-  }
-  //console.log("here");
-  const title = req.body.title;
-  const author = req.body.author;
-  const displayName = req.body.displayName;
-  const datePosted = req.body.datePosted;
-  const completionTime = req.body.completionTime;
-  const ingredients = req.body.ingredients;
-  const steps = req.body.steps;
-  const recipe_yield = req.body.recipe_yield;
-  if (
-    !title ||
-    !author ||
-    !displayName ||
-    !datePosted ||
-    !completionTime ||
-    !ingredients ||
-    !steps ||
-    !recipe_yield
-  ) {
-    res.status(400).json({
-      error:
-        "You must include a title, author, display name, date posted, completion time, ingredients, steps, and recipe yield.",
-    });
-  }
-  try {
-    res.json(
-      await recipeData.updateRecipe(
-        id,
-        title,
-        author,
-        displayName,
-        datePosted,
-        completionTime,
-        ingredients,
-        steps,
-        recipe_yield
-      )
-    );
-  } catch (e) {
-    res.status(500).json({ error: `Recipe unable to be updated: ` + e });
-  }
+    const updateReview = req.body;
+    try {
+        await reviewData.getReviewById(req.params.id);
+    } catch (e) {
+        res.status(404).json({ error: e });
+        return;
+    }
+    
+    try {
+        const newReview = await reviewData.patchReview(req.params.id, updateReview);
+        res.json(newReview);
+    } catch(e) {
+        express.status(500).json({ error: e });
+    }
 });
 
-router.patch("/:id", async (req, res) => {
-  if (!req.params.id) {
-    res.status(400).json({ error: "Must include a recipe ID" });
-  }
-
-  const id = req.params.id;
-  if (!recipeData.getRecipeById(id)) {
-    res.status(404).json({ error: `Recipe not found` });
-  }
-
-  const title = req.body.title;
-  const author = req.body.author;
-  const displayName = req.body.displayName;
-  const datePosted = req.body.datePosted;
-  const completionTime = req.body.completionTime;
-  const ingredients = req.body.ingredients;
-  const steps = req.body.steps;
-  const recipe_yield = req.body.recipe_yield;
-  if (
-    !title &&
-    !author &&
-    !displayName &&
-    !datePosted &&
-    !completionTime &&
-    !ingredients &&
-    !steps &&
-    !recipe_yield
-  ) {
-    res.status(400).json({
-      error:
-        "You must include a title, author, display name, date posted, completion time, ingredients, steps, or recipe yield.",
-    });
-  }
-  try {
-    res.json(
-      await recipeData.updateRecipe(
-        id,
-        title,
-        displayName,
-        author,
-        datePosted,
-        completionTime,
-        ingredients,
-        steps,
-        recipe_yield
-      )
-    );
-  } catch (e) {
-    res.status(500).json({ error: `Recipe unable to be updated: ` + e });
-  }
-});
-
-router.delete("/:id", async (req, res) => {
-  if (!req.params.id) {
-    res.status(400).json({
-      error: "You must include a recipe id",
-    });
-    return;
-  }
-  if (!recipeData.getRecipeById(req.params.id)) {
-    res.status(404).json({ error: `Recipe not found` });
-  }
-  try {
-    res.json(await recipeData.removeRecipe(req.params.id));
-  } catch (e) {
-    res.status(500).json({ error: `Unable to remove recipe` });
-  }
-});
 
 module.exports = router;

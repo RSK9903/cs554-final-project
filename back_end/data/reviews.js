@@ -23,8 +23,8 @@ module.exports = {
         return review; 
     },
 
-    async addReview(comment, rating, recipe_id, author_id) {
-        if (!comment || !rating || !recipe_id || !author_id) {
+    async addReview(comment, rating, postDate, recipe_id, author_id) {
+        if (!comment || !rating || !recipe_id || !author_id || !postDate) {
             throw "Critical information to add review missing"
         }
 
@@ -44,12 +44,23 @@ module.exports = {
             console.error("Recipe with that id not found.")
         }
 
+        const allReviews = await this.getAllReviews();
+        const len = Object.keys(allReviews).length;
+
+        for (var i = 0; i < len; i++) {
+            let uid = allReviews[i].author_id;
+            if (uid === userId) {
+                throw "You can't add another review to this recipe.";
+            }
+        }
+
         
         const reviewCollection = await reviews();
         let newReview = {
             _id: uuid.v4(),
             comment: comment,
             rating: rating,
+            postDate: postDate,
             recipe_id: recipe_id,
             author_id: author_id
         };
