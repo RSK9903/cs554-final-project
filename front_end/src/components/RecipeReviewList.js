@@ -25,7 +25,7 @@ const RecipeReviewList = (props) => {
     for(index in reviewData){
       let review = reviewData[index];
       const {data:user} = await API.get("users/"+review.author_id);
-      review.author_name = user.firstName + " " + user.lastName;
+      review.author_name = user.displayName;
     }
     setGetAuthor(true);
   };

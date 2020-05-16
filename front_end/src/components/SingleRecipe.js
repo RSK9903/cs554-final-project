@@ -76,7 +76,7 @@ const SingleRecipe = (props) => {
   const isOwner = recipeData && currentUser && (currentUser.uid === recipeData.author);
 
   let review = <AddReview id={recipeData && recipeData._id} />;
-  let link = recipeData && <Link to={`/users/${recipeData.author}`}>{recipeData && recipeData.displayName}</Link>;
+  let authorlink = recipeData && <Link to={`/users/${recipeData.author}`}>{recipeData && recipeData.displayName}</Link>;
   let reviewList = <RecipeReviewList id={recipeData && recipeData._id} />;
 
   const alreadyReviewed = recipeData && reviewData && currentUser && reviewData.some((review)=>review.author_id==currentUser.uid);
@@ -86,7 +86,7 @@ const SingleRecipe = (props) => {
       <div id="recipe-div" class="recipe-div">
         <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
         <h2 class="recipe-header">
-          Author: {link}
+          Author: {authorlink}
         </h2>
         <h2 class="recipe-header">Date Posted: {date}</h2>
         <img

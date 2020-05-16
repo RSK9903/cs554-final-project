@@ -18,31 +18,32 @@ const exportedMethods = {
       return user;
     },
 
-    async createUser(id, email, firstName, lastName, birthday){
+    async createUser(id, email, displayName, birthday){
         const userCollection = await users();
+        const userExist = await userCollection.findOne({ _id: id });
+        if(userExist!==null){
+            throw "User with this id already exists"
+        }
         //series of checks of the entered variables making sure they exist
         if(!id || typeof id != "string"){
           throw "You must enter an id";
         }
         if(!email || typeof email != "string"){
-            throw "You must enter a username";
+            throw "You must enter an email";
         }
-        if(!firstName || typeof firstName != "string"){
-            throw "You must enter your First Name";
+        if(!displayName || typeof displayName != "string"){
+            throw "You must enter a name";
         }
-        if(!lastName || typeof lastName != "string"){
-            throw "You must enter your Last Name";
-        }
-        if(!birthday){
-          throw "You must enter a valid date"
+        if(!birthday && birthday!=""){
+          throw "You must enter a birthday"
         }
 
         let newUser = {
             _id: id,
-            firstName: firstName,
-            lastName: lastName,
+            displayName: displayName,
             email: email,
-            birthday: birthday
+            birthday: birthday,
+            bio: ""
         }
         const insertInfo = await userCollection.insertOne(newUser);
         if(insertInfo.insertedCount ===0){
@@ -76,16 +77,16 @@ const exportedMethods = {
   
       const updatedData = {};
   
-      if (updatedUser.firstName) {
-        updatedData.firstName = updatedUser.firstName;
-      }
-  
-      if (updatedUser.lastName) {
-        updatedData.lastName = updatedUser.lastName;
+      if (updatedUser.displayName) {
+        updatedData.displayName = updatedUser.displayName;
       }
 
       if (updatedUser.birthday) {
         updatedData.birthday = updatedUser.birthday;
+      }
+
+      if (updatedUser.bio) {
+        updatedData.bio = updatedUser.bio;
       }
   
       let updateCommand = {

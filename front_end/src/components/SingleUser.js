@@ -42,7 +42,7 @@ const User = (props) => {
 					<Tabs defaultActiveKey="myInfo" id="uncontrolled-tab-example" style={{ marginTop: '5%' }}>
 						<Tab eventKey="myInfo" title="User Info">
 							<div className="userPage">
-								<h3>{user && user.firstName} {user && user.lastName}</h3>
+								<h3>{user && user.displayName}</h3>
 								<h4>Birthday: {user && user.birthday}</h4>
 							</div>
 						</Tab>
