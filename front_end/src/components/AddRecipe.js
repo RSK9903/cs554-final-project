@@ -38,10 +38,10 @@ function AddRecipe() {
   const handleImageUpload = (event) => {
     event.preventDefault();
     let data = new FormData();
-    data.append('file', event.target.files[0]);
+    data.append("file", event.target.files[0]);
     setImage(data);
   };
-  
+
   const formSubmit = async (event) => {
     event.preventDefault();
 
@@ -52,7 +52,8 @@ function AddRecipe() {
     let datePosted = Date.now();
     let newRecipe = {
       title: title,
-      author: currentUser && currentUser.displayName,
+      author: currentUser && currentUser.uid,
+      displayName: currentUser && currentUser.displayName,
       datePosted: datePosted,
       completionTime: parseInt(completionTime),
       ingredients: ingredientData,
@@ -62,7 +63,11 @@ function AddRecipe() {
 
     const { data } = await API.post("/recipes", newRecipe);
     let recipeId = data._id;
-    const { imageResult } = await API.post("/images/" + recipeId, image, { headers: {'Content-Type':'multipart/form-data, boundary=${form._boundary}'}});
+    const { imageResult } = await API.post("/images/" + recipeId, image, {
+      headers: {
+        "Content-Type": "multipart/form-data, boundary=${form._boundary}",
+      },
+    });
     setPostData(data);
     setSubmitted(true);
   };
@@ -175,8 +180,8 @@ function AddRecipe() {
         <br />
         <label>
           Recipe Image:&nbsp;
-          <input 
-            type="file" 
+          <input
+            type="file"
             formEncType="multipart/form-data"
             id="recipe-image"
             name="recipe-image"

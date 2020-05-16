@@ -71,7 +71,9 @@ const SingleRecipe = (props) => {
     <div class="recipe-page">
       <div id="recipe-div" class="recipe-div">
         <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
-        <h2 class="recipe-header">Author: {recipeData && recipeData.author}</h2>
+        <h2 class="recipe-header">
+          Author: {recipeData && recipeData.displayName}
+        </h2>
         <h2 class="recipe-header">Date Posted: {date}</h2>
         <img
           class="recipe-image"

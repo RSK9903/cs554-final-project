@@ -25,9 +25,23 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/users/:authorid", async (req, res) => {
+  if (!req.params.authorid) {
+    res.status(400).json({ error: "Must include an author id" });
+  }
+  try {
+    const userRecipes = await recipeData.getRecipesByUser(req.params.authorid);
+    res.json(userRecipes);
+  } catch (e) {
+    console.log(e);
+    res.status(404).json({ error: "No recipes found for this user" });
+  }
+});
+
 router.post("/", async (req, res) => {
   const title = req.body.title;
   const author = req.body.author;
+  const displayName = req.body.displayName;
   const datePosted = req.body.datePosted;
   const completionTime = req.body.completionTime;
   const ingredients = req.body.ingredients;
@@ -44,7 +58,7 @@ router.post("/", async (req, res) => {
   ) {
     res.status(400).json({
       error:
-        "You must include a title, author, date posted, completion time, ingredients, steps, and recipe yield.",
+        "You must include a title, author, display name, date posted, completion time, ingredients, steps, and recipe yield.",
     });
   }
   try {
@@ -52,6 +66,7 @@ router.post("/", async (req, res) => {
       await recipeData.addRecipe(
         title,
         author,
+        displayName,
         datePosted,
         completionTime,
         ingredients,
@@ -76,6 +91,7 @@ router.put("/:id", async (req, res) => {
   //console.log("here");
   const title = req.body.title;
   const author = req.body.author;
+  const displayName = req.body.displayName;
   const datePosted = req.body.datePosted;
   const completionTime = req.body.completionTime;
   const ingredients = req.body.ingredients;
@@ -84,6 +100,7 @@ router.put("/:id", async (req, res) => {
   if (
     !title ||
     !author ||
+    !displayName ||
     !datePosted ||
     !completionTime ||
     !ingredients ||
@@ -92,7 +109,7 @@ router.put("/:id", async (req, res) => {
   ) {
     res.status(400).json({
       error:
-        "You must include a title, author, date posted, completion time, ingredients, steps, and recipe yield.",
+        "You must include a title, author, display name, date posted, completion time, ingredients, steps, and recipe yield.",
     });
   }
   try {
@@ -101,6 +118,7 @@ router.put("/:id", async (req, res) => {
         id,
         title,
         author,
+        displayName,
         datePosted,
         completionTime,
         ingredients,
@@ -125,6 +143,7 @@ router.patch("/:id", async (req, res) => {
 
   const title = req.body.title;
   const author = req.body.author;
+  const displayName = req.body.displayName;
   const datePosted = req.body.datePosted;
   const completionTime = req.body.completionTime;
   const ingredients = req.body.ingredients;
@@ -133,6 +152,7 @@ router.patch("/:id", async (req, res) => {
   if (
     !title &&
     !author &&
+    !displayName &&
     !datePosted &&
     !completionTime &&
     !ingredients &&
@@ -141,7 +161,7 @@ router.patch("/:id", async (req, res) => {
   ) {
     res.status(400).json({
       error:
-        "You must include a title, author, date posted, completion time, ingredients, steps, or recipe yield.",
+        "You must include a title, author, display name, date posted, completion time, ingredients, steps, or recipe yield.",
     });
   }
   try {
@@ -149,6 +169,7 @@ router.patch("/:id", async (req, res) => {
       await recipeData.updateRecipe(
         id,
         title,
+        displayName,
         author,
         datePosted,
         completionTime,
