@@ -1,60 +1,58 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { AuthContext } from "../firebase/Auth"
+import { AuthContext } from "../firebase/Auth";
 import API from "../API";
 import "../App.css";
 
 function AddReview(props) {
-    const [postData, setPostData] = useState({});
-    const [submitted, setSubmitted] = useState(false);
-    const { currentUser } = useContext(AuthContext); 
+  const [postData, setPostData] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const { currentUser } = useContext(AuthContext);
 
-    
-    const formSubmit = async (event) => {
-        event.preventDefault();
+  const formSubmit = async (event) => {
+    event.preventDefault();
 
-        let comment = document.getElementById("comment").value;
-        let rating = document.getElementById("rating").value;
-        let userId = currentUser.uid;
-        let recipeId = props.match.params.id;
+    let comment = document.getElementById("comment").value;
+    let rating = document.getElementById("rating").value;
+    let userId = currentUser.uid;
+    let recipeId = props.id;
 
-        let newReview = {
-            comment: comment,
-            rating: parseInt(rating),
-            author_id: userId,
-            recipe_id: recipeId
-        };
-
-        const { data } = await API.post("/reviews", newReview);
-        setPostData(data);
-        setSubmitted(true);
+    let newReview = {
+      comment: comment,
+      rating: parseInt(rating),
+      author_id: userId,
+      recipe_id: recipeId,
     };
 
-    if (submitted) {
-        if (postData && postData._id) {
-            return <Redirect to={`/recipes/${props.match.params.id}`} />;
-        } else {
-            alert("Could not submit review")
-        }
-    }
+    const { data } = await API.post("/reviews", newReview);
+    setPostData(data);
+    setSubmitted(true);
+  };
 
-    return (
-        <div>
-            <h5>Add a Review: </h5>
-            <form id="new-review" onSubmit={formSubmit}>
-                <label>
-                    Rating (Out of 5):
-                    <input id="rating" name="rating" type="number"/>
-                </label>
-                <label>
-                    Comment:
-                    <input id="comment" name="comment" type="text"/>
-                </label>
-                <input type="submit" value="Submit"/>
-            </form>
-        </div>
-    );
+  if (submitted) {
+    if (postData && postData._id) {
+      return <Redirect to={`/recipes/${props.id}`} />;
+    } else {
+      alert("Could not submit review");
+    }
+  }
+
+  return (
+    <div>
+      <h5>Add a Review: </h5>
+      <form id="new-review" onSubmit={formSubmit}>
+        <label>
+          Rating (Out of 5):
+          <input id="rating" name="rating" type="number" />
+        </label>
+        <label>
+          Comment:
+          <input id="comment" name="comment" type="text" />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  );
 }
 
 export default AddReview;
-
