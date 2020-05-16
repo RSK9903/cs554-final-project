@@ -45,11 +45,11 @@ function Account() {
 				<Col>
 					<Tabs defaultActiveKey="myInfo" id="uncontrolled-tab-example" style={{ marginTop: '5%' }}>
 						<Tab eventKey="myInfo" title="My Info">
-							{/* <User /> */}
 							<div className="userPage">
-								<h3>{user && user.firstName} {user && user.lastName}</h3>
+								<h3>{user && user.displayName}</h3>
 								<h4>Email: {user && user.email}</h4>
 								<h4>Birthday: {user && user.birthday}</h4>
+								<p>Bio: {user && user.bio}</p>
 							</div>
 						</Tab>
 						<Tab eventKey="viewRecipes" title="My Recipes">
@@ -71,43 +71,6 @@ function Account() {
 				</Col>
 			</Row>
 		</Container>
-		// <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-		// 	<Row>
-		// 		<Col sm={3}>
-		// 			<Nav variant="pills" className="flex-column">
-		// 				<Nav.Item>
-		// 					<Nav.Link eventKey="myInfo">My Info</Nav.Link>
-		// 				</Nav.Item>
-		// 				<Nav.Item>
-		// 					<Nav.Link eventKey="changeInfo">Change Info</Nav.Link>
-		// 				</Nav.Item>
-		// 				<Nav.Item>
-		// 					<Nav.Link eventKey="changePass">Change Password</Nav.Link>
-		// 				</Nav.Item>
-		// 			</Nav>
-		// 		</Col>
-		// 		<Col sm={9}>
-		// 			<Tab.Content>
-		// 				<Tab.Pane eventKey="myInfo">
-		// 					<div className="account">
-		// 						<h2>Account Page</h2>
-		// 						<h3>
-		// 							Name: {user && user.firstName} {user && user.lastName}
-		// 						</h3>
-		// 						<h3>Email: {user && user.email}</h3>
-		// 						<h3>Birthday: {user && user.birthday}</h3>
-		// 					</div>
-		// 				</Tab.Pane>
-		// 				<Tab.Pane eventKey="changeInfo">
-		// 					<ChangeInfo />
-		// 				</Tab.Pane>
-		// 				<Tab.Pane eventKey="changePass">
-		// 					<ChangePassword />
-		// 				</Tab.Pane>
-		// 			</Tab.Content>
-		// 		</Col>
-		// 	</Row>
-		// </Tab.Container>
 	);
 }
 

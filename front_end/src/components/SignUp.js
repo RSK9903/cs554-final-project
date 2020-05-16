@@ -13,16 +13,14 @@ function SignUp() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     const {
-      first,
-      last,
+      displayName,
       birthday,
       email,
       passwordOne,
       passwordTwo,
     } = e.target.elements;
     let user = {};
-    user.firstName = first.value;
-    user.lastName = last.value;
+    user.displayName = displayName.value;
     user.birthday = birthday.value;
     user.email = email.value;
     setUser(user);
@@ -30,7 +28,6 @@ function SignUp() {
       setPwMatch("Passwords do not match");
       return false;
     }
-    let displayName = first.value + " " + last.value;
     try {
       await doCreateUserWithEmailAndPassword(
         email.value,
@@ -41,17 +38,34 @@ function SignUp() {
       alert(error);
     }
   };
-  const addUser = async (user) => {
+  const addUser = async (bool) => {
     try {
-      userData.id = currentUser.uid;
-      await API.post("users/", userData);
+      if(bool){
+        userData.id = currentUser.uid;
+        await API.post("users/", userData);
+      } else {
+        const socialUser = {
+          id: currentUser.uid,
+          displayName: currentUser.displayName,
+          email: currentUser.email,
+          birthday: "",
+        }
+        console.log(socialUser);
+        await API.post("users/", socialUser);
+      }      
     } catch (error) {
-      alert("Error with post" + error);
+      alert("Error with sign up: " + error);
     }
   };
 
   if (currentUser) {
-    addUser();
+    if (userData){
+      console.log("Should not reach here");
+      addUser(true);
+    } else {
+      console.log("Should reach here")
+      addUser(false);
+    }
     return <Redirect to="/" />;
   }
 
@@ -69,24 +83,15 @@ function SignUp() {
         <Col>
           <Form onSubmit={handleSignUp}>
             <Form.Group controlId="formBasicName">
-              <Form.Label>First Name</Form.Label>
+              <Form.Label>Name</Form.Label>
               <Form.Control
                 required
-                name="first"
+                name="displayName"
                 type="text"
-                placeholder="First Name"
+                placeholder="Name"
               />
             </Form.Group>
-            <Form.Group controlId="formBasicName">
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control
-                required
-                name="last"
-                type="text"
-                placeholder="Last Name"
-              />
-            </Form.Group>
-            <Form.Group controlId="formBasicName">
+            <Form.Group controlId="formBasicBirthday">
               <Form.Label>Birthday</Form.Label>
               <Form.Control
                 required

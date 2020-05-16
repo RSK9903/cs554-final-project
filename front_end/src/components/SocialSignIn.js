@@ -10,6 +10,7 @@ const SocialSignIn = () => {
       alert(error);
     }
   };
+  
   return (
     <Row>
       <Col>

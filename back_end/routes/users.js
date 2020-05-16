@@ -25,34 +25,27 @@ router.get("/", async (req, res) => {
   router.post("/", async (req, res) => {
     const userInfo = req.body;
     try {
-      let count = Object.keys(userInfo).length;
-      if(count!=5){
-        throw "invalid JSON format";
-      }  
       if(!userInfo.id) {
         throw "You must provide an id";
       }
       if (!userInfo.email) {
         throw "You must provide an email";
       }
-      if(!userInfo.firstName){
+      if(!userInfo.displayName){
         throw "You must provide a first name";
       }
-      if(!userInfo.lastName){
-        throw "You must provide a last name";
-      }
-      if(!userInfo.birthday){
+      if(!userInfo.birthday && userInfo.birthday!=""){
         throw "You must provide a birthday";
       }
       const newuser = await userData.createUser(
         userInfo.id,
         userInfo.email,
-        userInfo.firstName,
-        userInfo.lastName,
+        userInfo.displayName,
         userInfo.birthday
       );
       res.status(200).json(newuser);
     } catch (e) {
+      console.log(e);
       res.status(400).json({error: e});
     }
   });
