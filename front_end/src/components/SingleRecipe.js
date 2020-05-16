@@ -27,6 +27,8 @@ function printDocument() {
 const SingleRecipe = (props) => {
 	const { currentUser } = useContext(AuthContext);
   const [recipeData, setRecipeData] = useState(undefined);
+  const [reviewData, setReviews] = useState(undefined);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -34,7 +36,8 @@ const SingleRecipe = (props) => {
           `/recipes/${props.match.params.id}`
         );
         setRecipeData(recipe);
-        console.log(recipe);
+        const { data:reviews } = await API.get(`/reviews/${props.match.params.id}/recipes`);
+        setReviews(reviews);
       } catch (e) {
         console.log(e);
       }
@@ -70,10 +73,13 @@ const SingleRecipe = (props) => {
 
   const imagePath = `http://localhost:5000/img/${props.match.params.id}`;
 
-  const isOwner = recipeData && (currentUser.uid === recipeData.author);
+  const isOwner = recipeData && currentUser && (currentUser.uid === recipeData.author);
 
   let review = <AddReview id={recipeData && recipeData._id} />;
   let link = recipeData && <Link to={`/users/${recipeData.author}`}>{recipeData && recipeData.displayName}</Link>;
+  let reviewList = <RecipeReviewList id={recipeData && recipeData._id} />;
+
+  const alreadyReviewed = recipeData && reviewData && currentUser && reviewData.some((review)=>review.author_id==currentUser.uid);
 
   return (
     <div class="recipe-page">
@@ -103,8 +109,8 @@ const SingleRecipe = (props) => {
       <div className="printButton">
         <button onClick={printDocument}>Print</button>
       </div>
-      <RecipeReviewList id={recipeData && recipeData._id} />
-      {!isOwner && review}
+      {recipeData && reviewList}
+      {!alreadyReviewed && !isOwner && currentUser && review}
     </div>
   );
 };
