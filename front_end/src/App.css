@@ -141,12 +141,14 @@
 
 .add-ings div {
   float: left;
+  width: 50%;
   margin-right: 5pt;
   margin-bottom: 5pt;
 }
 
 .new-recipe {
   justify-content: left;
+  margin-top: 3%;
 }
 .new-recipe input[type="text"] {
   width: 100%;
