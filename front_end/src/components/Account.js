@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../firebase/Auth";
+import UserReviewList from "./UserReviewList";
 import SignOutButton from "./SignOut";
 import "../App.css";
 import ChangePassword from "./ChangePassword";
@@ -38,6 +39,9 @@ function Account() {
 								<h3>Email: {user && user.email}</h3>
 								<h3>Birthday: {user && user.birthday}</h3>
 							</div> */}
+						</Tab>
+						<Tab eventKey="viewReviews" title="My Reviews">
+							<UserReviewList />
 						</Tab>
 						<Tab eventKey="changeInfo" title="Change Info">
 							<ChangeInfo />
