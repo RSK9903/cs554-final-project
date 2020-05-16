@@ -2,7 +2,7 @@ import React from "react";
 
 // import '../App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Account from "./Account";
 import Home from "./Home";
 import Navigation from "./Navigation";
@@ -13,6 +13,8 @@ import RecipeList from "./RecipeList";
 import AddRecipe from "./AddRecipe";
 import { AuthProvider } from "../firebase/Auth";
 import PrivateRoute from "./PrivateRoute";
+import User from "./User";
+
 function App() {
   return (
     <AuthProvider>
@@ -31,6 +33,8 @@ function App() {
         <PrivateRoute path="/addrecipe" component={AddRecipe} />
         <Route path="/recipes/:id" exact component={SingleRecipe}></Route>
         <Route path="/recipes" exact component={RecipeList}></Route>
+        <Route path="/users/:id" exact component={User}></Route>
+        {/* <Route path="*" exact component={Error} status={404}/> */}
       </Router>
     </AuthProvider>
   );
