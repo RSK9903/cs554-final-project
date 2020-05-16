@@ -18,12 +18,17 @@ const RecipeReviewList = (props) => {
     fetchData();
   });
 
+  const day = reviewData && Date(reviewData.postDate).getDate();
+  const month = reviewData && Date(reviewData.postDate).getMonth() + 1;
+  const year = reviewData && Date(reviewData.postDate).getFullYear();
+  const date = month + "/" + day + "/" + year;
+
   li =
     reviewData &&
     reviewData.map((review) => {
       return (
         <li>
-          Rating: {review.rating} Comment: {review.comment}
+          Rating: {review.rating} <br/> Comment: {review.comment} <br/> Date Posted: {date}
         </li>
       );
     });

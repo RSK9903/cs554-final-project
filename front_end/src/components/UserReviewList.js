@@ -34,7 +34,12 @@ const UserReviewList = (props) => {
     if (reviewData && !setTitle) {
       getTitle();
       console.log(reviewData)
-    }    
+    }
+    
+    const day = reviewData && Date(reviewData.postDate).getDate();
+    const month = reviewData && Date(reviewData.postDate).getMonth() + 1;
+    const year = reviewData && Date(reviewData.postDate).getFullYear();
+    const date = month + "/" + day + "/" + year;
 
     li = reviewData && reviewData.map((review) => {
       return(
@@ -42,6 +47,7 @@ const UserReviewList = (props) => {
           <ul>
             <li>Rating: {review.rating}</li>
             <li>Comment: {review.comment}</li>
+            <li>Date Posted: {date}</li>
           </ul>
         </li>
       )
