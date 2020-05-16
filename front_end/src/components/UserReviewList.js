@@ -39,9 +39,7 @@ const UserReviewList = (props) => {
     const day = reviewData && Date(reviewData.postDate).getDate();
     const month = reviewData && Date(reviewData.postDate).getMonth() + 1;
     const year = reviewData && Date(reviewData.postDate).getFullYear();
-    const date = month + "/" + day + "/" + year;
-
-    }    
+    const date = month + "/" + day + "/" + year;  
 
     li = reviewData && setTitle && reviewData.map((review) => {
       return(
