@@ -8,16 +8,22 @@ import ChangeInfo from "./ChangeInfo";
 import User from "./SingleUser";
 import API from "../API";
 import { Container, Row, Col, Tabs, Tab, Nav } from "react-bootstrap";
+import {Link} from "react-router-dom";
+
 
 function Account() {
 	const { currentUser } = useContext(AuthContext);
 	const [user, setUser] = useState(undefined);
+	const [recipes, setRecipes] = useState(undefined);
+
 	useEffect(() => {
 		async function fetchData() {
 			try {
 				let id = currentUser.uid;
 				const { data: userInfo } = await API.get("users/" + id);
+				const { data: recipeList } = await API.get("recipes/user/"+id);
 				setUser(userInfo);
+				setRecipes(recipeList);
 			} catch (e) {
 				console.log(e);
 			}
@@ -25,6 +31,16 @@ function Account() {
 		fetchData();
 	}, []);
 
+	const createRecipeLine = (recipe) => {
+		return <li key={recipe._id}><Link to={`/recipes/${recipe._id}`}>{recipe.title}</Link></li>;
+	  };
+
+	const recipeli =
+    recipes &&
+    recipes.map((i) => {
+      return createRecipeLine(i);
+	});
+	
 	return (
 		<Container>
 			<Row>
@@ -34,12 +50,18 @@ function Account() {
 							{/* <User /> */}
 							<div className="userPage">
 								<h3>{user && user.firstName} {user && user.lastName}</h3>
-								<h3>Email: {user && user.email}</h3>
-								<h3>Birthday: {user && user.birthday}</h3>
+								<h4>Email: {user && user.email}</h4>
+								<h4>Birthday: {user && user.birthday}</h4>
+							</div>
+						</Tab>
+						<Tab eventKey="viewRecipes" title="My Recipes">
+							<div className="userPage">
+								<h3>Recipes</h3>
+								<ul>{recipeli}</ul>
 							</div>
 						</Tab>
 						<Tab eventKey="viewReviews" title="My Reviews">
-							<UserReviewList />
+							<UserReviewList id={currentUser.uid}/>
 						</Tab>
 						<Tab eventKey="changeInfo" title="Change Info">
 							<ChangeInfo />

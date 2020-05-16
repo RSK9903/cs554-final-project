@@ -7,13 +7,11 @@ const UserReviewList = (props) => {
     const [reviewData, setReviewData] = useState(undefined);
     const { currentUser } = useContext(AuthContext);
     let li = null;
-
     useEffect(() => {
       async function fetchData() {
         try {
-            let id = currentUser.uid;
-            const { data } = await API.get("/reviews/" + currentUser.uid + "/users");
-            setReviewData(data);
+          const { data } = await API.get("/reviews/"+props.id+"/users");
+          setReviewData(data);
         }
         catch (e) {
           console.log(e);
@@ -32,8 +30,8 @@ const UserReviewList = (props) => {
   
     return (
       <div className="userPage">
-        <h3 class="recipe-review-list-header">Reviews</h3>
-        <ul class="recipe-review-list">{li}</ul>
+        <h3 className="recipe-review-list-header">Reviews</h3>
+        <ul className="recipe-review-list">{li}</ul>
       </div>
     );
 

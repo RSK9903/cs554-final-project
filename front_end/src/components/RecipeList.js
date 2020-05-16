@@ -60,13 +60,13 @@ const RecipeList = (props) => {
 
   return (
     <div className="recipe-index">
-      <h2 class="recipe-list-header">Recipe Index</h2>
+      <h2 className="recipe-list-header">Recipe Index</h2>
       <label>Sort By: &nbsp;</label>
       <select onChange={sort} defaultValue="date">
         <option value="alpha">Title</option>
         <option value="date">Date Posted</option>
       </select>
-      <ul class="recipe-list">{li}</ul>
+      <ul className="recipe-list">{li}</ul>
     </div>
   );
 };
