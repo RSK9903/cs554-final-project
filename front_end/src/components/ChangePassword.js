@@ -7,7 +7,6 @@ import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 function ChangePassword() {
 	const { currentUser } = useContext(AuthContext);
 	const [pwMatch, setPwMatch] = useState('');
-	console.log(currentUser);
 
 	const submitForm = async (event) => {
 		event.preventDefault();

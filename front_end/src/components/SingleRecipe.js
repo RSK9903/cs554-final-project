@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Date } from "prismic-reactjs";
 import jsPDF from "jspdf";
 import "../App.css";
 import API from "../API";
 import RecipeReviewList from "./RecipeReviewList";
 import AddReview from "./AddReview";
+import { AuthContext } from "../firebase/Auth";
+import {Link} from "react-router-dom";
 
 // Helper function to render recipe div to a PDF
 function printDocument() {
@@ -23,6 +25,7 @@ function printDocument() {
 }
 
 const SingleRecipe = (props) => {
+	const { currentUser } = useContext(AuthContext);
   const [recipeData, setRecipeData] = useState(undefined);
   useEffect(() => {
     async function fetchData() {
@@ -67,12 +70,17 @@ const SingleRecipe = (props) => {
 
   const imagePath = `http://localhost:5000/img/${props.match.params.id}`;
 
+  const isOwner = recipeData && (currentUser.uid === recipeData.author);
+
+  let review = <AddReview id={recipeData && recipeData._id} />;
+  let link = recipeData && <Link to={`/users/${recipeData.author}`}>{recipeData && recipeData.displayName}</Link>;
+
   return (
     <div class="recipe-page">
       <div id="recipe-div" class="recipe-div">
         <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
         <h2 class="recipe-header">
-          Author: {recipeData && recipeData.displayName}
+          Author: {link}
         </h2>
         <h2 class="recipe-header">Date Posted: {date}</h2>
         <img
@@ -96,7 +104,7 @@ const SingleRecipe = (props) => {
         <button onClick={printDocument}>Print</button>
       </div>
       <RecipeReviewList id={recipeData && recipeData._id} />
-      <AddReview id={recipeData && recipeData._id} />
+      {!isOwner && review}
     </div>
   );
 };

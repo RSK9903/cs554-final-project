@@ -7,7 +7,6 @@ import { Container, Row, Col, Tabs, Tab } from "react-bootstrap";
 import {Link} from "react-router-dom";
 
 const User = (props) => {
-  const { currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(undefined);
 	const [recipes, setRecipes] = useState(undefined);
 
@@ -15,7 +14,7 @@ const User = (props) => {
     async function fetchData() {
         try {
           const { data:user } = await API.get("/users/"+props.match.params.id);
-          const { data: recipeList } = await API.get("recipes/user/"+props.match.params.id);
+          const { data: recipeList } = await API.get("recipes/users/"+props.match.params.id);
           setUser(user);
           setRecipes(recipeList);
         } catch (e) {
@@ -60,17 +59,6 @@ const User = (props) => {
 				</Col>
 			</Row>
 		</Container>
-    // <div>
-    // <div className="userPage">
-    //     <h3>{userData && userData.firstName} {userData && userData.lastName}</h3>
-		//     <p>Birthday: {userData && userData.birthday}</p>
-    //     <h3>Recipes</h3>
-    //     <ul>
-    //         <li>Recipe Placeholder</li>
-    //     </ul>
-    // </div>
-    // <UserReviewList />
-    // </div>
   );
 }
 
