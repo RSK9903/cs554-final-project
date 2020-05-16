@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../firebase/Auth";
-import UserReviewList from "./UserReviewList";
 import "../App.css";
 import API from "../API";
 
@@ -36,7 +35,6 @@ const User = (props) => {
         <ul>
             <li>Recipe Placeholder</li>
         </ul>
-        <UserReviewList />
     </div>
   );
 }

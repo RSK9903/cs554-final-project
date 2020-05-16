@@ -31,7 +31,7 @@ const UserReviewList = (props) => {
     });
   
     return (
-      <div className="App-body">
+      <div className="userPage">
         <h3 class="recipe-review-list-header">Your Reviews</h3>
         <ul class="recipe-review-list">{li}</ul>
       </div>
