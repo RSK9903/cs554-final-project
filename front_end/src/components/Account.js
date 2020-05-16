@@ -45,11 +45,11 @@ function Account() {
 				<Col>
 					<Tabs defaultActiveKey="myInfo" id="uncontrolled-tab-example" style={{ marginTop: '5%' }}>
 						<Tab eventKey="myInfo" title="My Info">
-							{/* <User /> */}
 							<div className="userPage">
 								<h3>{user && user.displayName}</h3>
 								<h4>Email: {user && user.email}</h4>
 								<h4>Birthday: {user && user.birthday}</h4>
+								<p>Bio: {user && user.bio}</p>
 							</div>
 						</Tab>
 						<Tab eventKey="viewRecipes" title="My Recipes">
