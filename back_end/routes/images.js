@@ -11,6 +11,7 @@ const acceptableFileExtensions = [".jpeg", ".jpg", ".png", ".gif"];
 // This will create the directory on server start if it does not yet exist
 const upload = multer({dest: "./img/"});
 
+// POST /images/:id
 // When called from the front end, take the user's inputted file, check the file type,
 // and if it is an image, run it through graphicsmagick to compress it and rename it,
 // then save it with the associated recipe's ID as the filename.
@@ -28,7 +29,7 @@ router.post("/:id", upload.any(), async (req, res) => {
     const tempPath = originalFile.path; 
     const recipeId = req.params.id;
     const fileExtension = path.extname(originalFile.originalname).toLowerCase();
-    const targetPath = path.join(__dirname, `./../img/${recipeId}${fileExtension}`);
+    const targetPath = path.join(__dirname, `./../img/${recipeId}`);
 
     if (acceptableFileExtensions.includes(fileExtension) ) {
         // Use gm to pass the photo to graphicsmagick, resize, and write
