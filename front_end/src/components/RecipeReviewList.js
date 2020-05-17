@@ -31,37 +31,37 @@ const RecipeReviewList = (props) => {
     setGetAuthor(true);
   };
 
-  li =
-    reviewData &&
-    reviewData.map((review) => {
-      const day = reviewData && Date(review.postDate).getDate();
-      const month = reviewData && Date(review.postDate).getMonth() + 1;
-      const year = reviewData && Date(review.postDate).getFullYear();
-      const date = month + "/" + day + "/" + year;
-      return (
-        <li>
-          Rating: {review.rating} <br/> Comment: {review.comment} <br/> Date Posted: {date}
-        </li>
-      );
-    });
   if (reviewData && !setAuthor) {
     getAuthor();
   }
 
   li = reviewData && setAuthor && reviewData.map((review) => {
+    const day = reviewData && Date(review.postDate).getDate();
+    const month = reviewData && Date(review.postDate).getMonth() + 1;
+    const year = reviewData && Date(review.postDate).getFullYear();
+    const date = month + "/" + day + "/" + year;
     return(
       <div>
       <h4><Link to={`/users/${review.author_id}`}>{review.author_name}</Link></h4>
-          <p>Rating: {review.rating}</p>
-          <p>Comment: {review.comment}</p>
+        <p>Date Posted: {date}</p>
+        <p>Rating: {review.rating}</p>
+        <p>Comment: {review.comment}</p>
       </div>
     )
   });
 
+  let list = null;
+
+  if(reviewData && reviewData.length>0){
+    list = <div class="recipe-review-list">{li}</div>
+  } else {
+    list = <p>No Reviews :(</p>
+  }
+
   return (
     <div className="App-body">
       <h3 class="recipe-review-list-header">Reviews for this Recipe</h3>
-      <div class="recipe-review-list">{li}</div>
+      {list}
     </div>
   );
 };

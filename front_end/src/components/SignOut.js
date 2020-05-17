@@ -4,9 +4,9 @@ import { Button } from "react-bootstrap";
 
 const SignOutButton = () => {
 	return (
-		<button variant="dark" type="button" onClick={doSignOut}>
+		<Button variant="light" onClick={doSignOut}>
 			Sign Out
-		</button>
+		</Button>
 	);
 };
 
