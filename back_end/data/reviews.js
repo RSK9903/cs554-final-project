@@ -44,7 +44,7 @@ module.exports = {
             console.error("Recipe with that id not found.")
         }
 
-        const allReviews = await this.getAllReviews();
+        const allReviews = await this.getReviewsRecipe();
         const len = Object.keys(allReviews).length;
 
         for (var i = 0; i < len; i++) {
