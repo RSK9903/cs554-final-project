@@ -42,8 +42,12 @@ function Home() {
                   <Carousel.Item>
                     <img
                       className="d-block w-100"
-                      src={imagePath || "/imgs/1.jpg"}
-                      alt="First slide"
+                      src={imagePath}
+                      alt={recipes && recipes.title}
+                      onError={(e)=>{
+                        e.target.onerror=null;
+                        e.target.src= "/imgs/1.jpg";
+                      }}
                     />
                     <Carousel.Caption>
                       <Link to={`/recipes/${recipe._id}`} style={{ color: '#FFFFFF', textDecoration: 'none' }}><h3>{recipe.title}</h3></Link>
