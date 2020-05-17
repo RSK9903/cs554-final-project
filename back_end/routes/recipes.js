@@ -12,7 +12,7 @@ bluebird.promisifyAll(redis.Multi.prototype);
 
 router.get("/history", async (req, res) => {
   try {
-    res.json(await client.lrangeAsync("recipeHistory", 0, 4));
+    res.json(await client.lrangeAsync("recipeHistory", 0, 4).map(JSON.parse));
   } catch (e) {
     res.sendStatus(500);
     console.log(e);
@@ -36,7 +36,7 @@ router.get("/:id", async (req, res) => {
   try {
     const recipe = await recipeData.getRecipeById(req.params.id);
     res.json(recipe);
-    await client.lpushAsync("recipeHistory", req.params.id);
+    await client.lpushAsync("recipeHistory", JSON.stringify(recipe));
   } catch (e) {
     console.log(e);
     res.status(404).json({ error: "Recipe not found" });
