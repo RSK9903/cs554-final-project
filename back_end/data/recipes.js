@@ -20,7 +20,9 @@ module.exports = {
   async searchRecipe(searchTerm) {
     if (!searchTerm) throw "You must provide a search term to search for";
     const recipeCollection = await recipes();
-    const recipe = await recipeCollection.find({ $text: { $search: searchTerm } }).toArray();;
+    const recipe = await recipeCollection
+      .find({ $text: { $search: searchTerm } })
+      .toArray();
     if (recipe === null) throw "No recipe found with that searchTerm";
     return recipe;
   },
@@ -38,7 +40,6 @@ module.exports = {
   async addRecipe(
     title,
     author,
-    displayName,
     datePosted,
     completionTime,
     ingredients,
@@ -47,7 +48,6 @@ module.exports = {
   ) {
     if (!title) throw "Must include a title for the recipe";
     if (!author) throw "Must include an author for the recipe";
-    if (!displayName) throw "Must include a display name for this recipe";
     if (!datePosted) throw "Must include a post date for the recipe";
     if (!completionTime) throw "Must include completion time for the recipe";
     if (!ingredients) throw "Must include ingredients for the recipe";
@@ -56,8 +56,6 @@ module.exports = {
 
     if (typeof title !== "string") throw "Title must be of type string";
     if (typeof author !== "string") throw "Author must be of type string";
-    if (typeof displayName !== "string")
-      throw "Display Name must be of type string";
     if (typeof completionTime !== "number")
       throw "Completion time must be of type int";
     if (!Number.isInteger(completionTime))
@@ -90,7 +88,6 @@ module.exports = {
     let newRecipe = {
       title: title,
       author: author,
-      displayName: displayName,
       datePosted: datePosted,
       completionTime: completionTime,
       ingredients: ingredients,
@@ -112,7 +109,6 @@ module.exports = {
     id,
     title,
     author,
-    displayName,
     datePosted,
     completionTime,
     ingredients,
@@ -125,7 +121,6 @@ module.exports = {
 
     if (!title) title = focus.title;
     if (!author) author = focus.author;
-    if (!displayName) displayName = focus.displayName;
     if (!datePosted) datePosted = focus.datePosted;
     if (!completionTime) completionTime = focus.completionTime;
     if (!ingredients) ingredients = focus.ingredients;
@@ -134,8 +129,6 @@ module.exports = {
 
     if (typeof title !== "string") throw "Title must be of type string";
     if (typeof author !== "string") throw "Author must be of type string";
-    if (typeof displayName !== "string")
-      throw "Display name must be of type string";
     if (typeof datePosted !== "string") throw "Post date must be a Date object";
     if (typeof completionTime !== "number")
       throw "Completion time must be of type int";
@@ -170,7 +163,6 @@ module.exports = {
     const updatedRecipe = {
       title: title,
       author: author,
-      displayName: displayName,
       datePosted: datePosted,
       completionTime: completionTime,
       ingredients: ingredients,
