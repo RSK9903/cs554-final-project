@@ -12,7 +12,7 @@ bluebird.promisifyAll(redis.Multi.prototype);
 
 router.get("/history", async (req, res) => {
   try {
-    res.json(await client.lrangeAsync("recipeHistory", 0, 4).map(JSON.parse));
+    res.json(await client.lrangeAsync("recipeHistory", 0, -1).map(JSON.parse));
   } catch (e) {
     res.sendStatus(500);
     console.log(e);
