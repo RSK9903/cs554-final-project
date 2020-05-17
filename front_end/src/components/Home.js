@@ -36,7 +36,7 @@ function Home() {
           <Col>
             <Carousel>
               {recipes.map(recipe => {
-                const imagePath = `http://localhost:5000/img/${recipe._id}.jpg`;
+                const imagePath = `http://localhost:5000/img/${recipe._id}`;
                 console.log(imagePath);
                 return (
                   <Carousel.Item>
