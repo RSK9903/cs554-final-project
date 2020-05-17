@@ -7,6 +7,7 @@ import Navigation from "./Navigation";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import SingleRecipe from "./SingleRecipe";
+import EditRecipe from "./EditRecipe";
 import RecipeList from "./RecipeList";
 import AddRecipe from "./AddRecipe";
 import { AuthProvider } from "../firebase/Auth";
@@ -33,6 +34,7 @@ function App() {
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
         <PrivateRoute path="/addrecipe" component={AddRecipe} />
+        <PrivateRoute path="/edit/recipes/:id" component={EditRecipe} />
         <Route path="/recipes/:id" exact component={SingleRecipe}></Route>
         <Route path="/recipes" exact component={RecipeList}></Route>
         <Route path="/users/:id" exact component={User}></Route>
