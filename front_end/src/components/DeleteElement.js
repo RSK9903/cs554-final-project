@@ -22,16 +22,17 @@ function DeleteElement(props) {
         event.preventDefault();
         if (elementType == "recipe") {
             await API.delete(`/recipes/${elementId}`);
+            setDeleted(true);
         } else if (elementType == "review") {
-            let { reviewData } = await API.get(`/review/${elementId}`);
-            if (!fromAccount) {
+            let { reviewData } = await API.get(`/reviews/${elementId}`);
+            if (reviewData && !fromAccount) {
                 redirectRecipeId = reviewData.recipe_id;
             }
-            await API.delete(`/review/${elementId}`);
+            await API.delete(`/reviews/${elementId}`);
+            setDeleted(true);
         }
-        setDeleted(true);
     };
-
+    
     if (deleted && elementType == "recipe") {
         return <Redirect to={"/recipes/"} />;
     }
@@ -43,6 +44,7 @@ function DeleteElement(props) {
             return <Redirect to={"/account/"} />;
         }
     }
+
 
     return(
         <Container>

@@ -50,7 +50,7 @@ const RecipeReviewList = (props) => {
         <p>Date Posted: {date}</p>
         <p>Rating: {review.rating}</p>
         <p>Comment: {review.comment}</p>
-        {isOwner && <DeleteElement elementType="review" elementId={review._id}/>}
+        {isOwner && <DeleteElement elementType="review" elementId={review._id} fromAccount="false"/>}
       </div>
     )
   });
