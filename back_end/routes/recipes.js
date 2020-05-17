@@ -116,6 +116,7 @@ router.post("/", async (req, res) => {
       )
     );
   } catch (e) {
+    console.log(e);
     res.status(500).json({ error: `Recipe unable to be added: ` + e });
   }
 });

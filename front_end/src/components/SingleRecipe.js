@@ -14,11 +14,15 @@ function printDocument() {
   // Set page size to a standard 8.5" x 11" sheet
   pdf.canvas.height = 72 * 11;
   pdf.canvas.width = 72 * 8.5;
-  pdf.fromHTML(document.getElementById("recipe-div"));
+  pdf.fromHTML(document.getElementById("print-top-block"), 20, 5);
+  if (!document.getElementById("recipe-image").hidden) {
+    pdf.addImage(document.getElementById("recipe-image"), 20, 40)
+    pdf.fromHTML(document.getElementById("print-bottom-block"), 20, 140);
+  } else {
+    pdf.fromHTML(document.getElementById("print-bottom-block"), 20, 40);
+  }
   // Sleep for 2 seconds, which is necessary to utilize jsPDF with React
   setTimeout(function () {
-    // Open the PDF in a new tab
-    pdf.output("dataurlnewwindow");
     // Download the document
     pdf.save("recipe.pdf");
   }, 2000);
@@ -28,6 +32,7 @@ const SingleRecipe = (props) => {
 	const { currentUser } = useContext(AuthContext);
   const [recipeData, setRecipeData] = useState(undefined);
   const [reviewData, setReviews] = useState(undefined);
+	const [setAuthor, setGetAuthor] = useState(undefined);
 
   useEffect(() => {
     async function fetchData() {
@@ -73,39 +78,67 @@ const SingleRecipe = (props) => {
 
   const imagePath = `http://localhost:5000/img/${props.match.params.id}`;
 
+  const getAuthor = async (author) => {
+    const {data:user} = await API.get("/users/"+author);
+    setGetAuthor({found: true, name: user.displayName});
+  };
+
   const isOwner = recipeData && currentUser && (currentUser.uid === recipeData.author);
 
   let review = <AddReview id={recipeData && recipeData._id} />;
-  let authorlink = recipeData && <Link to={`/users/${recipeData.author}`}>{recipeData && recipeData.displayName}</Link>;
+  let authorlink = recipeData && <Link to={`/users/${recipeData.author}`}>{recipeData && getAuthor(recipeData.author) && setAuthor && setAuthor.name}</Link>;
   let reviewList = <RecipeReviewList id={recipeData && recipeData._id} />;
 
   const alreadyReviewed = recipeData && reviewData && currentUser && reviewData.some((review)=>review.author_id==currentUser.uid);
 
+  const getRating = () => {
+    if (reviewData.length==0){
+      return "N/A"
+    } else {
+      let sum = 0;
+      let index;
+      for(index in reviewData){
+        let review = reviewData[index];
+        sum += review.rating;
+      }
+      let totalRating = sum/reviewData.length;
+      return totalRating.toFixed(1);
+    }    
+  };
+
   return (
     <div class="recipe-page">
       <div id="recipe-div" class="recipe-div">
-        <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
-        <h2 class="recipe-header">
-          Author: {authorlink}
-        </h2>
-        <h2 class="recipe-header">Date Posted: {date}</h2>
+        <div id="print-top-block">
+          <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
+          <h2 class="recipe-header">
+            Rating: {reviewData && getRating()}
+          </h2>
+          <h2 class="recipe-header">
+            Author: {authorlink}
+          </h2>
+          <h2 class="recipe-header">Date Posted: {date}</h2>
+        </div>
         <img
+          id="recipe-image"
           class="recipe-image"
           alt={recipeData && recipeData.title}
           src={imagePath}
           onError={(e)=>{e.target.onerror = null; e.target.hidden="true"}}
         />
-        <h2 class="recipe-header">
-          Total Time: {recipeData && recipeData.completionTime} minutes
-        </h2>
-        <p class="recipe-subheader">Ingredients:</p>
-        <ul class="ingredient-list">{ingli}</ul>
-        <br />
-        <p class="recipe-subheader">Steps:</p>
-        <ol class="steps-list">{stepsli}</ol>
-        <p>
-          Yield: {recipeData && recipeData.recipe_yield} {"serving(s)"}
-        </p>
+        <div id="print-bottom-block">
+          <h2 class="recipe-header">
+            Total Time: {recipeData && recipeData.completionTime} minutes
+          </h2>
+          <p class="recipe-subheader">Ingredients:</p>
+          <ul class="ingredient-list">{ingli}</ul>
+          <br />
+          <p class="recipe-subheader">Steps:</p>
+          <ol class="steps-list">{stepsli}</ol>
+          <p>
+            Yield: {recipeData && recipeData.recipe_yield} {"serving(s)"}
+          </p>
+        </div>
       </div>
       <div className="printButton">
         <button onClick={printDocument}>Print</button>

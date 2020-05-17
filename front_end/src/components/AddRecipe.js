@@ -8,6 +8,7 @@ import "../App.css";
 function AddRecipe() {
   const [postData, setPostData] = useState({});
   const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   const [ingredientData, setIngredientData] = useState([
     { measurement: "", unit: "", name: "" },
   ]);
@@ -59,9 +60,9 @@ function AddRecipe() {
       completionTime: parseInt(completionTime),
       ingredients: ingredientData,
       steps: stepsData,
-      recipe_yield: parseInt(recipe_yield),
+      recipe_yield: parseInt(recipe_yield)
     };
-
+    console.log(newRecipe);
     const { data } = await API.post("/recipes", newRecipe);
     // let recipeId = data._id;
     if (image !== "empty") {
@@ -79,6 +80,8 @@ function AddRecipe() {
   };
 
   if (submitted) {
+    console.log("Submitted recipe");
+    console.log(postData);
     if (postData && postData._id)
       return <Redirect to={"/recipes/" + postData._id} />;
     else alert("Could not add recipe, please try again");

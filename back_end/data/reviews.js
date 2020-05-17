@@ -44,12 +44,12 @@ module.exports = {
             console.error("Recipe with that id not found.")
         }
 
-        const allReviews = await this.getAllReviews();
+        const allReviews = await this.getReviewsRecipe();
         const len = Object.keys(allReviews).length;
 
         for (var i = 0; i < len; i++) {
             let uid = allReviews[i].author_id;
-            if (uid === userId) {
+            if (uid === author_id) {
                 throw "You can't add another review to this recipe.";
             }
         }
