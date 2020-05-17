@@ -3,6 +3,7 @@ import { Date } from "prismic-reactjs";
 import "../App.css";
 import API from "../API";
 import {Link} from "react-router-dom";
+import DeleteElement from "./DeleteElement";
 
 const UserReviewList = (props) => {
     const [reviewData, setReviewData] = useState(undefined);
@@ -50,6 +51,7 @@ const UserReviewList = (props) => {
             <li>Rating: {review.rating}</li>
             <li>Comment: {review.comment}</li>
             {formatDate(review.postDate)}
+            <li><DeleteElement elementType="review" elementId={review._id} fromAccount="true"/></li>
           </ul>
         </li>
       )

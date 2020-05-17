@@ -8,6 +8,7 @@ function DeleteElement(props) {
     const [deleted, setDeleted] = useState(false);
     const elementType = props.elementType;
     const elementId = props.elementId;
+    const fromAccount = props.fromAccount;
     let redirectRecipeId = "";
     
     const handleDelete = async (event) => {
@@ -16,7 +17,9 @@ function DeleteElement(props) {
             await API.delete(`/recipes/${elementId}`);
         } else if (elementType == "review") {
             let { reviewData } = await API.get(`/review/${elementId}`);
-            redirectRecipeId = reviewData._id;
+            if (!fromAccount) {
+                redirectRecipeId = reviewData.recipe_id;
+            }
             await API.delete(`/review/${elementId}`);
         }
         setDeleted(true);
@@ -27,7 +30,11 @@ function DeleteElement(props) {
     }
 
     if (deleted && elementType == "review") {
-        return <Redirect to={`/recipes/${redirectRecipeId}`} />;
+        if (!fromAccount) {
+            return <Redirect to={`/recipes/${redirectRecipeId}`} />;
+        } else {
+            return <Redirect to={"/account/"} />;
+        }
     }
 
     return(
