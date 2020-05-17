@@ -20,7 +20,8 @@ router.get("/history", async (req, res) => {
 
 router.get("/clearAll", async (req, res) => {
   try {
-    await client.flushall();
+    console.log("trying to clear cache...")
+    client.flushall("ASYNC");
     console.log("Cleared cache");
   } catch (e) {
     res.sendStatus(400);
