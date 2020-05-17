@@ -13,7 +13,7 @@ function AddRecipe() {
   ]);
   const newIng = { measurement: "", unit: "", name: "" };
 
-  const [image, setImage] = useState(new FormData());
+  const [image, setImage] = useState("empty");
 
   const [stepsData, setStepsData] = useState([""]);
   const [submitted, setSubmitted] = useState(false);
@@ -63,12 +63,17 @@ function AddRecipe() {
     };
 
     const { data } = await API.post("/recipes", newRecipe);
-    let recipeId = data._id;
-    const { imageResult } = await API.post("/images/" + recipeId, image, {
-      headers: {
-        "Content-Type": "multipart/form-data, boundary=${form._boundary}",
-      },
-    });
+    // let recipeId = data._id;
+    if (image !== "empty") {
+      console.log("IMAGE DETECTED");
+      const { imageResult } = await API.post("/images/" + data._id, image, {
+        headers: {
+          "Content-Type": "multipart/form-data, boundary=${form._boundary}",
+        },
+      });
+    } else {
+      console.log("NO IMAGE DETECTED");
+    }
     setPostData(data);
     setSubmitted(true);
   };

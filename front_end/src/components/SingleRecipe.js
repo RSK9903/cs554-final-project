@@ -93,6 +93,7 @@ const SingleRecipe = (props) => {
           class="recipe-image"
           alt={recipeData && recipeData.title}
           src={imagePath}
+          onError={(e)=>{e.target.onerror = null; e.target.hidden="true"}}
         />
         <h2 class="recipe-header">
           Total Time: {recipeData && recipeData.completionTime} minutes
