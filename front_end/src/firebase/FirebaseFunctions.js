@@ -1,5 +1,9 @@
 import firebase from 'firebase/app';
 
+async function updateName(displayName){
+	await firebase.auth().currentUser.updateProfile({ displayName: displayName });
+}
+
 async function doCreateUserWithEmailAndPassword(email, password, displayName) {
 	await firebase.auth().createUserWithEmailAndPassword(email, password);
 	firebase.auth().currentUser.updateProfile({ displayName: displayName });
@@ -39,11 +43,12 @@ async function doSignOut() {
 }
 
 export {
+	updateName,
 	doCreateUserWithEmailAndPassword,
 	doSocialSignIn,
 	doSignInWithEmailAndPassword,
 	doPasswordReset,
 	doPasswordUpdate,
 	doSignOut,
-	doChangePassword
+	doChangePassword,
 };

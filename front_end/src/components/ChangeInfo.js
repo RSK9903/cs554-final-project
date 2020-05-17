@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../firebase/Auth";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { updateName } from "../firebase/FirebaseFunctions";
 import "../App.css";
 import API from "../API";
 
@@ -28,6 +29,11 @@ function ChangeInfo() {
     let newInfo = {};
     if (newName.value) {
       newInfo.displayName = newName.value;
+      try {
+        await updateName(newInfo.displayName);
+      } catch (error) {
+        alert(error);
+      }
     }
     if (newBirthday.value) {
       newInfo.birthday = newBirthday.value;
@@ -35,9 +41,6 @@ function ChangeInfo() {
     if (newBiography.value || newBiography.value=="") {
       newInfo.bio = newBiography.value;
     }
-    console.log("This is"+newBiography.value+"futile");
-    console.log(newBiography.value);
-    console.log(newInfo);
     try {
       await API.patch("users/" + currentUser.uid, newInfo);
       if (!alert("Your information has been changed.")) {
