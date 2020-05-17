@@ -56,9 +56,9 @@ const RecipeList = () => {
       <h2 className="recipe-list-header">Recipe Index</h2>
       <label>Sort By: &nbsp;</label>
       <button onClick={() => sortByTitle()}>Title</button>
-      <button onClick={() => sortByDate()}>Date Posted</button>
+      <button onClick={() => sortByDate()}>Most Recently Posted</button>
       <table>
-        <tr>
+        <tr className="table-headers">
           <th>Recipe Title</th>
           <th>Date Posted</th>
         </tr>
