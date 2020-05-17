@@ -10,6 +10,13 @@ function DeleteElement(props) {
     const elementId = props.elementId;
     const fromAccount = props.fromAccount;
     let redirectRecipeId = "";
+    let buttonText = "Delete";
+
+    if (elementType == "recipe")
+        buttonText = "Delete Recipe";
+
+    if (elementType == "review")
+        buttonText = "Delete Comment";
     
     const handleDelete = async (event) => {
         event.preventDefault();
@@ -41,7 +48,7 @@ function DeleteElement(props) {
         <Container>
             <Row>
                 <Col>
-                    <Button variant="dark" type="button" onClick={handleDelete}>Delete</Button>
+                    <Button variant="dark" type="button" onClick={handleDelete}>{buttonText}</Button>
                 </Col>
             </Row>
         </Container>
