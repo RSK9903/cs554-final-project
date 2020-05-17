@@ -17,6 +17,7 @@ function Account() {
 	useEffect(() => {
 		async function fetchData() {
 			try {
+				console.log("Made it")
 				let id = currentUser.uid;
 				const { data: userInfo } = await API.get("users/" + id);
 				const { data: recipeList } = await API.get("recipes/users/"+id);
@@ -38,7 +39,7 @@ function Account() {
     recipes.map((i) => {
       return createRecipeLine(i);
 	});
-	
+
 	return (
 		<Container>
 			<Row>
