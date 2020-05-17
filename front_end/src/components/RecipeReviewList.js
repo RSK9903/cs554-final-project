@@ -31,14 +31,13 @@ const RecipeReviewList = (props) => {
     setGetAuthor(true);
   };
 
-  const day = reviewData && Date(reviewData.postDate).getDate();
-  const month = reviewData && Date(reviewData.postDate).getMonth() + 1;
-  const year = reviewData && Date(reviewData.postDate).getFullYear();
-  const date = month + "/" + day + "/" + year;
-
   li =
     reviewData &&
     reviewData.map((review) => {
+      const day = reviewData && Date(review.postDate).getDate();
+      const month = reviewData && Date(review.postDate).getMonth() + 1;
+      const year = reviewData && Date(review.postDate).getFullYear();
+      const date = month + "/" + day + "/" + year;
       return (
         <li>
           Rating: {review.rating} <br/> Comment: {review.comment} <br/> Date Posted: {date}
