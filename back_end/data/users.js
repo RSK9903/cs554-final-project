@@ -85,7 +85,7 @@ const exportedMethods = {
         updatedData.birthday = updatedUser.birthday;
       }
 
-      if (updatedUser.bio) {
+      if (updatedUser.bio || updatedUser.bio=="") {
         updatedData.bio = updatedUser.bio;
       }
   
