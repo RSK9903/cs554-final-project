@@ -48,7 +48,7 @@ The system is split into two main components:
 The core of our application is a single page React app. We chose to utilize React because of its ability to create composable dynamically-generated user interface components, which is important in a site where new content is added often. 
 
 #### Redis
-We chose to utilize Redis' caching abilities to cache recipes that have been recently accessed by the user in order to populate a history component.
+We chose to utilize Redis' caching abilities to cache recipes that have been recently accessed by all users in order to populate a recently-viewed recipes component.
 
 #### Firebase Auth
 Our sign-up/sign-in system is implemented using Firebase. Aside from making managing authenticated user-only pages, Firebase also allows us to give users the choice to create a new profile or sign in using an existing Google or Facebook account. 
