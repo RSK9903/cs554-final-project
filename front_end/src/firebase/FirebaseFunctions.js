@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 
-async function updateName(displayName){
+async function updateName(displayName) {
 	await firebase.auth().currentUser.updateProfile({ displayName: displayName });
 }
 
@@ -17,17 +17,35 @@ async function doChangePassword(email, oldPassword, newPassword) {
 }
 
 async function doSignInWithEmailAndPassword(email, password) {
-	await firebase.auth().signInWithEmailAndPassword(email, password);
+	firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+		.then(async function () {
+			// New sign-in will be persisted with session persistence.
+			await firebase.auth().signInWithEmailAndPassword(email, password);
+		})
+		.catch(function (error) {
+			// Handle Errors here.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+		});
 }
 
 async function doSocialSignIn(provider) {
-	let socialProvider = null;
-	if (provider === 'google') {
-		socialProvider = new firebase.auth.GoogleAuthProvider();
-	} else if (provider === 'facebook') {
-		socialProvider = new firebase.auth.FacebookAuthProvider();
-	}
-	await firebase.auth().signInWithPopup(socialProvider);
+	firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+		.then(async function () {
+			// New sign-in will be persisted with session persistence.
+			let socialProvider = null;
+			if (provider === 'google') {
+				socialProvider = new firebase.auth.GoogleAuthProvider();
+			} else if (provider === 'facebook') {
+				socialProvider = new firebase.auth.FacebookAuthProvider();
+			}
+			await firebase.auth().signInWithPopup(socialProvider);
+		})
+		.catch(function (error) {
+			// Handle Errors here.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+		});
 }
 
 async function doPasswordReset(email) {
