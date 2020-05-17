@@ -44,6 +44,17 @@ router.get("/:id/users", async (req, res) => {
     }
 });
 
+router.get("/rating/:recipeId/", async (req, res) => {
+    try {
+        const rating = await reviewData.getRatingForRecipe(req.params.recipeId);
+        res.json(rating);
+    }
+    catch (e) {
+        res.status(200).json({ error: "Could not get rating" });
+        console.log(e);
+    }
+});
+
 router.post("/", async (req, res) => {
     const reviewInfo = req.body;
     try {

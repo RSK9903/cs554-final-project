@@ -32,6 +32,7 @@ const SingleRecipe = (props) => {
   const { currentUser } = useContext(AuthContext);
   const [recipeData, setRecipeData] = useState(undefined);
   const [reviewData, setReviews] = useState(undefined);
+  const [rating, setRating] = useState(undefined);
   const [setAuthor, setGetAuthor] = useState(undefined);
 
   useEffect(() => {
@@ -45,6 +46,9 @@ const SingleRecipe = (props) => {
           `/reviews/${props.match.params.id}/recipes`
         );
         setReviews(reviews);
+        const {data:r} = await API.get("/reviews/rating/"+props.match.params.id);
+        setRating(r);
+
       } catch (e) {
         console.log(e);
       }
@@ -108,17 +112,11 @@ const SingleRecipe = (props) => {
   let cannotReview = <p>Log in to leave a review!</p>
 
   const getRating = () => {
-    if (reviewData.length == 0) {
+    console.log(rating);
+    if (rating == "-1") {
       return "N/A";
     } else {
-      let sum = 0;
-      let index;
-      for (index in reviewData) {
-        let review = reviewData[index];
-        sum += review.rating;
-      }
-      let totalRating = sum / reviewData.length;
-      return totalRating.toFixed(1);
+      return rating;
     }
   };
 
@@ -127,7 +125,7 @@ const SingleRecipe = (props) => {
       <div id="recipe-div" class="recipe-div">
         <div id="print-top-block">
           <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
-          <h2 class="recipe-header">Rating: {reviewData && getRating()}</h2>
+          <h2 class="recipe-header">Rating: {reviewData && rating && getRating()}</h2>
           <h2 class="recipe-header">Author: {authorlink}</h2>
           <h2 class="recipe-header">Date Posted: {date}</h2>
         </div>
