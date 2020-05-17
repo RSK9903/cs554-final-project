@@ -55,12 +55,11 @@ function AddRecipe() {
     let newRecipe = {
       title: title,
       author: currentUser && currentUser.uid,
-      displayName: currentUser && currentUser.displayName,
       datePosted: datePosted,
       completionTime: parseInt(completionTime),
       ingredients: ingredientData,
       steps: stepsData,
-      recipe_yield: parseInt(recipe_yield)
+      recipe_yield: parseInt(recipe_yield),
     };
     console.log(newRecipe);
     const { data } = await API.post("/recipes", newRecipe);
@@ -93,14 +92,15 @@ function AddRecipe() {
           <div className="new-recipe">
             <h1>Add a New Recipe</h1>
             <p>
-              To add a new recipe, fill in all of the fields below. Please do not
-              leave any blank fields, as you will be unable to submit your recipe.
+              To add a new recipe, fill in all of the fields below. Please do
+              not leave any blank fields, as you will be unable to submit your
+              recipe.
             </p>
           </div>
         </Col>
       </Row>
       <br />
-      <Row style={{ marginBottom: '5%' }}>
+      <Row style={{ marginBottom: "5%" }}>
         <Col>
           <Form onSubmit={formSubmit}>
             <Row>
@@ -180,7 +180,9 @@ function AddRecipe() {
                     </div>
                   );
                 })}
-                <Button variant="dark" type="button" onClick={addIng} >Add a New Ingredient</Button>
+                <Button variant="dark" type="button" onClick={addIng}>
+                  Add a New Ingredient
+                </Button>
                 <br />
               </Col>
             </Row>
@@ -209,7 +211,9 @@ function AddRecipe() {
                     </div>
                   );
                 })}
-                <Button variant="dark" type="button" onClick={addStep} >Add a New Step</Button>
+                <Button variant="dark" type="button" onClick={addStep}>
+                  Add a New Step
+                </Button>
                 <br />
               </Col>
             </Row>
@@ -248,7 +252,7 @@ function AddRecipe() {
           </Form>
         </Col>
       </Row>
-    </Container >
+    </Container>
   );
 }
 

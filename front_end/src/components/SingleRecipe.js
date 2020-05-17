@@ -6,7 +6,7 @@ import API from "../API";
 import RecipeReviewList from "./RecipeReviewList";
 import AddReview from "./AddReview";
 import { AuthContext } from "../firebase/Auth";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Helper function to render recipe div to a PDF
 function printDocument() {
@@ -16,7 +16,7 @@ function printDocument() {
   pdf.canvas.width = 72 * 8.5;
   pdf.fromHTML(document.getElementById("print-top-block"), 20, 5);
   if (!document.getElementById("recipe-image").hidden) {
-    pdf.addImage(document.getElementById("recipe-image"), 20, 40)
+    pdf.addImage(document.getElementById("recipe-image"), 20, 40);
     pdf.fromHTML(document.getElementById("print-bottom-block"), 20, 140);
   } else {
     pdf.fromHTML(document.getElementById("print-bottom-block"), 20, 40);
@@ -29,10 +29,10 @@ function printDocument() {
 }
 
 const SingleRecipe = (props) => {
-	const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const [recipeData, setRecipeData] = useState(undefined);
   const [reviewData, setReviews] = useState(undefined);
-	const [setAuthor, setGetAuthor] = useState(undefined);
+  const [setAuthor, setGetAuthor] = useState(undefined);
 
   useEffect(() => {
     async function fetchData() {
@@ -41,7 +41,9 @@ const SingleRecipe = (props) => {
           `/recipes/${props.match.params.id}`
         );
         setRecipeData(recipe);
-        const { data:reviews } = await API.get(`/reviews/${props.match.params.id}/recipes`);
+        const { data: reviews } = await API.get(
+          `/reviews/${props.match.params.id}/recipes`
+        );
         setReviews(reviews);
       } catch (e) {
         console.log(e);
@@ -79,31 +81,43 @@ const SingleRecipe = (props) => {
   const imagePath = `http://localhost:5000/img/${props.match.params.id}`;
 
   const getAuthor = async (author) => {
-    const {data:user} = await API.get("/users/"+author);
-    setGetAuthor({found: true, name: user.displayName});
+    const { data: user } = await API.get("/users/" + author);
+    setGetAuthor({ found: true, name: user.displayName });
   };
 
-  const isOwner = recipeData && currentUser && (currentUser.uid === recipeData.author);
+  const isOwner =
+    recipeData && currentUser && currentUser.uid === recipeData.author;
 
   let review = <AddReview id={recipeData && recipeData._id} />;
-  let authorlink = recipeData && <Link to={`/users/${recipeData.author}`}>{recipeData && getAuthor(recipeData.author) && setAuthor && setAuthor.name}</Link>;
+  let authorlink = recipeData && (
+    <Link to={`/users/${recipeData.author}`}>
+      {recipeData &&
+        getAuthor(recipeData.author) &&
+        setAuthor &&
+        setAuthor.name}
+    </Link>
+  );
   let reviewList = <RecipeReviewList id={recipeData && recipeData._id} />;
 
-  const alreadyReviewed = recipeData && reviewData && currentUser && reviewData.some((review)=>review.author_id==currentUser.uid);
+  const alreadyReviewed =
+    recipeData &&
+    reviewData &&
+    currentUser &&
+    reviewData.some((review) => review.author_id == currentUser.uid);
 
   const getRating = () => {
-    if (reviewData.length==0){
-      return "N/A"
+    if (reviewData.length == 0) {
+      return "N/A";
     } else {
       let sum = 0;
       let index;
-      for(index in reviewData){
+      for (index in reviewData) {
         let review = reviewData[index];
         sum += review.rating;
       }
-      let totalRating = sum/reviewData.length;
+      let totalRating = sum / reviewData.length;
       return totalRating.toFixed(1);
-    }    
+    }
   };
 
   return (
@@ -111,12 +125,8 @@ const SingleRecipe = (props) => {
       <div id="recipe-div" class="recipe-div">
         <div id="print-top-block">
           <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
-          <h2 class="recipe-header">
-            Rating: {reviewData && getRating()}
-          </h2>
-          <h2 class="recipe-header">
-            Author: {authorlink}
-          </h2>
+          <h2 class="recipe-header">Rating: {reviewData && getRating()}</h2>
+          <h2 class="recipe-header">Author: {authorlink}</h2>
           <h2 class="recipe-header">Date Posted: {date}</h2>
         </div>
         <img
@@ -124,7 +134,10 @@ const SingleRecipe = (props) => {
           class="recipe-image"
           alt={recipeData && recipeData.title}
           src={imagePath}
-          onError={(e)=>{e.target.onerror = null; e.target.hidden="true"}}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.hidden = "true";
+          }}
         />
         <div id="print-bottom-block">
           <h2 class="recipe-header">
