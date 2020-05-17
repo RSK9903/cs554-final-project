@@ -27,7 +27,7 @@ const User = (props) => {
   },
   [props.match.params.id]);
 
-  if(props.match.params.id==currentUser.uid){
+  if(currentUser && props.match.params.id==currentUser.uid){
     return <Redirect to="/account" />;
   }
 

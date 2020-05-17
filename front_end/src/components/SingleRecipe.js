@@ -91,6 +91,8 @@ const SingleRecipe = (props) => {
 
   const alreadyReviewed = recipeData && reviewData && currentUser && reviewData.some((review)=>review.author_id==currentUser.uid);
 
+  let cannotReview = <p>Log in to leave a review!</p>
+
   const getRating = () => {
     if (reviewData.length==0){
       return "N/A"
@@ -145,6 +147,7 @@ const SingleRecipe = (props) => {
       </div>
       {recipeData && reviewList}
       {!alreadyReviewed && !isOwner && currentUser && review}
+      {!currentUser && cannotReview}
     </div>
   );
 };
