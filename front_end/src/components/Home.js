@@ -1,4 +1,6 @@
 import React from "react";
+import ShowHistory from "./ShowHistory";
+import { AuthContext } from "../firebase/Auth";
 import {
   Carousel,
   Container,
@@ -8,6 +10,7 @@ import {
   Card,
 } from "react-bootstrap";
 import "../App.css";
+
 
 function Home() {
   return (
@@ -158,6 +161,7 @@ function Home() {
           </CardColumns>
         </Col>
       </Row>
+      <ShowHistory></ShowHistory>
     </Container>
   );
 }
