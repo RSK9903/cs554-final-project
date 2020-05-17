@@ -159,6 +159,22 @@ module.exports = {
         }
 
         return retReviews;
+    },
+
+    async getRatingForRecipe(recipeId){
+        const recipeReviews = await this.getReviewsRecipe(recipeId);
+        if(recipeReviews.length==0){
+            return -1;
+        } else {
+            let sum = 0;
+            for (let i = 0; i <recipeReviews.length; i++) {
+                let review = recipeReviews[i];
+                sum += review.rating;
+            }
+            let totalRating = sum / recipeReviews.length;
+            return totalRating.toFixed(1);
+        }
+          
     }
 
 }
