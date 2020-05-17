@@ -5,7 +5,7 @@ import "../App.css";
 import ChangePassword from "./ChangePassword";
 import ChangeInfo from "./ChangeInfo";
 import API from "../API";
-import { Container, Row, Col, Tabs, Tab, Nav } from "react-bootstrap";
+import { Container, Row, Col, Tabs, Tab, Button } from "react-bootstrap";
 import {Link} from "react-router-dom";
 
 
@@ -13,6 +13,7 @@ function Account() {
 	const { currentUser } = useContext(AuthContext);
 	const [user, setUser] = useState(undefined);
 	const [recipes, setRecipes] = useState(undefined);
+	const [key, setKey] = useState(undefined);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -39,18 +40,33 @@ function Account() {
     recipes.map((i) => {
       return createRecipeLine(i);
 	});
+	
+	let noBirthday = "";
+	let noBio=""
+	if(!(user && user.birthday)){
+		noBirthday= <Button onClick={()=>handleSelect("changeInfo")} variant="dark">Add Birthday</Button>
+	}
+	if(!(user && user.bio)){
+		noBio= <Button onClick={()=>handleSelect("changeInfo")} variant="dark">Add Bio</Button>
+	}
+
+	const handleSelect=(newKey)=>{
+		setKey(newKey);
+	}
 
 	return (
 		<Container>
 			<Row>
 				<Col>
-					<Tabs defaultActiveKey="myInfo" id="uncontrolled-tab-example" style={{ marginTop: '5%' }}>
+					<Tabs defaultActiveKey="myInfo" onSelect={handleSelect} activeKey={key} id="uncontrolled-tab-example" style={{ marginTop: '5%' }}>
 						<Tab eventKey="myInfo" title="My Info">
 							<div className="userPage">
 								<h3>{user && user.displayName}</h3>
 								<h4>Email: {user && user.email}</h4>
 								<h4>Birthday: {user && user.birthday}</h4>
-								<p>Bio: {user && user.bio}</p>
+								{noBirthday}
+								<h4>Bio: {user && user.bio}</h4>
+								{noBio}
 							</div>
 						</Tab>
 						<Tab eventKey="viewRecipes" title="My Recipes">

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../firebase/Auth";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "../App.css";
@@ -6,6 +6,20 @@ import API from "../API";
 
 function ChangeInfo() {
   const { currentUser } = useContext(AuthContext);
+  const [oldData, setData] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const {data} = await API.get("users/"+currentUser.uid);
+        setData(data);
+      }
+      catch (e) {
+        console.log(e);
+      }
+    }
+    fetchData();
+  }, []);
 
   const submitForm = async (event) => {
     event.preventDefault();
@@ -18,9 +32,12 @@ function ChangeInfo() {
     if (newBirthday.value) {
       newInfo.birthday = newBirthday.value;
     }
-    if (newBiography.value) {
+    if (newBiography.value || newBiography.value=="") {
       newInfo.bio = newBiography.value;
     }
+    console.log("This is"+newBiography.value+"futile");
+    console.log(newBiography.value);
+    console.log(newInfo);
     try {
       await API.patch("users/" + currentUser.uid, newInfo);
       if (!alert("Your information has been changed.")) {
@@ -31,7 +48,12 @@ function ChangeInfo() {
     }
   };
   let notSocial = currentUser && (currentUser.providerData[0].providerId === 'password');
-  
+
+  let oldName = "";
+  if(oldData){
+    oldName=oldData.displayName;
+  }
+
   let nameInput = null;
   if(notSocial){
     nameInput = <Form.Control
@@ -39,6 +61,7 @@ function ChangeInfo() {
                   id="newName"
                   type="text"
                   placeholder="New Display Name"
+                  defaultValue={oldName}
                 />;
   } else {
     nameInput = <Form.Control
@@ -48,6 +71,16 @@ function ChangeInfo() {
                   type="text"
                   placeholder="Cannot change display name because you are using a social media provider"
                 />;
+  }
+
+  let oldDate = "";
+  if(oldData.birthday!=""){
+    oldDate = oldData.birthday;
+  }
+
+  let oldBio = "";
+  if(oldData.bio!=""){
+    oldBio = oldData.bio;
   }
 
   return (
@@ -65,6 +98,7 @@ function ChangeInfo() {
                 name="newBirthday"
                 id="newBirthday"
                 type="date"
+                defaultValue={oldDate}
               />
             </Form.Group>
             <Form.Group controlId="formBasicBio">
@@ -74,6 +108,7 @@ function ChangeInfo() {
                 rows="3"
                 name="newBiography"
                 id="newBiography"
+                defaultValue={oldBio}
               />
             </Form.Group>
             <Button variant="dark" type="submit">
