@@ -14,11 +14,15 @@ function printDocument() {
   // Set page size to a standard 8.5" x 11" sheet
   pdf.canvas.height = 72 * 11;
   pdf.canvas.width = 72 * 8.5;
-  pdf.fromHTML(document.getElementById("recipe-div"));
+  pdf.fromHTML(document.getElementById("print-top-block"), 20, 5);
+  if (!document.getElementById("recipe-image").hidden) {
+    pdf.addImage(document.getElementById("recipe-image"), 20, 40)
+    pdf.fromHTML(document.getElementById("print-bottom-block"), 20, 140);
+  } else {
+    pdf.fromHTML(document.getElementById("print-bottom-block"), 20, 40);
+  }
   // Sleep for 2 seconds, which is necessary to utilize jsPDF with React
   setTimeout(function () {
-    // Open the PDF in a new tab
-    pdf.output("dataurlnewwindow");
     // Download the document
     pdf.save("recipe.pdf");
   }, 2000);
@@ -84,28 +88,33 @@ const SingleRecipe = (props) => {
   return (
     <div class="recipe-page">
       <div id="recipe-div" class="recipe-div">
-        <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
-        <h2 class="recipe-header">
-          Author: {authorlink}
-        </h2>
-        <h2 class="recipe-header">Date Posted: {date}</h2>
+        <div id="print-top-block">
+          <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
+          <h2 class="recipe-header">
+            Author: {authorlink}
+          </h2>
+          <h2 class="recipe-header">Date Posted: {date}</h2>
+        </div>
         <img
+          id="recipe-image"
           class="recipe-image"
           alt={recipeData && recipeData.title}
           src={imagePath}
           onError={(e)=>{e.target.onerror = null; e.target.hidden="true"}}
         />
-        <h2 class="recipe-header">
-          Total Time: {recipeData && recipeData.completionTime} minutes
-        </h2>
-        <p class="recipe-subheader">Ingredients:</p>
-        <ul class="ingredient-list">{ingli}</ul>
-        <br />
-        <p class="recipe-subheader">Steps:</p>
-        <ol class="steps-list">{stepsli}</ol>
-        <p>
-          Yield: {recipeData && recipeData.recipe_yield} {"serving(s)"}
-        </p>
+        <div id="print-bottom-block">
+          <h2 class="recipe-header">
+            Total Time: {recipeData && recipeData.completionTime} minutes
+          </h2>
+          <p class="recipe-subheader">Ingredients:</p>
+          <ul class="ingredient-list">{ingli}</ul>
+          <br />
+          <p class="recipe-subheader">Steps:</p>
+          <ol class="steps-list">{stepsli}</ol>
+          <p>
+            Yield: {recipeData && recipeData.recipe_yield} {"serving(s)"}
+          </p>
+        </div>
       </div>
       <div className="printButton">
         <button onClick={printDocument}>Print</button>
