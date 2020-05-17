@@ -119,8 +119,8 @@ const RecipeList = (props) => {
                         </th>
                         <th>
                           {Date(recipe.datePosted).getMonth() + 1}/
-                {Date(recipe.datePosted).getDate()}/
-                {Date(recipe.datePosted).getFullYear()}
+                          {Date(recipe.datePosted).getDate()}/
+                          {Date(recipe.datePosted).getFullYear()}
                         </th>
                       </tr>
                     ))}
@@ -129,7 +129,12 @@ const RecipeList = (props) => {
             </Tab>
             <Tab eventKey="searchRecipes" title="Search Recipes">
               <Search searchValue={searchValue} />
-              <ul className="recipe-list">{li}</ul>
+              {searchTerm ? (
+                <ul className="recipe-list">{li}</ul>
+              ) : (
+                  <ul className="recipe-list"></ul>
+                )
+              }
             </Tab>
           </Tabs>
         </Col>
