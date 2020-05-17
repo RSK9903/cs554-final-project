@@ -93,6 +93,7 @@ module.exports = {
             _id: id,
             comment: oldReview.comment,
             rating: oldReview.rating,
+            postDate: oldReview.postDate,
             author_id: oldReview.author_id,
             recipe_id: oldReview.recipe_id
         };
