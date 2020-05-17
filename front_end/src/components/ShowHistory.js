@@ -6,7 +6,8 @@ import {Link} from "react-router-dom";
 
 function ShowHistory() {
     const { currentUser } = useContext(AuthContext);
-	const [recipes, setRecipes] = useState(undefined);
+    const [recipes, setRecipes] = useState(undefined);
+    const uniqueIds = {};
 
 	useEffect(() => {
 		async function fetchData() {
@@ -14,11 +15,13 @@ function ShowHistory() {
                 console.log("Made it")
                 if (currentUser) {
                     const { data: recipeList } = await API.get("recipes/history");
-				    setRecipes(recipeList);
+                    setRecipes(recipeList);
+                    uniqueIds.clear();
                 }
                 else {
                     setRecipes([]);
                     await API.get("recipes/clearAll");
+                    uniqueIds.clear();
                 }
 			} catch (e) {
 				console.log(e);
@@ -29,12 +32,15 @@ function ShowHistory() {
 
 	const createRecipeLine = (recipe) => {
 		return <li key={recipe._id}><Link to={`/recipes/${recipe._id}`}>{recipe.title}</Link></li>;
-	  };
-
+      };
+      
 	const recipeli =
     recipes &&
     recipes.map((i) => {
-      return createRecipeLine(i);
+        if ((Object.keys(uniqueIds).length < 5) && (!uniqueIds[i._id])){
+            uniqueIds[i._id] = i;
+            return createRecipeLine(i);
+        }
     });
     
     if (!currentUser) {
