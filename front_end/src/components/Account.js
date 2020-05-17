@@ -32,7 +32,10 @@ function Account() {
 	}, []);
 
 	const createRecipeLine = (recipe) => {
-		return <li key={recipe._id}><Link to={`/recipes/${recipe._id}`}>{recipe.title}</Link></li>;
+		return <div>
+			<li key={recipe._id}><Link to={`/recipes/${recipe._id}`}>{recipe.title}</Link> </li>
+			<Link to={`/edit/recipes/${recipe._id}`}><Button variant="primary">Edit</Button></Link>
+			</div>;
 	  };
 
 	const recipeli =

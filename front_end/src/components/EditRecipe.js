@@ -144,7 +144,6 @@ function EditRecipe(props) {
     }
   }
   
-
   if(currentUser && oldRecipe && oldRecipe.author!=currentUser.uid){
     if (!alert("You do not have access to this page!")) {
         return <Redirect to={"/recipes/" + props.match.params.id} />;

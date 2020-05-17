@@ -6,6 +6,7 @@ import API from "../API";
 import RecipeReviewList from "./RecipeReviewList";
 import AddReview from "./AddReview";
 import { AuthContext } from "../firebase/Auth";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 // Helper function to render recipe div to a PDF
@@ -120,11 +121,14 @@ const SingleRecipe = (props) => {
     }
   };
 
+  let editButton =recipeData && <Link to={`/edit/recipes/${recipeData._id}`}><Button variant="primary">Edit</Button></Link>;
+
   return (
     <div class="recipe-page">
       <div id="recipe-div" class="recipe-div">
         <div id="print-top-block">
           <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
+          {isOwner && editButton}
           <h2 class="recipe-header">Rating: {reviewData && rating && getRating()}</h2>
           <h2 class="recipe-header">Author: {authorlink}</h2>
           <h2 class="recipe-header">Date Posted: {date}</h2>
