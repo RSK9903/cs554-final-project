@@ -1,7 +1,9 @@
 const recipeData = require("./recipes");
 const userData = require("./users")
+const reviewData = require("./reviews");
 
 module.exports = {
   recipes: recipeData,
-  users: userData
+  users: userData,
+  reviews: reviewData
 };

@@ -47,8 +47,8 @@ router.get("/:id/users", async (req, res) => {
 router.post("/", async (req, res) => {
     const reviewInfo = req.body;
     try {
-        const { comment, rating, author_id, recipe_id } = reviewInfo;
-        const newReview = reviewData.addReview(comment, rating, recipe_id, author_id);
+        const { comment, rating, postDate, author_id, recipe_id } = reviewInfo;
+        const newReview = reviewData.addReview(comment, rating, postDate, recipe_id, author_id);
         res.json(newReview);
     } catch (e) {
         res.status(500).json({ error: e });
