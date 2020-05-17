@@ -16,12 +16,11 @@ function ShowHistory() {
                 if (currentUser) {
                     const { data: recipeList } = await API.get("recipes/history");
                     setRecipes(recipeList);
-                    uniqueIds.clear();
                 }
                 else {
-                    setRecipes([]);
+                    console.log("clear the cache")
                     await API.get("recipes/clearAll");
-                    uniqueIds.clear();
+                    setRecipes([]);
                 }
 			} catch (e) {
 				console.log(e);
@@ -37,7 +36,7 @@ function ShowHistory() {
 	const recipeli =
     recipes &&
     recipes.map((i) => {
-        if ((Object.keys(uniqueIds).length < 5) && (!uniqueIds[i._id])){
+        if (Object.keys(uniqueIds).length < 5 && !uniqueIds[i._id]){
             uniqueIds[i._id] = i;
             return createRecipeLine(i);
         }
