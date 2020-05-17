@@ -49,7 +49,7 @@ module.exports = {
 
         for (var i = 0; i < len; i++) {
             let uid = allReviews[i].author_id;
-            if (uid === userId) {
+            if (uid === author_id) {
                 throw "You can't add another review to this recipe.";
             }
         }
