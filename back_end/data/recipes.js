@@ -17,6 +17,14 @@ module.exports = {
     return recipe;
   },
 
+  async searchRecipe(searchTerm) {
+    if (!searchTerm) throw "You must provide a search term to search for";
+    const recipeCollection = await recipes();
+    const recipe = await recipeCollection.find({ $text: { $search: searchTerm } }).toArray();;
+    if (recipe === null) throw "No recipe found with that searchTerm";
+    return recipe;
+  },
+
   async getRecipesByUser(author) {
     if (!author) throw "You must provide an author id";
     if (typeof author !== "string") throw "author id must be of type string";

@@ -43,6 +43,20 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.get("/search/:searchTerm", async (req, res) => {
+  if (!req.params.searchTerm) {
+    res.status(400).json({ error: "Must include a search term" });
+  }
+  try {
+    const recipe = await recipeData.searchRecipe(req.params.searchTerm);
+    res.json(recipe);
+    await client.lpushAsync("recipeHistory", req.params.searchTerm);
+  } catch (e) {
+    console.log(e);
+    res.status(404).json({ error: "Recipe not found" });
+  }
+});
+
 router.get("/", async (req, res) => {
   try {
     const recipeList = await recipeData.getAllRecipes();

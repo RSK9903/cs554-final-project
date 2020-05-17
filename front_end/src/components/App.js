@@ -1,5 +1,4 @@
-import React from "react";
-
+import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Account from "./Account";
@@ -15,7 +14,10 @@ import PrivateRoute from "./PrivateRoute";
 import User from "./SingleUser";
 import Footer from './Footer';
 
+
+
 function App() {
+
   return (
     <AuthProvider>
       <Router>
