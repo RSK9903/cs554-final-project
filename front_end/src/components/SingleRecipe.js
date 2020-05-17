@@ -121,7 +121,6 @@ const SingleRecipe = (props) => {
     }
   };
 
-  const canDelete = <DeleteElement elementType="recipe" elementId={recipeData && recipeData._id} fromAccount="false" />
 
   return (
     <div class="recipe-page">
@@ -162,7 +161,7 @@ const SingleRecipe = (props) => {
       {recipeData && reviewList}
       {!alreadyReviewed && !isOwner && currentUser && review}
       {!currentUser && cannotReview}
-      {isOwner && canDelete}
+      {recipeData && isOwner && <DeleteElement elementType="recipe" elementId={recipeData && recipeData._id} fromAccount="false" />}
     </div>
   );
 };

@@ -19,7 +19,7 @@ function DeleteElement(props) {
         buttonText = "Delete Comment";
     
     const handleDelete = async (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         if (elementType == "recipe") {
             await API.delete(`/recipes/${elementId}`);
             setDeleted(true);
@@ -34,17 +34,18 @@ function DeleteElement(props) {
     };
     
     if (deleted && elementType == "recipe") {
+        setDeleted(false);
         return <Redirect to={"/recipes/"} />;
     }
 
     if (deleted && elementType == "review") {
+        setDeleted(false);
         if (!fromAccount) {
             return <Redirect to={`/recipes/${redirectRecipeId}`} />;
         } else {
             return <Redirect to={"/account/"} />;
         }
     }
-
 
     return(
         <Container>
