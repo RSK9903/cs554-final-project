@@ -33,14 +33,12 @@ const UserReviewList = (props) => {
   
     if (reviewData && !setTitle) {
       getTitle();
-
-      console.log(reviewData)
     }
     
     const formatDate = (d) => {
-      let day = Date(d.postDate).getDate();
-      let month = Date(d.postDate).getMonth() + 1;
-      let year = Date(d.postDate).getFullYear();
+      let day = Date(d).getDate();
+      let month = Date(d).getMonth() + 1;
+      let year = Date(d).getFullYear();
       let date = month + "/" + day + "/" + year; 
       return <li>Date Posted: {date}</li>;
     }
@@ -51,7 +49,7 @@ const UserReviewList = (props) => {
           <ul>
             <li>Rating: {review.rating}</li>
             <li>Comment: {review.comment}</li>
-            {formatDate(review.date)}
+            {formatDate(review.postDate)}
           </ul>
         </li>
       )

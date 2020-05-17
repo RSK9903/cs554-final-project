@@ -16,9 +16,7 @@ function AddReview(props) {
     let rating = document.getElementById("rating").value;
     let postDate = Date.now();
     let userId = currentUser.uid;
-    console.log("UserID: " + userId)
     let recipeId = props.id;
-    console.log("Recipe ID: " + recipeId)
 
     let newReview = {
       comment: comment,

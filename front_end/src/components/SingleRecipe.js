@@ -28,6 +28,7 @@ const SingleRecipe = (props) => {
 	const { currentUser } = useContext(AuthContext);
   const [recipeData, setRecipeData] = useState(undefined);
   const [reviewData, setReviews] = useState(undefined);
+	const [setAuthor, setGetAuthor] = useState(undefined);
 
   useEffect(() => {
     async function fetchData() {
@@ -73,18 +74,41 @@ const SingleRecipe = (props) => {
 
   const imagePath = `http://localhost:5000/img/${props.match.params.id}`;
 
+  const getAuthor = async (author) => {
+    const {data:user} = await API.get("/users/"+author);
+    setGetAuthor({found: true, name: user.displayName});
+  };
+
   const isOwner = recipeData && currentUser && (currentUser.uid === recipeData.author);
 
   let review = <AddReview id={recipeData && recipeData._id} />;
-  let authorlink = recipeData && <Link to={`/users/${recipeData.author}`}>{recipeData && recipeData.displayName}</Link>;
+  let authorlink = recipeData && <Link to={`/users/${recipeData.author}`}>{recipeData && getAuthor(recipeData.author) && setAuthor && setAuthor.name}</Link>;
   let reviewList = <RecipeReviewList id={recipeData && recipeData._id} />;
 
   const alreadyReviewed = recipeData && reviewData && currentUser && reviewData.some((review)=>review.author_id==currentUser.uid);
+
+  const getRating = () => {
+    if (reviewData.length==0){
+      return "N/A"
+    } else {
+      let sum = 0;
+      let index;
+      for(index in reviewData){
+        let review = reviewData[index];
+        sum += review.rating;
+      }
+      let totalRating = sum/reviewData.length;
+      return totalRating.toFixed(1);
+    }    
+  };
 
   return (
     <div class="recipe-page">
       <div id="recipe-div" class="recipe-div">
         <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
+        <h2 class="recipe-header">
+          Rating: {reviewData && getRating()}
+        </h2>
         <h2 class="recipe-header">
           Author: {authorlink}
         </h2>
