@@ -1,7 +1,7 @@
 import React from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Account from "./Account";
 import Home from "./Home";
 import Navigation from "./Navigation";
@@ -13,6 +13,7 @@ import AddRecipe from "./AddRecipe";
 import { AuthProvider } from "../firebase/Auth";
 import PrivateRoute from "./PrivateRoute";
 import User from "./SingleUser";
+import Footer from './Footer';
 
 function App() {
   return (
@@ -35,6 +36,11 @@ function App() {
         <Route path="/users/:id" exact component={User}></Route>
         {/* <Route path="*" exact component={Error} status={404}/> */}
       </Router>
+      <div>
+        <footer>
+          <Footer />
+        </footer>
+      </div>
     </AuthProvider>
   );
 }
