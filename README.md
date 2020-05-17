@@ -12,6 +12,7 @@ CS 554-WS, Spring 2020, Professor Hill
 ### Prerequisites
 - NodeJS
 - MongoDB
+- Redis
 - GraphicsMagick (installation instructions [here](http://www.graphicsmagick.org/README.html))
 
 ### Installing required NPM packages
@@ -22,12 +23,16 @@ By running `npm install` in both the `front_end/` and `back_end/` directories, a
 ```
 $ mongod
 ```
-2. Run the backend server
+2. Start the Redis server
+```
+$ redis-server
+```
+3. Run the backend server
 ```
 $ cd back_end/
 $ npm start
 ```
-3. Run the frontend application
+4. Run the frontend application
 ```
 $ cd front_end/
 $ npm start
@@ -40,10 +45,13 @@ The system is split into two main components:
 
 ### Course Technologies:
 #### React
-***FILL THIS IN***
+The core of our application is a single page React app. We chose to utilize React because of its ability to create composable dynamically-generated user interface components, which is important in a site where new content is added often. 
 
 #### Redis
-***FILL THIS IN***
+We chose to utilize Redis' caching abilities to cache recipes that have been recently accessed by the user in order to populate a history component.
+
+#### Firebase Auth
+Our sign-up/sign-in system is implemented using Firebase. Aside from making managing authenticated user-only pages, Firebase also allows us to give users the choice to create a new profile or sign in using an existing Google or Facebook account. 
 
 ### Non-Course Technologies:
 #### GraphicsMagick
