@@ -2,6 +2,32 @@ const express = require("express");
 const router = express.Router();
 const data = require("../data");
 const recipeData = data.recipes;
+const redis = require("redis");
+const client = redis.createClient();
+const bluebird = require("bluebird");
+
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
+
+
+router.get("/history", async (req, res) => {
+  try {
+    res.json(await client.lrangeAsync("recipeHistory", 0, 4));
+  } catch (e) {
+    res.sendStatus(500);
+    console.log(e);
+  }
+});
+
+router.get("/clearAll", async (req, res) => {
+  try {
+    await client.flushall();
+    console.log("Cleared cache");
+  } catch (e) {
+    res.sendStatus(400);
+    console.log(e);
+  }
+})
 
 router.get("/:id", async (req, res) => {
   if (!req.params.id) {
@@ -10,6 +36,7 @@ router.get("/:id", async (req, res) => {
   try {
     const recipe = await recipeData.getRecipeById(req.params.id);
     res.json(recipe);
+    await client.lpushAsync("recipeHistory", req.params.id);
   } catch (e) {
     console.log(e);
     res.status(404).json({ error: "Recipe not found" });
