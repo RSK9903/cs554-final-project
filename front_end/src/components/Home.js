@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import ShowHistory from "./ShowHistory";
+import { AuthContext } from "../firebase/Auth";
 import {
   Carousel,
   Container,
@@ -9,6 +11,7 @@ import {
 } from "react-bootstrap";
 import API from "../API";
 import "../App.css";
+
 
 function Home() {
   const [recipes, setRecipes] = useState(undefined);
@@ -28,7 +31,6 @@ function Home() {
 
   if (recipes) {
     return (
-
       <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
         <Row>
           <Col>
@@ -52,6 +54,7 @@ function Home() {
             </Carousel>
           </Col>
         </Row>
+        <ShowHistory />
       </Container >
     );
   }
@@ -59,7 +62,7 @@ function Home() {
     <Spinner animation="border" role="status" style={{ position: 'absolute', left: '50%', top: '50%' }}>
       <span className="sr-only">Loading...</span>
     </Spinner>
-  )
+  );
 }
 
 export default Home;
