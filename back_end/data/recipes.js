@@ -2,6 +2,19 @@ const mongoCollections = require("../config/mongoCollections");
 const recipes = mongoCollections.recipes;
 const uuid = require("uuid");
 
+const addIndex = async () => {
+  const recipeCollection = await recipes();
+  const indexTest = recipeCollection.createIndex({ "$**": "text" }, (err) => {
+    if (err)
+      console.log(err);
+    else
+      console.log('create index successfully');
+  });
+  if (indexTest === null) throw "Error creating index";
+}
+
+addIndex();
+
 module.exports = {
   async getAllRecipes() {
     const recipeCollection = await recipes();
@@ -16,7 +29,6 @@ module.exports = {
     if (recipe === null) throw "No recipe found with that id";
     return recipe;
   },
-
   async searchRecipe(searchTerm) {
     if (!searchTerm) throw "You must provide a search term to search for";
     const recipeCollection = await recipes();
