@@ -1,12 +1,9 @@
 import React, { useState, useContext } from "react";
-import { Redirect } from "react-router-dom";
 import { AuthContext } from "../firebase/Auth";
 import API from "../API";
 import "../App.css";
 
 function AddReview(props) {
-  const [postData, setPostData] = useState({});
-  const [submitted, setSubmitted] = useState(false);
   const { currentUser } = useContext(AuthContext);
 
   const formSubmit = async (event) => {
@@ -25,19 +22,15 @@ function AddReview(props) {
       author_id: userId,
       recipe_id: recipeId,
     };
-
-    const { data } = await API.post("/reviews", newReview);
-    setPostData(data);
-    setSubmitted(true);
-  };
-
-  if (submitted) {
-    if (postData && postData._id) {
-      return <Redirect to={`/recipes/${props.id}`} />;
-    } else {
-      alert("Could not submit review");
+    try{
+      const { data } = await API.post("/reviews", newReview);
+      if (!alert("Your review has been posted.")) {
+        window.location.reload();
+      }
+    } catch (e){
+      alert(e);
     }
-  }
+  };
 
   return (
     <div>
