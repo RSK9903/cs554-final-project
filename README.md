@@ -15,6 +15,8 @@ CS 554-WS, Spring 2020, Professor Hill
 - Redis
 - GraphicsMagick (installation instructions [here](http://www.graphicsmagick.org/README.html))
 
+Additionally, make sure you obtain the `.env` file (which will be included along with the submission) and save it in `front_end/`. This is required for Firebase.
+
 ### Installing required NPM packages
 By running `npm install` in both the `front_end/` and `back_end/` directories, all required NPM packages will be installed.
 
