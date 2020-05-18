@@ -47,12 +47,19 @@ const RecipeReviewList = (props) => {
     }
   }
 
+  const canDelete = (review) => {
+    if(currentUser && currentUser.uid === review.author_id){
+      return <DeleteElement elementType="review" elementId={review._id} fromAccount="false"/>
+    } else {
+      return ""
+    }
+  }
+
   li = reviewData && setAuthor && reviewData.map((review) => {
     const day = reviewData && Date(review.postDate).getDate();
     const month = reviewData && Date(review.postDate).getMonth() + 1;
     const year = reviewData && Date(review.postDate).getFullYear();
     const date = month + "/" + day + "/" + year;
-    const isOwner = currentUser.uid === review.author_id;
     return(
       <div>
       <h4><Link to={`/users/${review.author_id}`}>{review.author_name}</Link></h4>
@@ -60,7 +67,7 @@ const RecipeReviewList = (props) => {
         <p>Date Posted: {date}</p>
         <p>Rating: {review.rating}</p>
         <p>Comment: {review.comment}</p>
-        {isOwner && <DeleteElement elementType="review" elementId={review._id} fromAccount="false"/>}
+        {canDelete(review)}
       </div>
     )
   });
