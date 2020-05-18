@@ -3,6 +3,7 @@ import { Date } from "prismic-reactjs";
 import "../App.css";
 import API from "../API";
 import {Link} from "react-router-dom";
+import DeleteElement from "./DeleteElement";
 import { Button } from "react-bootstrap";
 
 const UserReviewList = (props) => {
@@ -51,6 +52,7 @@ const UserReviewList = (props) => {
             <li>Rating: {review.rating}</li>
             <li>Comment: {review.comment}</li>
             {formatDate(review.postDate)}
+            <li><DeleteElement elementType="review" elementId={review._id} fromAccount="true"/></li>
           </ul>
           <Link to={`/edit/reviews/${review._id}`}><Button variant="primary">Edit</Button></Link>
         </li>

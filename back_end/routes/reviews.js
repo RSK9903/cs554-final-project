@@ -83,5 +83,20 @@ router.put("/:id", async (req, res) => {
     }
 });
 
+router.delete("/:id", async (req, res) => {
+    try {
+        await reviewData.getReviewById(req.params.id);
+    } catch (e) {
+        res.status(404).json({ error: e });
+        return;
+    }
+
+    try {
+        await reviewData.deleteReview(req.params.id);
+    } catch (e) {
+        res.status(500).json({error: e});
+    }
+
+});
 
 module.exports = router;

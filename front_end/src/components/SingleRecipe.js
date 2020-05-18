@@ -8,6 +8,7 @@ import AddReview from "./AddReview";
 import { AuthContext } from "../firebase/Auth";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import DeleteElement from "./DeleteElement";
 
 // Helper function to render recipe div to a PDF
 function printDocument() {
@@ -164,6 +165,7 @@ const SingleRecipe = (props) => {
       {recipeData && reviewList}
       {!alreadyReviewed && !isOwner && currentUser && review}
       {!currentUser && cannotReview}
+      {recipeData && isOwner && <DeleteElement elementType="recipe" elementId={recipeData && recipeData._id} fromAccount="false" />}
     </div>
   );
 };

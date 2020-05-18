@@ -5,6 +5,7 @@ import { Date } from "prismic-reactjs";
 import { Button } from "react-bootstrap";
 import {Link} from "react-router-dom";
 import { AuthContext } from "../firebase/Auth";
+import DeleteElement from "./DeleteElement";
 
 const RecipeReviewList = (props) => {
   const { currentUser } = useContext(AuthContext);
@@ -51,6 +52,7 @@ const RecipeReviewList = (props) => {
     const month = reviewData && Date(review.postDate).getMonth() + 1;
     const year = reviewData && Date(review.postDate).getFullYear();
     const date = month + "/" + day + "/" + year;
+    const isOwner = currentUser.uid === review.author_id;
     return(
       <div>
       <h4><Link to={`/users/${review.author_id}`}>{review.author_name}</Link></h4>
@@ -58,6 +60,7 @@ const RecipeReviewList = (props) => {
         <p>Date Posted: {date}</p>
         <p>Rating: {review.rating}</p>
         <p>Comment: {review.comment}</p>
+        {isOwner && <DeleteElement elementType="review" elementId={review._id} fromAccount="false"/>}
       </div>
     )
   });
