@@ -47,7 +47,7 @@ const SingleRecipe = (props) => {
           `/reviews/${props.match.params.id}/recipes`
         );
         setReviews(reviews);
-        const {data:r} = await API.get("/reviews/rating/"+props.match.params.id);
+        const { data: r } = await API.get("/reviews/rating/" + props.match.params.id);
         setRating(r);
 
       } catch (e) {
@@ -121,14 +121,13 @@ const SingleRecipe = (props) => {
     }
   };
 
-  let editButton =recipeData && <Link to={`/edit/recipes/${recipeData._id}`}><Button variant="primary">Edit</Button></Link>;
+  let editButton = recipeData && <Link to={`/edit/recipes/${recipeData._id}`}><Button variant="dark" style={{ width: '150px' }}>Edit</Button></Link>;
 
   return (
     <div class="recipe-page">
       <div id="recipe-div" class="recipe-div">
         <div id="print-top-block">
-          <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
-          {isOwner && editButton}
+          <h1 class="recipe-title" style={{ marginTop: '5%', marginBottom: '3%' }}>{recipeData && recipeData.title}</h1>
           <h2 class="recipe-header">Rating: {reviewData && rating && getRating()}</h2>
           <h2 class="recipe-header">Author: {authorlink}</h2>
           <h2 class="recipe-header">Date Posted: {date}</h2>
@@ -158,7 +157,10 @@ const SingleRecipe = (props) => {
         </div>
       </div>
       <div className="printButton">
-        <button onClick={printDocument}>Print</button>
+        <Button variant='dark' onClick={printDocument} style={{ width: '150px' }}>Print</Button>
+      </div>
+      <div style={{ marginTop: '1%', marginBottom: '2%' }}>
+        {isOwner && editButton}
       </div>
       {recipeData && reviewList}
       {!alreadyReviewed && !isOwner && currentUser && review}
