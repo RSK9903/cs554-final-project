@@ -34,12 +34,12 @@ function DeleteElement(props) {
     };
     
     if (deleted && elementType == "recipe") {
-        setDeleted(false);
+        // setDeleted(false);
         return <Redirect to={"/recipes/"} />;
     }
 
     if (deleted && elementType == "review") {
-        setDeleted(false);
+        // setDeleted(false);
         if (!fromAccount) {
             return <Redirect to={`/recipes/${redirectRecipeId}`} />;
         } else {
