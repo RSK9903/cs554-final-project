@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../firebase/Auth";
 import { Redirect } from "react-router-dom";
 import API from "../API";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "../App.css";
 
 function DeleteElement(props) {
+    const { currentUser } = useContext(AuthContext);
     const [deleted, setDeleted] = useState(false);
     const elementType = props.elementType;
     const elementId = props.elementId;
     const fromAccount = props.fromAccount;
     let redirectRecipeId = "";
     let buttonText = "Delete";
+
+    useEffect(() => {
+        async function fetchData() {
+            console.log("Used")
+        }
+        fetchData();
+      }, []);
 
     if (elementType == "recipe")
         buttonText = "Delete Recipe";
@@ -20,32 +29,48 @@ function DeleteElement(props) {
     
     const handleDelete = async (event) => {
         if (elementType == "recipe") {
-            await API.delete(`/recipes/${elementId}`);
-            setDeleted(true);
-        } else if (elementType == "review") {
-            let { reviewData } = await API.get(`/reviews/${elementId}`);
-            if (reviewData && !fromAccount) {
-                console.log("WE HAVE REVIEW DATA");
-                
-                redirectRecipeId = reviewData.recipe_id;
+            try{
+                await API.delete(`/recipes/${elementId}`);
+                setDeleted(true);
+            } catch(e) {
+                console.log(e)
             }
-            await API.delete(`/reviews/${elementId}`);
-            setDeleted(true);
+        } else if (elementType == "review") {
+            console.log("Reached here")
+            try{
+                let { data:reviewData } = await API.get(`/reviews/${elementId}`);
+                if (reviewData) {
+                    console.log("WE HAVE REVIEW DATA");
+                    redirectRecipeId = reviewData.recipe_id;
+                }
+                const {data:deletion} = await API.delete(`/reviews/${elementId}`);
+                console.log(deletion)
+                setDeleted(true);
+            } catch (e) {
+                console.log(e);
+            }
+            
         }
     };
     
-    if (deleted && elementType == "recipe") {
+    if (currentUser && deleted && elementType == "recipe") {
+        if (!alert("Recipe deleted")) {
+            return <Redirect to={"/recipes/"} />;
+        }
         setDeleted(false);
-        return <Redirect to={"/recipes/"} />;
     } 
 
-    if (deleted && elementType == "review") {
-        setDeleted(false);
-        if (!fromAccount) {
-            return <Redirect to={`/recipes/${redirectRecipeId}`} />;
-        } else {
-            return <Redirect to={"/account/"} />;
+    if (currentUser && deleted && elementType == "review") {
+        if (!alert("Review deleted")) {
+            window.location.reload();
+            // return <Redirect to={"/account"} />;
+            // if (!fromAccount) {
+            //     return <Redirect to={`/recipes/${redirectRecipeId}`} />;
+            // } else {
+            //     return <Redirect to={"/account/"} />;
+            // }
         }
+        setDeleted(false);
     }
 
     return(

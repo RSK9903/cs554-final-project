@@ -82,7 +82,9 @@ function AddRecipe() {
     console.log("Submitted recipe");
     console.log(postData);
     if (postData && postData._id)
-      return <Redirect to={"/recipes/" + postData._id} />;
+      if (!alert("Your recipe has been added.")) {
+        return <Redirect to={"/recipes/" + postData._id} />;
+      }
     else alert("Could not add recipe, please try again");
   }
   return (

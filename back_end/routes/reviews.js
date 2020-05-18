@@ -94,6 +94,7 @@ router.delete("/:id", async (req, res) => {
     try {
         await reviewData.deleteReview(req.params.id);
     } catch (e) {
+        console.log(e);
         res.status(500).json({error: e});
     }
 
