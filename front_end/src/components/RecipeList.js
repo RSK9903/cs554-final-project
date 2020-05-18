@@ -96,8 +96,8 @@ const RecipeList = (props) => {
         const da = a.displayName;
         const db = b.displayName;
 
-        if (da > db) return -1;
-        if (db > da) return 1;
+        if (da > db) return 1;
+        if (db > da) return -1;
         return 0;
       })
     );

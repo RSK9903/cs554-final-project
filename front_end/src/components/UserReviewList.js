@@ -3,6 +3,7 @@ import { Date } from "prismic-reactjs";
 import "../App.css";
 import API from "../API";
 import {Link} from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const UserReviewList = (props) => {
     const [reviewData, setReviewData] = useState(undefined);
@@ -51,6 +52,7 @@ const UserReviewList = (props) => {
             <li>Comment: {review.comment}</li>
             {formatDate(review.postDate)}
           </ul>
+          <Link to={`/edit/reviews/${review._id}`}><Button variant="primary">Edit</Button></Link>
         </li>
       )
     });

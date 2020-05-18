@@ -113,7 +113,6 @@ const SingleRecipe = (props) => {
   let cannotReview = <p>Log in to leave a review!</p>
 
   const getRating = () => {
-    console.log(rating);
     if (rating == "-1") {
       return "N/A";
     } else {
