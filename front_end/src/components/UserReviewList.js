@@ -52,9 +52,14 @@ const UserReviewList = (props) => {
             <li>Rating: {review.rating}</li>
             <li>Comment: {review.comment}</li>
             {formatDate(review.postDate)}
-            <li><DeleteElement elementType="review" elementId={review._id} fromAccount="true"/></li>
+            <li>
+            <div className="inline-block">
+              <Link to={`/edit/reviews/${review._id}`}><Button variant="primary">Edit</Button></Link>
+              <DeleteElement elementType="review" elementId={review._id} fromAccount="true"/>
+            </div>
+            </li>
           </ul>
-          <Link to={`/edit/reviews/${review._id}`}><Button variant="primary">Edit</Button></Link>
+          
         </li>
       )
     });

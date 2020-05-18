@@ -7,7 +7,7 @@ import ChangeInfo from "./ChangeInfo";
 import API from "../API";
 import { Container, Row, Col, Tabs, Tab, Button } from "react-bootstrap";
 import {Link} from "react-router-dom";
-
+import DeleteElement from "./DeleteElement";
 
 function Account() {
 	const { currentUser } = useContext(AuthContext);
@@ -34,7 +34,10 @@ function Account() {
 	const createRecipeLine = (recipe) => {
 		return <div>
 			<li key={recipe._id}><Link to={`/recipes/${recipe._id}`}>{recipe.title}</Link> </li>
+			<div className="inline-block">
 			<Link to={`/edit/recipes/${recipe._id}`}><Button variant="primary">Edit</Button></Link>
+			<DeleteElement elementType="recipe" elementId={recipe._id} fromAccount="true" />
+			</div>
 			</div>;
 	  };
 
