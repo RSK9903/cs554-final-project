@@ -141,7 +141,6 @@ module.exports = {
 
     if (typeof title !== "string") throw "Title must be of type string";
     if (typeof author !== "string") throw "Author must be of type string";
-    if (typeof datePosted !== "string") throw "Post date must be a Date object";
     if (typeof completionTime !== "number")
       throw "Completion time must be of type int";
     if (!Number.isInteger(completionTime))

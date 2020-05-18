@@ -22,6 +22,17 @@ function AddRecipe() {
   const addIng = () => {
     setIngredientData([...ingredientData, { ...newIng }]);
   };
+  const delIng = (ind) => {
+    const tempIng = [...ingredientData];
+    console.log(tempIng);
+    console.log(ind);
+    tempIng.splice(ind, 1);
+    if (tempIng.length == 0) {
+      setIngredientData([newIng]);
+    } else {
+      setIngredientData(tempIng);
+    }
+  };
   const handleIngChange = (event) => {
     const tempIng = [...ingredientData];
     tempIng[event.target.dataset.id][event.target.name] = event.target.value;
@@ -30,6 +41,15 @@ function AddRecipe() {
 
   const addStep = () => {
     setStepsData([...stepsData, ""]);
+  };
+  const delStep = (ind) => {
+    const tempIng = [...stepsData];
+    tempIng.splice(ind, 1);
+    if (tempIng.length == 0) {
+      setStepsData("");
+    } else {
+      setStepsData(tempIng);
+    }
   };
   const handleStepChange = (event) => {
     const tempSteps = [...stepsData];
@@ -138,6 +158,10 @@ function AddRecipe() {
                 </div>
                 <br />
                 {ingredientData.map((val, ind) => {
+                  let showButton = "";
+                  if (ingredientData.length > 1) {
+                    showButton = <Button variant="dark" type="button" onClick={(e) => delIng(ind, e)}>Delete Ingredient</Button>
+                  }
                   return (
                     <div id={val + ind}>
                       <div>
@@ -148,6 +172,7 @@ function AddRecipe() {
                             name="measurement"
                             data-id={ind}
                             onChange={handleIngChange}
+                            value={val.measurement}
                             placeholder=" ex. 1, 1.5, 1 1/2"
                             required
                           />
@@ -161,6 +186,7 @@ function AddRecipe() {
                             name="unit"
                             data-id={ind}
                             onChange={handleIngChange}
+                            value={val.unit}
                             placeholder=" ex. cups, tbsp, tsp"
                             required
                           />
@@ -174,11 +200,13 @@ function AddRecipe() {
                             name="name"
                             data-id={ind}
                             onChange={handleIngChange}
+                            value={val.name}
                             placeholder=" ex. flour, sugar, oil"
                             required
                           />
                         </Form.Group>
                       </div>
+                      {showButton}
                     </div>
                   );
                 })}
@@ -197,6 +225,10 @@ function AddRecipe() {
                 </div>
                 <br />
                 {stepsData.map((val, ind) => {
+                  let stepButton = "";
+                  if (stepsData.length > 1) {
+                    stepButton = <Button variant="dark" type="button" onClick={(e) => delStep(ind, e)}>Delete Step</Button>
+                  }
                   return (
                     <div id={val + ind}>
                       <Form.Group>
@@ -206,10 +238,12 @@ function AddRecipe() {
                           name="step"
                           data-id={ind}
                           onChange={handleStepChange}
+                          value={val}
                           placeholder=" ex. Stir together the flour and butter"
                           required
                         />
                       </Form.Group>
+                      {stepButton}
                     </div>
                   );
                 })}

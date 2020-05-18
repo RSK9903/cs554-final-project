@@ -5,8 +5,10 @@ import API from "../API";
 import {Link} from "react-router-dom";
 import DeleteElement from "./DeleteElement";
 import { Button } from "react-bootstrap";
+import { AuthContext } from "../firebase/Auth";
 
 const UserReviewList = (props) => {
+    const { currentUser } = useContext(AuthContext);
     const [reviewData, setReviewData] = useState(undefined);
 	  const [setTitle, setGetTitle] = useState(false);
     let li = null;
@@ -45,6 +47,22 @@ const UserReviewList = (props) => {
       return <li>Date Posted: {date}</li>;
     }
 
+    const isOwner = (review) => {
+      if(currentUser && currentUser.uid === review.author_id){
+        return (<li>
+        <div className="inline-block">
+          <Link to={`/edit/reviews/${review._id}`}><Button variant="primary">Edit</Button></Link>
+          <DeleteElement elementType="review" elementId={review._id} fromAccount="true"/>
+        </div>
+        </li>);
+      } else {
+        return ""
+      }
+    }
+
+    let view = 
+
+
     li = reviewData && setTitle && reviewData.map((review) => {
       return(
         <li><Link to={`/recipes/${review.recipe_id}`}>{review.recipe_name}</Link>
@@ -52,12 +70,7 @@ const UserReviewList = (props) => {
             <li>Rating: {review.rating}</li>
             <li>Comment: {review.comment}</li>
             {formatDate(review.postDate)}
-            <li>
-            <div className="inline-block">
-              <Link to={`/edit/reviews/${review._id}`}><Button variant="primary">Edit</Button></Link>
-              <DeleteElement elementType="review" elementId={review._id} fromAccount="true"/>
-            </div>
-            </li>
+            {isOwner(review)}
           </ul>
           
         </li>
