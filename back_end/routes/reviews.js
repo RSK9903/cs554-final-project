@@ -74,12 +74,12 @@ router.put("/:id", async (req, res) => {
         res.status(404).json({ error: e });
         return;
     }
-    
     try {
         const newReview = await reviewData.patchReview(req.params.id, updateReview);
         res.json(newReview);
     } catch(e) {
-        express.status(500).json({ error: e });
+        console.log(e)
+        res.status(500).json({ error: e });
     }
 });
 

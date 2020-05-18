@@ -8,6 +8,7 @@ import API from "../API";
 function ChangeInfo() {
   const { currentUser } = useContext(AuthContext);
   const [oldData, setData] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -43,13 +44,20 @@ function ChangeInfo() {
     }
     try {
       await API.patch("users/" + currentUser.uid, newInfo);
-      if (!alert("Your information has been changed.")) {
-        window.location.reload();
-      }
+      setSubmitted(true)
+      
     } catch (error) {
       alert("An error occurred. Changes could not be applied.");
     }
   };
+
+  if(submitted){
+    if (!alert("Your information has been changed.")) {
+      window.location.reload();
+    }
+    setSubmitted(false)
+  }
+
   let notSocial = currentUser && (currentUser.providerData[0].providerId === 'password');
 
   let oldName = "";

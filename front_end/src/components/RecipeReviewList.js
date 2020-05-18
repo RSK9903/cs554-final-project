@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "../App.css";
 import API from "../API";
 import { Date } from "prismic-reactjs";
+import { Button } from "react-bootstrap";
 import {Link} from "react-router-dom";
 import { AuthContext } from "../firebase/Auth";
 import DeleteElement from "./DeleteElement";
@@ -38,6 +39,14 @@ const RecipeReviewList = (props) => {
     getAuthor();
   }
 
+  const isOwner = (review) => {
+    if(currentUser && currentUser.uid === review.author_id){
+      return <Link to={`/edit/reviews/${review._id}`}><Button variant="primary">Edit</Button></Link>
+    } else {
+      return ""
+    }
+  }
+
   li = reviewData && setAuthor && reviewData.map((review) => {
     const day = reviewData && Date(review.postDate).getDate();
     const month = reviewData && Date(review.postDate).getMonth() + 1;
@@ -47,6 +56,7 @@ const RecipeReviewList = (props) => {
     return(
       <div>
       <h4><Link to={`/users/${review.author_id}`}>{review.author_name}</Link></h4>
+        {isOwner(review)}
         <p>Date Posted: {date}</p>
         <p>Rating: {review.rating}</p>
         <p>Comment: {review.comment}</p>

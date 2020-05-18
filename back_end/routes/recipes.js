@@ -11,20 +11,9 @@ bluebird.promisifyAll(redis.Multi.prototype);
 
 router.get("/history", async (req, res) => {
   try {
-    res.json(await client.lrangeAsync("recipeHistory", 0, -1).map(JSON.parse));
+    res.json(await client.lrangeAsync("recipeHistory", 0, 4).map(JSON.parse));
   } catch (e) {
     res.sendStatus(500);
-    console.log(e);
-  }
-});
-
-router.get("/clearAll", async (req, res) => {
-  try {
-    console.log("trying to clear cache...")
-    client.flushall("ASYNC");
-    console.log("Cleared cache");
-  } catch (e) {
-    res.sendStatus(400);
     console.log(e);
   }
 });
@@ -164,6 +153,7 @@ router.put("/:id", async (req, res) => {
       )
     );
   } catch (e) {
+    console.log(e);
     res.status(500).json({ error: `Recipe unable to be updated: ` + e });
   }
 });
