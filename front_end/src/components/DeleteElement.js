@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import API from "../API";
 import { Container, Row, Col, Button } from "react-bootstrap";
@@ -19,13 +19,14 @@ function DeleteElement(props) {
         buttonText = "Delete Comment";
     
     const handleDelete = async (event) => {
-        // event.preventDefault();
         if (elementType == "recipe") {
             await API.delete(`/recipes/${elementId}`);
             setDeleted(true);
         } else if (elementType == "review") {
             let { reviewData } = await API.get(`/reviews/${elementId}`);
             if (reviewData && !fromAccount) {
+                console.log("WE HAVE REVIEW DATA");
+                
                 redirectRecipeId = reviewData.recipe_id;
             }
             await API.delete(`/reviews/${elementId}`);
@@ -34,12 +35,12 @@ function DeleteElement(props) {
     };
     
     if (deleted && elementType == "recipe") {
-        // setDeleted(false);
+        setDeleted(false);
         return <Redirect to={"/recipes/"} />;
-    }
+    } 
 
     if (deleted && elementType == "review") {
-        // setDeleted(false);
+        setDeleted(false);
         if (!fromAccount) {
             return <Redirect to={`/recipes/${redirectRecipeId}`} />;
         } else {
