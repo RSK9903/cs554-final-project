@@ -8,6 +8,7 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import SingleRecipe from "./SingleRecipe";
 import EditRecipe from "./EditRecipe";
+import EditReview from "./EditReview";
 import RecipeList from "./RecipeList";
 import AddRecipe from "./AddRecipe";
 import { AuthProvider } from "../firebase/Auth";
@@ -24,17 +25,16 @@ function App() {
       <Router>
         <div className="App">
           <header className="">
-            {/* <header className='App-header'> */}
             <Navigation />
           </header>
         </div>
         <Route exact path="/" component={Home} />
-        {/* <PrivateRoute path='/home' component={Home} /> */}
         <PrivateRoute path="/account" component={Account} />
         <Route path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
         <PrivateRoute path="/addrecipe" component={AddRecipe} />
         <PrivateRoute path="/edit/recipes/:id" component={EditRecipe} />
+        <PrivateRoute path="/edit/reviews/:id" component={EditReview} />
         <Route path="/recipes/:id" exact component={SingleRecipe}></Route>
         <Route path="/recipes" exact component={RecipeList}></Route>
         <Route path="/users/:id" exact component={User}></Route>
