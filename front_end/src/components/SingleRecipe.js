@@ -6,7 +6,7 @@ import API from "../API";
 import RecipeReviewList from "./RecipeReviewList";
 import AddReview from "./AddReview";
 import { AuthContext } from "../firebase/Auth";
-import { Button } from "react-bootstrap";
+import { Button, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 // Helper function to render recipe div to a PDF
@@ -47,7 +47,7 @@ const SingleRecipe = (props) => {
           `/reviews/${props.match.params.id}/recipes`
         );
         setReviews(reviews);
-        const {data:r} = await API.get("/reviews/rating/"+props.match.params.id);
+        const { data: r } = await API.get("/reviews/rating/" + props.match.params.id);
         setRating(r);
 
       } catch (e) {
@@ -121,49 +121,59 @@ const SingleRecipe = (props) => {
     }
   };
 
-  let editButton =recipeData && <Link to={`/edit/recipes/${recipeData._id}`}><Button variant="primary">Edit</Button></Link>;
+  let editButton = recipeData && <Link to={`/edit/recipes/${recipeData._id}`}><Button variant="dark" style={{ width: '150px' }}>Edit</Button></Link>;
 
   return (
-    <div class="recipe-page">
-      <div id="recipe-div" class="recipe-div">
-        <div id="print-top-block">
-          <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
-          {isOwner && editButton}
-          <h2 class="recipe-header">Rating: {reviewData && rating && getRating()}</h2>
-          <h2 class="recipe-header">Author: {authorlink}</h2>
-          <h2 class="recipe-header">Date Posted: {date}</h2>
-        </div>
-        <img
-          id="recipe-image"
-          class="recipe-image"
-          alt={recipeData && recipeData.title}
-          src={imagePath}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.hidden = "true";
-          }}
-        />
-        <div id="print-bottom-block">
-          <h2 class="recipe-header">
-            Total Time: {recipeData && recipeData.completionTime} minutes
-          </h2>
-          <p class="recipe-subheader">Ingredients:</p>
-          <ul class="ingredient-list">{ingli}</ul>
-          <br />
-          <p class="recipe-subheader">Steps:</p>
-          <ol class="steps-list">{stepsli}</ol>
-          <p>
-            Yield: {recipeData && recipeData.recipe_yield} {"serving(s)"}
-          </p>
-        </div>
-      </div>
-      <div className="printButton">
-        <button onClick={printDocument}>Print</button>
-      </div>
-      {recipeData && reviewList}
-      {!alreadyReviewed && !isOwner && currentUser && review}
-      {!currentUser && cannotReview}
-    </div>
+    <Container>
+      <Row style={{ marginTop: '5%' }}>
+        <Col>
+          <div id="recipe-div" class="recipe-div">
+            <div id="print-top-block">
+              <h1 class="recipe-title">{recipeData && recipeData.title}</h1>
+              <h2 class="recipe-header">Rating: {reviewData && rating && getRating()}</h2>
+              <h2 class="recipe-header">Author: {authorlink}</h2>
+              <h2 class="recipe-header">Date Posted: {date}</h2>
+            </div>
+            <img
+              id="recipe-image"
+              class="recipe-image"
+              alt={recipeData && recipeData.title}
+              src={imagePath}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.hidden = "true";
+              }}
+            />
+            <div id="print-bottom-block">
+              <h2 class="recipe-header">
+                Total Time: {recipeData && recipeData.completionTime} minutes
+              </h2>
+              <p class="recipe-subheader">Ingredients:</p>
+              <ul class="ingredient-list">{ingli}</ul>
+              <br />
+              <p class="recipe-subheader">Steps:</p>
+              <ol class="steps-list">{stepsli}</ol>
+              <p>
+                Yield: {recipeData && recipeData.recipe_yield} {"serving(s)"}
+              </p>
+            </div>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div className="printButton">
+            <Button variant='dark' onClick={printDocument} style={{ width: '150px' }}>Print</Button>
+            <div style={{ marginTop: '2%', marginBottom: '2%' }}>
+              {isOwner && editButton}
+            </div>
+          </div>
+          {recipeData && reviewList}
+          {!alreadyReviewed && !isOwner && currentUser && review}
+          {!currentUser && cannotReview}
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

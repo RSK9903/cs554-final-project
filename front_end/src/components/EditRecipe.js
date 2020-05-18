@@ -38,11 +38,11 @@ function EditRecipe(props) {
   };
   const delIng = (ind) => {
     const tempIng = [...ingredientData];
-    tempIng.splice(ind,1);
-    if(tempIng.length==0){
-        setIngredientData([newIng]);
+    tempIng.splice(ind, 1);
+    if (tempIng.length == 0) {
+      setIngredientData([newIng]);
     } else {
-        setIngredientData(tempIng);
+      setIngredientData(tempIng);
     }
   };
 
@@ -58,11 +58,11 @@ function EditRecipe(props) {
   };
   const delStep = (ind) => {
     const tempIng = [...stepsData];
-    tempIng.splice(ind,1);
-    if(tempIng.length==0){
-        setStepsData("");
+    tempIng.splice(ind, 1);
+    if (tempIng.length == 0) {
+      setStepsData("");
     } else {
-        setStepsData(tempIng);
+      setStepsData(tempIng);
     }
   };
   const handleStepChange = (event) => {
@@ -97,245 +97,245 @@ function EditRecipe(props) {
 
     delete oldRecipe._id;
     let same = true;
-    let i ="";
+    let i = "";
     for (i in oldRecipe) {
-        console.log(i)
-        console.log(oldRecipe[i]);
-        console.log(newRecipe[i]);
-        if (oldRecipe[i] !== newRecipe[i]) {
-            same = false;
-        }
+      console.log(i)
+      console.log(oldRecipe[i]);
+      console.log(newRecipe[i]);
+      if (oldRecipe[i] !== newRecipe[i]) {
+        same = false;
+      }
     }
     let submitted = false;
-    if(same){
-        alert("You did not change anything!")
+    if (same) {
+      alert("You did not change anything!")
     } else {
-        try{
-            const { data } = await API.put("/recipes/"+props.match.params.id, newRecipe);
-            submitted=true;
-            setSubmitted(true);
-        } catch(e){
-            console.log(e);
-            alert("An error has occurred: "+e);
+      try {
+        const { data } = await API.put("/recipes/" + props.match.params.id, newRecipe);
+        submitted = true;
+        setSubmitted(true);
+      } catch (e) {
+        console.log(e);
+        alert("An error has occurred: " + e);
+      }
+      if (submitted) {
+        console.log("Submitted!")
+        try {
+          if (image !== "empty") {
+            console.log("IMAGE DETECTED");
+            const { imageResult } = await API.post("/images/" + props.match.params.id, image, {
+              headers: {
+                "Content-Type": "multipart/form-data, boundary=${form._boundary}",
+              },
+            });
+          } else {
+            console.log("NO IMAGE DETECTED");
+          }
+        } catch (e) {
+          alert("Error with image submission but your recipe has been submitted");
         }
-        if(submitted){
-            console.log("Submitted!")
-            try{
-                if (image !== "empty") {
-                    console.log("IMAGE DETECTED");
-                    const { imageResult } = await API.post("/images/" + props.match.params.id, image, {
-                      headers: {
-                        "Content-Type": "multipart/form-data, boundary=${form._boundary}",
-                      },
-                    });
-                  } else {
-                    console.log("NO IMAGE DETECTED");
-                  }
-            } catch(e){
-                alert("Error with image submission but your recipe has been submitted");
-            }
-        }    
-    }  
+      }
+    }
   };
-  
-  if(allSubmitted){
+
+  if (allSubmitted) {
     if (!alert("Your recipe has been changed.")) {
-        return <Redirect to={"/recipes/" + props.match.params.id} />;
+      return <Redirect to={"/recipes/" + props.match.params.id} />;
     }
   }
-  
-  if(currentUser && oldRecipe && oldRecipe.author!=currentUser.uid){
+
+  if (currentUser && oldRecipe && oldRecipe.author != currentUser.uid) {
     if (!alert("You do not have access to this page!")) {
-        return <Redirect to={"/recipes/" + props.match.params.id} />;
-        }
-  } else {
-  return (
-    <Container>
-      <Row>
-        <Col>
-          <div className="new-recipe">
-            <h1>Edit Recipe</h1>
-            <p>
-              To edit your recipe, fill in all of the fields below. Please do
-              not leave any blank fields, as you will be unable to submit your
-              recipe.
-            </p>
-          </div>
-        </Col>
-      </Row>
-      <br />
-      <Row style={{ marginBottom: "5%" }}>
-        <Col>
-          <Form onSubmit={formSubmit}>
-            <Row>
-              <Col>
-                <div>
-                  <Form.Group>
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                      id="title"
-                      name="title"
-                      type="text"
-                      defaultValue={oldRecipe && oldRecipe.title}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Completion Time (minutes)</Form.Label>
-                    <Form.Control
-                      id="completion-time"
-                      name="completion-time"
-                      type="number"
-                      defaultValue={oldRecipe && oldRecipe.completionTime}
-                      required
-                    />
-                  </Form.Group>
-                </div>
-              </Col>
-            </Row>
-            <br />
-            <br />
-            <Row>
-              <Col>
-                <div>
-                  <h2>Ingredients</h2>
-                </div>
-                <br />
-                {ingredientData && ingredientData.map((val, ind) => {
-                    let showButton = "";
-                    if (ingredientData.length>1){
-                        showButton = <Button variant="dark" type="button" onClick={(e)=>delIng(ind,e)}>Delete Ingredient</Button>
-                    }
-                  return (
-                    <div id={val + ind}>
-                      <div>
-                        <Form.Group>
-                          <Form.Label>Measurement </Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="measurement"
-                            data-id={ind}
-                            onChange={handleIngChange}
-                            value={val.measurement}
-                            placeholder=" ex. 1, 1.5, 1 1/2"
-                            required
-                          />
-                        </Form.Group>
-                      </div>
-                      <div>
-                        <Form.Group>
-                          <Form.Label>Units</Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="unit"
-                            data-id={ind}
-                            onChange={handleIngChange}
-                            value={val.unit}
-                            placeholder=" ex. cups, tbsp, tsp"
-                            required
-                          />
-                        </Form.Group>
-                      </div>
-                      <div>
-                        <Form.Group>
-                          <Form.Label>Name</Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="name"
-                            data-id={ind}
-                            onChange={handleIngChange}
-                            value={val.name}
-                            placeholder=" ex. flour, sugar, oil"
-                            required
-                          />
-                        </Form.Group>
-                      </div>
-                      {showButton}
-                    </div>
-                  );
-                })}
-                <Button variant="dark" type="button" onClick={addIng}>
-                  Add a New Ingredient
-                </Button>
-                <br />
-              </Col>
-            </Row>
-            <br />
-            <br />
-            <Row>
-              <Col>
-                <div>
-                  <h2>Steps</h2>
-                </div>
-                <br />
-                {stepsData && stepsData.map((val, ind) => {
-                    let stepButton = "";
-                    if (stepsData.length>1){
-                        stepButton = <Button variant="dark" type="button" onClick={(e)=>delStep(ind,e)}>Delete Step</Button>
-                    }
-                  return (
-                    <div id={val + ind}>
-                      <Form.Group>
-                        <Form.Label>{"Step " + (ind + 1)} </Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="step"
-                          data-id={ind}
-                          onChange={handleStepChange}
-                          value={val}
-                          placeholder=" ex. Stir together the flour and butter"
-                          required
-                        />
-                      </Form.Group>
-                      {stepButton}
-                    </div>
-                  );
-                })}
-                <Button variant="dark" type="button" onClick={addStep}>
-                  Add a New Step
-                </Button>
-                <br />
-              </Col>
-            </Row>
-            <br />
-            <Row>
-              <Col>
-                <Form.Group>
-                  <Form.Label>Recipe Yield (servings)</Form.Label>
-                  <Form.Control
-                    id="recipe-yield"
-                    name="recipe-yield"
-                    type="number"
-                    defaultValue={oldRecipe && oldRecipe.recipe_yield}
-                    required
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Group>
-                  <Form.Label>Recipe Image</Form.Label>
-                  <Form.Control
-                    type="file"
-                    formEncType="multipart/form-data"
-                    id="recipe-image"
-                    name="recipe-image"
-                    onChange={handleImageUpload}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <br />
-            <Button variant="dark" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
-  );
+      return <Redirect to={"/recipes/" + props.match.params.id} />;
     }
+  } else {
+    return (
+      <Container>
+        <Row>
+          <Col>
+            <div className="new-recipe">
+              <h1>Edit Recipe</h1>
+              <p>
+                To edit your recipe, fill in all of the fields below. Please do
+                not leave any blank fields, as you will be unable to submit your
+                recipe.
+            </p>
+            </div>
+          </Col>
+        </Row>
+        <br />
+        <Row style={{ marginBottom: "5%" }}>
+          <Col>
+            <Form onSubmit={formSubmit}>
+              <Row>
+                <Col>
+                  <div>
+                    <Form.Group>
+                      <Form.Label>Title</Form.Label>
+                      <Form.Control
+                        id="title"
+                        name="title"
+                        type="text"
+                        defaultValue={oldRecipe && oldRecipe.title}
+                        required
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Completion Time (minutes)</Form.Label>
+                      <Form.Control
+                        id="completion-time"
+                        name="completion-time"
+                        type="number"
+                        defaultValue={oldRecipe && oldRecipe.completionTime}
+                        required
+                      />
+                    </Form.Group>
+                  </div>
+                </Col>
+              </Row>
+              <br />
+              <br />
+              <Row>
+                <Col>
+                  <div>
+                    <h2>Ingredients</h2>
+                  </div>
+                  <br />
+                  {ingredientData && ingredientData.map((val, ind) => {
+                    let showButton = "";
+                    if (ingredientData.length > 1) {
+                      showButton = <Button variant="dark" type="button" onClick={(e) => delIng(ind, e)}>Delete Ingredient</Button>
+                    }
+                    return (
+                      <div id={val + ind}>
+                        <div>
+                          <Form.Group>
+                            <Form.Label>Measurement </Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="measurement"
+                              data-id={ind}
+                              onChange={handleIngChange}
+                              value={val.measurement}
+                              placeholder=" ex. 1, 1.5, 1 1/2"
+                              required
+                            />
+                          </Form.Group>
+                        </div>
+                        <div>
+                          <Form.Group>
+                            <Form.Label>Units</Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="unit"
+                              data-id={ind}
+                              onChange={handleIngChange}
+                              value={val.unit}
+                              placeholder=" ex. cups, tbsp, tsp"
+                              required
+                            />
+                          </Form.Group>
+                        </div>
+                        <div>
+                          <Form.Group>
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="name"
+                              data-id={ind}
+                              onChange={handleIngChange}
+                              value={val.name}
+                              placeholder=" ex. flour, sugar, oil"
+                              required
+                            />
+                          </Form.Group>
+                        </div>
+                        {showButton}
+                      </div>
+                    );
+                  })}
+                  <Button variant="dark" type="button" onClick={addIng}>
+                    Add a New Ingredient
+                </Button>
+                  <br />
+                </Col>
+              </Row>
+              <br />
+              <br />
+              <Row>
+                <Col>
+                  <div>
+                    <h2>Steps</h2>
+                  </div>
+                  <br />
+                  {stepsData && stepsData.map((val, ind) => {
+                    let stepButton = "";
+                    if (stepsData.length > 1) {
+                      stepButton = <Button variant="dark" type="button" onClick={(e) => delStep(ind, e)}>Delete Step</Button>
+                    }
+                    return (
+                      <div id={val + ind}>
+                        <Form.Group>
+                          <Form.Label>{"Step " + (ind + 1)} </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="step"
+                            data-id={ind}
+                            onChange={handleStepChange}
+                            value={val}
+                            placeholder=" ex. Stir together the flour and butter"
+                            required
+                          />
+                        </Form.Group>
+                        {stepButton}
+                      </div>
+                    );
+                  })}
+                  <Button variant="dark" type="button" onClick={addStep}>
+                    Add a New Step
+                </Button>
+                  <br />
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col>
+                  <Form.Group>
+                    <Form.Label>Recipe Yield (servings)</Form.Label>
+                    <Form.Control
+                      id="recipe-yield"
+                      name="recipe-yield"
+                      type="number"
+                      defaultValue={oldRecipe && oldRecipe.recipe_yield}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Group>
+                    <Form.Label>Recipe Image</Form.Label>
+                    <Form.Control
+                      type="file"
+                      formEncType="multipart/form-data"
+                      id="recipe-image"
+                      name="recipe-image"
+                      onChange={handleImageUpload}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <br />
+              <Button variant="dark" type="submit">
+                Submit
+            </Button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 }
 
 export default EditRecipe;
