@@ -129,7 +129,7 @@ module.exports = {
   ) {
     if (!id) throw "Must include a recipe id";
 
-    let focus = await this.getTaskById(id);
+    let focus = await this.getRecipeById(id);
 
     if (!title) title = focus.title;
     if (!author) author = focus.author;
