@@ -1,0 +1,31 @@
+[{
+  "_id": "vk3J5y0KXdRiNznpIfRujzL59912",
+  "displayName": "John Jones",
+  "email": "jjones@gmail.com",
+  "birthday": "1997-06-05",
+  "password": "johnjones"
+  },{
+  "_id": "YxLc9SFIhAYBYgDWaAMFQr24zJ23",
+  "displayName": "Grace Park",
+  "email": "gpark123@gmail.com",
+  "birthday": "2000-06-15",
+  "password": "gpark123"
+},{
+  "_id": "kXCUDyFYpCggyQHiuUZ8Ov0hM4r1",
+  "displayName": "Priscila Kang",
+  "email": "pkang@gmail.com",
+  "birthday": "1992-11-18",
+  "password": "priscila"
+},{
+  "_id": "kqtkiSCqumZX5ZatUMw8dgFk2F23",
+  "displayName": "The Other Patrick",
+  "email": "phill@example.com",
+  "birthday": "2000-05-20",
+  "password": "patrickhill"
+},{
+  "_id": "tjzLBytXAGXcGfr1U9m9TkXVBC72",
+  "displayName": "Aiden",
+  "email": "aiden@aiden.com",
+  "birthday": "2020-03-20",
+  "password": "aidenissocute"
+}]

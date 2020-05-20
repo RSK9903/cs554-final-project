@@ -4,6 +4,7 @@
   "description": "CS 554-WS, Spring 2020, Professor Hill <br>\r Team Members: Natalie Bernhard, Dylan DiGeronimo, Rachel Kim, Diaeddin Motan, Jyotsna Ramaswamy",
   "main": "app.js",
   "scripts": {
+    "seed": "node ./tasks/seed.js",
     "start": "node app.js"
   },
   "author": "CS554-Quarantine-Kitchen",
